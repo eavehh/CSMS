@@ -1,0 +1,20 @@
+{
+  "name": "csms",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eavehh/CSMS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eavehh/CSMS/issues"
+  },
+  "homepage": "https://github.com/eavehh/CSMS#readme",
+  "description": ""
+}
