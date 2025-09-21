@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "index.js"
+    "start": "index.js",
+    "generate:types": "ts-node scripts/generate-types.js"
   },
   "repository": {
     "type": "git",
@@ -16,5 +17,12 @@
     "url": "https://github.com/eavehh/CSMS/issues"
   },
   "homepage": "https://github.com/eavehh/CSMS#readme",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "ajv": "^8.17.1",
+    "json-schema-to-typescript": "^15.0.4"
+  },
+  "dependencies": {
+    "ts-node": "^10.9.2"
+  }
 }
