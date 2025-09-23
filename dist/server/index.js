@@ -13,7 +13,7 @@ const PORT = 8000;
 const httpServer = (0, http_1.Server)(app);
 const connectionManager = new connectionManager_1.ConnectionManager();
 const wsServer = new wsServer_1.WsServer(httpServer, connectionManager);
-// Graceful shutdown (чтобы сервер красиво закрывался Ctrl+C)
+// Graceful shutdown (чтобы сервер красиво закрывался)
 process.on('SIGINT', () => {
     logger_1.logger?.info('Shutting down...');
     httpServer.close(() => process.exit(0));

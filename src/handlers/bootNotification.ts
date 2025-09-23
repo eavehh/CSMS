@@ -1,5 +1,6 @@
 import { BootNotificationRequest } from '../../types/ocpp/1.6/BootNotification';  
 import { BootNotificationResponse } from '../../types/ocpp/1.6/BootNotificationResponse';  
+
 import { logger } from '../server/logger';
 
 export async function handleBootNotification(req: BootNotificationRequest, chargePointId: string, ws: WebSocket): Promise<BootNotificationResponse> {
