@@ -13,7 +13,7 @@ export class WsServer {
             path: '/ocpp',  // Клиент подключается к ws://localhost:8000/ocpp?chargeBoxIdentity=CP_001
         });
 
-        this.wss.on('connection', (ws: WebSocket, req) => {
+        this.wss.on('connection', (ws: WebSocket, req: any) => {
             // Извлекаем ID из URL (OCPP стандарт)
             const url = req.url || '';
             const params = new URLSearchParams(url.split('?')[1]);
@@ -36,10 +36,22 @@ export class WsServer {
             ws.on('error', (err) => {
                 logger?.error(`WS error: ${err.message}`);
             });
+
+            (ws as any).isAlive = true; // инициализация для pong 
+            ws.on("pong", () => { (ws as any).isAlive = true });
+
+            setInterval(() => {
+                this.wss.clients.forEach((ws: WebSocket) => {
+                    if (!(ws as any).isAlive) {
+                        logger.error(`Terminating dead connection`)
+                        ws.terminate()
+                        return
+                    }
+                    (ws as any).isAlive = false;
+                    ws.ping(() => {});  // Node.js callback для ping
+                })
+            }, 30000) // ping каждые 30 sec
         });
-
-        // добавить ping каждые 30 sec (heartbeat)
-
     }
 
     close() {

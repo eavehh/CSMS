@@ -27,8 +27,20 @@ class WsServer {
             ws.on('error', (err) => {
                 logger_1.logger?.error(`WS error: ${err.message}`);
             });
+            ws.isAlive = true; // инициализация для pong 
+            ws.on("pong", () => { ws.isAlive = true; });
+            setInterval(() => {
+                this.wss.clients.forEach((ws) => {
+                    if (!ws.isAlive) {
+                        logger_1.logger.error(`Terminating dead connection`);
+                        ws.terminate();
+                        return;
+                    }
+                    ws.isAlive = false;
+                    ws.ping(() => { }); // Node.js callback для ping
+                });
+            }, 30000); // ping каждые 30 sec
         });
-        // добавить ping каждые 30 sec (heartbeat)
     }
     close() {
         this.wss.close();

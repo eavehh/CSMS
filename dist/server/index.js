@@ -8,6 +8,7 @@ const http_1 = require("http");
 const wsServer_1 = require("./wsServer");
 const connectionManager_1 = require("./connectionManager");
 const logger_1 = require("./logger");
+const mongoose_1 = require("../db/mongoose");
 const app = (0, express_1.default)();
 const PORT = 8000;
 const httpServer = (0, http_1.Server)(app);
@@ -18,6 +19,7 @@ process.on('SIGINT', () => {
     logger_1.logger?.info('Shutting down...');
     httpServer.close(() => process.exit(0));
 });
+(0, mongoose_1.connectDB)(); //async
 httpServer.listen(PORT, () => {
     logger_1.logger?.info(`CSMS Server on port ${PORT}`); // Или console.log
 });
