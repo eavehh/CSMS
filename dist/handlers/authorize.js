@@ -7,7 +7,7 @@ async function handleAuthorize(req, chargePointId, ws) {
     // DB 
     return {
         idTagInfo: {
-            status: "Accepted"
+            status: "Accepted" //
         }
     };
 }

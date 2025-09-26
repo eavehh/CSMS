@@ -17,6 +17,8 @@ class WsServer {
             const chargePointId = params.get('chargeBoxIdentity') || 'unknown';
             logger_1.logger?.info(`Connected: ${chargePointId}`);
             connectionManager.add(ws, chargePointId); // Добавляем в менеджер
+            ws.isAlive = true; // инициализация для pong 
+            ws.on("pong", () => { ws.isAlive = true; });
             ws.on('message', (data, isBinary) => {
                 (0, messageRouter_1.handleMessage)(data, isBinary, ws, chargePointId); // Роутим сообщение
             });
@@ -27,8 +29,7 @@ class WsServer {
             ws.on('error', (err) => {
                 logger_1.logger?.error(`WS error: ${err.message}`);
             });
-            ws.isAlive = true; // инициализация для pong 
-            ws.on("pong", () => { ws.isAlive = true; });
+            //ping interval
             setInterval(() => {
                 this.wss.clients.forEach((ws) => {
                     if (!ws.isAlive) {

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Transaction = exports.ChargePoint = void 0;
+exports.Transaction = exports.ChargePoint = exports.Config = void 0;
 exports.connectDB = connectDB;
 const mongoose_1 = __importDefault(require("mongoose"));
 const mongoURI = 'mongodb://localhost:27017/csms'; // Твоя БД "csms"
@@ -36,5 +36,12 @@ const transactionSchema = new mongoose_1.default.Schema({
     cost: Number,
     idTag: String // Из authorize
 });
+const configSchema = new mongoose_1.default.Schema({
+    chargePointId: { type: String, ref: 'ChargePoint' },
+    key: String,
+    value: String,
+    readonly: Boolean
+});
+exports.Config = mongoose_1.default.model('Config', configSchema);
 exports.ChargePoint = mongoose_1.default.model('ChargePoint', chargePointSchema);
 exports.Transaction = mongoose_1.default.model('Transaction', transactionSchema);

@@ -33,5 +33,14 @@ const transactionSchema = new mongoose.Schema({
     idTag: String  // Из authorize
 });
 
+const configSchema = new mongoose.Schema({
+    chargePointId: { type: String, ref: 'ChargePoint' },
+    key: String,
+    value: String,
+    readonly: Boolean
+});
+
+
+export const Config = mongoose.model('Config', configSchema);
 export const ChargePoint = mongoose.model('ChargePoint', chargePointSchema);
 export const Transaction = mongoose.model('Transaction', transactionSchema);

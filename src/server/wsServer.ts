@@ -20,9 +20,10 @@ export class WsServer {
             const chargePointId = params.get('chargeBoxIdentity') || 'unknown';
 
             logger?.info(`Connected: ${chargePointId}`);
-
-
             connectionManager.add(ws, chargePointId);  // Добавляем в менеджер
+            
+            (ws as any).isAlive = true; // инициализация для pong 
+            ws.on("pong", () => { (ws as any).isAlive = true });
 
             ws.on('message', (data: Buffer, isBinary: boolean) => {
                 handleMessage(data, isBinary, ws, chargePointId);  // Роутим сообщение
@@ -37,9 +38,7 @@ export class WsServer {
                 logger?.error(`WS error: ${err.message}`);
             });
 
-            (ws as any).isAlive = true; // инициализация для pong 
-            ws.on("pong", () => { (ws as any).isAlive = true });
-
+            //ping interval
             setInterval(() => {
                 this.wss.clients.forEach((ws: WebSocket) => {
                     if (!(ws as any).isAlive) {
@@ -48,7 +47,7 @@ export class WsServer {
                         return
                     }
                     (ws as any).isAlive = false;
-                    ws.ping(() => {});  // Node.js callback для ping
+                    ws.ping(() => { });  // Node.js callback для ping
                 })
             }, 30000) // ping каждые 30 sec
         });

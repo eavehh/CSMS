@@ -6,6 +6,10 @@ const bootNotification_1 = require("../handlers/bootNotification");
 const authorize_1 = require("../handlers/authorize");
 const heartbeat_1 = require("../handlers/heartbeat");
 const statusNotification_1 = require("../handlers/statusNotification");
+const diagnosticsStatusNotification_1 = require("../handlers/diagnosticsStatusNotification");
+const changeConfiguration_1 = require("../handlers/changeConfiguration");
+// import {  } from '../handlers/';
+// import {  } from '../handlers/';
 async function handleMessage(data, isBinary, ws, chargePointId) {
     if (isBinary) {
         // добавить парсинг msgpack
@@ -37,6 +41,7 @@ async function handleMessage(data, isBinary, ws, chargePointId) {
         switch (action) {
             case 'BootNotification':
                 response = await (0, bootNotification_1.handleBootNotification)(payload, chargePointId, ws);
+                console.log(`${messageType} ${uniqueId} ${action}, ${payload.chargePointVendor}`);
                 break;
             case 'Authorize':
                 response = await (0, authorize_1.handleAuthorize)(payload, chargePointId, ws);
@@ -46,6 +51,18 @@ async function handleMessage(data, isBinary, ws, chargePointId) {
                 break;
             case 'StatusNotification':
                 response = await (0, statusNotification_1.handleStatusNotification)(payload, chargePointId, ws);
+                break;
+            case 'DiagnosticsStatusNotification':
+                response = await (0, diagnosticsStatusNotification_1.handleDiagnosticsStatusNotification)(payload, chargePointId, ws);
+                break;
+            case 'ChangeConfiguration':
+                response = await (0, changeConfiguration_1.handleChangeConfiguration)(payload, chargePointId, ws);
+                break;
+                // case 'FirmwareStatusNotification':
+                //   response = await handleFirmwareStatusNotification(payload, chargePointId, ws);
+                //   break;
+                // case 'MeterValues':
+                //   response = await handleMeterValues(payload, chargePointId, ws);
                 break;
             default:
                 response = { error: 'UnknownAction' }; // OCPP CallError

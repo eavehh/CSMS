@@ -5,6 +5,10 @@ import { handleBootNotification } from '../handlers/bootNotification';
 import { handleAuthorize } from '../handlers/authorize';
 import { handleHeartbeat } from '../handlers/heartbeat';
 import { handleStatusNotification } from '../handlers/statusNotification';
+import { handleDiagnosticsStatusNotification } from '../handlers/diagnosticsStatusNotification';
+import { handleChangeConfiguration } from "../handlers/changeConfiguration"
+// import {  } from '../handlers/';
+// import {  } from '../handlers/';
 
 export async function handleMessage(data: Buffer, isBinary: boolean, ws: WebSocket, chargePointId: string) {
   if (isBinary) {
@@ -47,6 +51,7 @@ export async function handleMessage(data: Buffer, isBinary: boolean, ws: WebSock
     switch (action) {
       case 'BootNotification':
         response = await handleBootNotification(payload, chargePointId, ws);
+        console.log(`${messageType} ${uniqueId} ${action}, ${payload.chargePointVendor}`)
         break;
       case 'Authorize':
         response = await handleAuthorize(payload, chargePointId, ws);
@@ -56,6 +61,18 @@ export async function handleMessage(data: Buffer, isBinary: boolean, ws: WebSock
         break;
       case 'StatusNotification':
         response = await handleStatusNotification(payload, chargePointId, ws);
+        break;
+      case 'DiagnosticsStatusNotification':
+        response = await handleDiagnosticsStatusNotification(payload, chargePointId, ws);
+        break;
+      case 'ChangeConfiguration':
+        response = await handleChangeConfiguration(payload, chargePointId, ws)
+        break
+        // case 'FirmwareStatusNotification':
+        //   response = await handleFirmwareStatusNotification(payload, chargePointId, ws);
+        //   break;
+        // case 'MeterValues':
+        //   response = await handleMeterValues(payload, chargePointId, ws);
         break;
       default:
         response = { error: 'UnknownAction' };  // OCPP CallError

@@ -10,7 +10,7 @@ export async function handleAuthorize(req: AuthorizeRequest, chargePointId: stri
 
   return {
     idTagInfo: {
-      status: "Accepted"
-    }
+      status: "Accepted" //
+    } 
   };
 }
