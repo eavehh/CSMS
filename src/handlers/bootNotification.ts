@@ -1,5 +1,5 @@
-import { BootNotificationRequest } from '../../types/ocpp/1.6/BootNotification';  
-import { BootNotificationResponse } from '../../types/ocpp/1.6/BootNotificationResponse';  
+import { BootNotificationRequest } from '../../types/1.6/BootNotification';  
+import { BootNotificationResponse } from '../../types/1.6/BootNotificationResponse';  
 import {ChargePoint} from "../db/mongoose"
 import { logger } from '../server/logger'
 
@@ -16,6 +16,7 @@ export async function handleBootNotification(req: BootNotificationRequest, charg
       },  // Что обновить
       { upsert: true, new: true }  // Если нет — создай
     );
+
     logger.info(`Boot from ${chargePointId}: saved to MongoDB`);
   } catch (err) {
     logger.error(`DB save error: ${err}`);

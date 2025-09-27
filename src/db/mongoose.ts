@@ -12,7 +12,6 @@ export async function connectDB() {
     }
 }
 
-// Схема ChargePoint (как тип из types/1.6/)
 const chargePointSchema = new mongoose.Schema({
     id: { type: String, required: true, unique: true },  // chargeBoxIdentity
     vendor: { type: String, required: true },           // Из boot
@@ -22,7 +21,6 @@ const chargePointSchema = new mongoose.Schema({
     status: { type: String, default: 'Available' }      // Из statusNotification
 });
 
-// Схема Transaction
 const transactionSchema = new mongoose.Schema({
     id: { type: String, required: true, unique: true },
     chargePointId: { type: String, ref: 'ChargePoint' },  // Связь с ChargePoint
@@ -40,7 +38,18 @@ const configSchema = new mongoose.Schema({
     readonly: Boolean
 });
 
+const localListSchema = new mongoose.Schema({
+  chargePointId: { type: String, required: true }, 
+  listVersion: { type: Number, required: true }, 
+  localList: [{  
+    idTag: { type: String, required: true },
+    status: { type: String, enum: ['Accepted', 'Blocked'], required: true },
+    expiryDate: Date 
+  }],
+  updatedAt: { type: Date, default: Date.now }  // Когда обновили
+});
 
+export const LocalList = mongoose.model('LocalList', localListSchema);
 export const Config = mongoose.model('Config', configSchema);
 export const ChargePoint = mongoose.model('ChargePoint', chargePointSchema);
 export const Transaction = mongoose.model('Transaction', transactionSchema);

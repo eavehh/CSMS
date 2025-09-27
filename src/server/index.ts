@@ -8,10 +8,10 @@ import { connectDB } from "../db/mongoose"
 const app = express();
 const PORT = 8000;
 
+export const connectionManager = new ConnectionManager();
 
 const httpServer = Server(app);
 
-const connectionManager = new ConnectionManager();
 const wsServer = new WsServer(httpServer, connectionManager);
 
 // Graceful shutdown (чтобы сервер красиво закрывался)

@@ -1,5 +1,5 @@
-import { DataTransferRequest } from '../../types/ocpp/1.6/DataTransfer';
-import { DataTransferResponse } from '../../types/ocpp/1.6/DataTransferResponse';
+import { DataTransferRequest } from '../../types/1.6/DataTransfer';
+import { DataTransferResponse } from '../../types/1.6/DataTransferResponse';
 import { ChargePoint } from '../db/mongoose';  // DB для лога
 import { logger } from '../server/logger';
 import WebSocket from 'ws';

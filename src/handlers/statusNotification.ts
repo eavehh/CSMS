@@ -1,5 +1,5 @@
-import { StatusNotificationRequest } from "../../types/ocpp/1.6/StatusNotification"
-import { StatusNotificationResponse } from "../../types/ocpp/1.6/StatusNotificationResponse"
+import { StatusNotificationRequest } from "../../types/1.6/StatusNotification"
+import { StatusNotificationResponse } from "../../types/1.6/StatusNotificationResponse"
 import WevSocket from "ws"
 import { logger } from "../server/logger"
 

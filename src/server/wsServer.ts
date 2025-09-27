@@ -22,7 +22,7 @@ export class WsServer {
             logger?.info(`Connected: ${chargePointId}`);
             connectionManager.add(ws, chargePointId);  // Добавляем в менеджер
             
-            (ws as any).isAlive = true; // инициализация для pong 
+            (ws as any).isAlive = true; 
             ws.on("pong", () => { (ws as any).isAlive = true });
 
             ws.on('message', (data: Buffer, isBinary: boolean) => {

@@ -1,14 +1,13 @@
 import WebSocket from 'ws';
 // import { validateMessage } from './utils/ajvValidator';  // Если есть; иначе закомментируй
-
+import { connectionManager } from '../server/index';  
 import { handleBootNotification } from '../handlers/bootNotification';
 import { handleAuthorize } from '../handlers/authorize';
 import { handleHeartbeat } from '../handlers/heartbeat';
 import { handleStatusNotification } from '../handlers/statusNotification';
 import { handleDiagnosticsStatusNotification } from '../handlers/diagnosticsStatusNotification';
 import { handleChangeConfiguration } from "../handlers/changeConfiguration"
-// import {  } from '../handlers/';
-// import {  } from '../handlers/';
+import { handleSendLocalList } from '../handlers/sendLocalList';
 
 export async function handleMessage(data: Buffer, isBinary: boolean, ws: WebSocket, chargePointId: string) {
   if (isBinary) {
@@ -51,7 +50,6 @@ export async function handleMessage(data: Buffer, isBinary: boolean, ws: WebSock
     switch (action) {
       case 'BootNotification':
         response = await handleBootNotification(payload, chargePointId, ws);
-        console.log(`${messageType} ${uniqueId} ${action}, ${payload.chargePointVendor}`)
         break;
       case 'Authorize':
         response = await handleAuthorize(payload, chargePointId, ws);
@@ -68,6 +66,8 @@ export async function handleMessage(data: Buffer, isBinary: boolean, ws: WebSock
       case 'ChangeConfiguration':
         response = await handleChangeConfiguration(payload, chargePointId, ws)
         break
+      case 'SendLocalList':
+        response = await handleSendLocalList(payload, chargePointId, ws, connectionManager);
         // case 'FirmwareStatusNotification':
         //   response = await handleFirmwareStatusNotification(payload, chargePointId, ws);
         //   break;

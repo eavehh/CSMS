@@ -1,5 +1,5 @@
-import { ChangeConfigurationRequest } from '../../types/ocpp/1.6/ChangeConfiguration';
-import { ChangeConfigurationResponse } from '../../types/ocpp/1.6/ChangeConfigurationResponse';
+import { ChangeConfigurationRequest } from '../../types/1.6/ChangeConfiguration';
+import { ChangeConfigurationResponse } from '../../types/1.6/ChangeConfigurationResponse';
 import { Config } from '../db/mongoose';  // DB для config
 import { logger } from '../server/logger';
 import WebSocket from 'ws';

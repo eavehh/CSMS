@@ -1,5 +1,5 @@
-import { DiagnosticsStatusNotificationRequest } from '../../types/ocpp/1.6/DiagnosticsStatusNotification';
-import { DiagnosticsStatusNotificationResponse } from '../../types/ocpp/1.6/DiagnosticsStatusNotificationResponse';
+import { DiagnosticsStatusNotificationRequest } from '../../types/1.6/DiagnosticsStatusNotification';
+import { DiagnosticsStatusNotificationResponse } from '../../types/1.6/DiagnosticsStatusNotificationResponse';
 import { logger } from '../server/logger';
 import WebSocket from 'ws';
 
