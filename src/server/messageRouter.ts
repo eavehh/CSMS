@@ -1,6 +1,8 @@
 import WebSocket from 'ws';
+import * as msgpack from '@msgpack/msgpack'
+import { logger } from '../server/logger';
 // import { validateMessage } from './utils/ajvValidator';  // Если есть; иначе закомментируй
-import { connectionManager } from '../server/index';  
+import { connectionManager } from '../server/index';
 import { handleBootNotification } from '../handlers/bootNotification';
 import { handleAuthorize } from '../handlers/authorize';
 import { handleHeartbeat } from '../handlers/heartbeat';
@@ -10,15 +12,28 @@ import { handleChangeConfiguration } from "../handlers/changeConfiguration"
 import { handleSendLocalList } from '../handlers/sendLocalList';
 
 export async function handleMessage(data: Buffer, isBinary: boolean, ws: WebSocket, chargePointId: string) {
+  let message;
+
   if (isBinary) {
-    // добавить парсинг msgpack
-    console.log("Binary ignored")
-    return;
+    try {
+      message = msgpack.decode(data);
+    } catch (err) {
+      logger.error(`Failed to decode MessagePack message from ${chargePointId}: ${err.message}`);
+      ws.send(JSON.stringify([4, null, { errorCode: 'FormationViolation', description: 'Invalid MessagePack' }]));
+      return;
+    }
+  } else {
+    try {
+      message = JSON.parse(data.toString());
+    } catch (err) {
+      logger.error(`Failed to parse JSON message from ${chargePointId}: ${err.message}`);
+      ws.send(JSON.stringify([4, null, { errorCode: 'FormationViolation', description: 'Invalid JSON' }]));
+      return;
+    }
   }
 
 
   try {
-    const message = JSON.parse(data.toString());
 
     // ======================= проверка
     if (!Array.isArray(message)) {
