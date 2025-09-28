@@ -9,7 +9,6 @@ import { handleHeartbeat } from '../handlers/heartbeat';
 import { handleStatusNotification } from '../handlers/statusNotification';
 import { handleDiagnosticsStatusNotification } from '../handlers/diagnosticsStatusNotification';
 import { handleChangeConfiguration } from "../handlers/changeConfiguration"
-import { handleSendLocalList } from '../handlers/sendLocalList';
 
 export async function handleMessage(data: Buffer, isBinary: boolean, ws: WebSocket, chargePointId: string) {
   let message;
@@ -54,9 +53,8 @@ export async function handleMessage(data: Buffer, isBinary: boolean, ws: WebSock
 
     // Валидация !!!
 
-    if (typeof messageType !== 'number' || messageType !== 2) {
-      console.log(`Ignored non-Call message from ${chargePointId}: type ${messageType}`);
-      return;
+    if (messageType === 3) { //CallResult
+
     }
 
 
@@ -81,8 +79,6 @@ export async function handleMessage(data: Buffer, isBinary: boolean, ws: WebSock
       case 'ChangeConfiguration':
         response = await handleChangeConfiguration(payload, chargePointId, ws)
         break
-      case 'SendLocalList':
-        response = await handleSendLocalList(payload, chargePointId, ws, connectionManager);
         // case 'FirmwareStatusNotification':
         //   response = await handleFirmwareStatusNotification(payload, chargePointId, ws);
         //   break;

@@ -4,6 +4,8 @@ import { ConnectionManager } from './connectionManager';
 import { handleMessage } from './messageRouter';
 import { logger } from './logger';
 
+export let lastOffline: Date;
+
 export class WsServer {
     private wss: WSServer;
 
@@ -22,7 +24,6 @@ export class WsServer {
             logger?.info(`Connected: ${chargePointId}`);
             connectionManager.add(ws, chargePointId);  // Добавляем в менеджер
 
-
             ws.on('message', (data: Buffer, isBinary: boolean) => {
                 handleMessage(data, isBinary, ws, chargePointId);  // Роутим сообщение
             });
@@ -30,6 +31,7 @@ export class WsServer {
             ws.on('close', () => {
                 logger?.info(`Disconnected: ${chargePointId}`);
                 connectionManager.remove(chargePointId);
+                connectionManager.setLastOffline(chargePointId, new Date())
             });
 
             ws.on('error', (err) => {
@@ -44,6 +46,8 @@ export class WsServer {
                 this.wss.clients.forEach((ws: WebSocket) => {
                     if (!(ws as any).isAlive) {
                         logger.error(`Terminating dead connection`)
+                        connectionManager.remove(chargePointId)
+                        connectionManager.setLastOffline(chargePointId, new Date())
                         ws.terminate()
                         return
                     }
@@ -53,6 +57,7 @@ export class WsServer {
                     });  // Node.js callback для ping
                 })
             }, 30000) // ping каждые 30 sec
+
         });
     }
 

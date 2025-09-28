@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { lastOffline } from '../server/wsServer';
 
 const mongoURI = 'mongodb://localhost:27017/csms';  // Твоя БД "csms"
 
@@ -18,7 +19,13 @@ const chargePointSchema = new mongoose.Schema({
     model: { type: String, required: true },
     serial: { type: String },
     firmware: { type: String },
-    status: { type: String, default: 'Available' }      // Из statusNotification
+    status: { type: String, default: 'Available' },      // Из statusNotification
+    lastOffline: { type: Date },
+    lastBoot: { type: Date },
+    iccid: { type: String }, // Boot
+    imsi: { type: String }, // Boot
+    meterType: { type: String }, // Boot
+    meterSerialNumber: { type: String }, // Boot
 });
 
 const transactionSchema = new mongoose.Schema({
@@ -39,14 +46,14 @@ const configSchema = new mongoose.Schema({
 });
 
 const localListSchema = new mongoose.Schema({
-  chargePointId: { type: String, required: true }, 
-  listVersion: { type: Number, required: true }, 
-  localList: [{  
-    idTag: { type: String, required: true },
-    status: { type: String, enum: ['Accepted', 'Blocked'], required: true },
-    expiryDate: Date 
-  }],
-  updatedAt: { type: Date, default: Date.now }  // Когда обновили
+    chargePointId: { type: String, required: true },
+    listVersion: { type: Number, required: true },
+    localList: [{
+        idTag: { type: String, required: true },
+        status: { type: String, enum: ['Accepted', 'Blocked'], required: true },
+        expiryDate: Date
+    }],
+    updatedAt: { type: Date, default: Date.now }  // Когда обновили
 });
 
 export const LocalList = mongoose.model('LocalList', localListSchema);
