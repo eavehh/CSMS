@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.WsServer = void 0;
 const ws_1 = require("ws");
 const messageRouter_1 = require("./messageRouter");
-const logger_1 = require("./logger");
+const logger_1 = require("../logger");
 class WsServer {
     constructor(httpServer, connectionManager) {
         this.wss = new ws_1.Server({
@@ -22,6 +22,7 @@ class WsServer {
             });
             ws.on('close', () => {
                 logger_1.logger?.info(`Disconnected: ${chargePointId}`);
+                connectionManager.setLastOffline(chargePointId, new Date());
                 connectionManager.remove(chargePointId);
             });
             ws.on('error', (err) => {
@@ -34,6 +35,8 @@ class WsServer {
                 this.wss.clients.forEach((ws) => {
                     if (!ws.isAlive) {
                         logger_1.logger.error(`Terminating dead connection`);
+                        connectionManager.remove(chargePointId);
+                        connectionManager.setLastOffline(chargePointId, new Date());
                         ws.terminate();
                         return;
                     }

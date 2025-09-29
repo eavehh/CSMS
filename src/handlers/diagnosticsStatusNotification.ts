@@ -1,6 +1,6 @@
 import { DiagnosticsStatusNotificationRequest } from '../../types/1.6/DiagnosticsStatusNotification';
 import { DiagnosticsStatusNotificationResponse } from '../../types/1.6/DiagnosticsStatusNotificationResponse';
-import { logger } from '../server/logger';
+import { logger } from '../logger';
 import WebSocket from 'ws';
 
 export async function handleDiagnosticsStatusNotification(req: DiagnosticsStatusNotificationRequest, chargePointId: string, ws: WebSocket): Promise<DiagnosticsStatusNotificationResponse> {

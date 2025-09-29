@@ -1,6 +1,6 @@
 import WebSocket from 'ws';
 import * as msgpack from '@msgpack/msgpack'
-import { logger } from '../server/logger';
+import { logger } from '../logger';
 // import { validateMessage } from './utils/ajvValidator';  // Если есть; иначе закомментируй
 import { connectionManager } from '../server/index';
 import { handleBootNotification } from '../handlers/bootNotification';
@@ -17,7 +17,7 @@ export async function handleMessage(data: Buffer, isBinary: boolean, ws: WebSock
     try {
       message = msgpack.decode(data);
     } catch (err) {
-      logger.error(`Failed to decode MessagePack message from ${chargePointId}: ${err.message}`);
+      logger.error(`Failed to decode MessagePack message from ${chargePointId}: ${(err as any).message}`);
       ws.send(JSON.stringify([4, null, { errorCode: 'FormationViolation', description: 'Invalid MessagePack' }]));
       return;
     }
@@ -25,12 +25,11 @@ export async function handleMessage(data: Buffer, isBinary: boolean, ws: WebSock
     try {
       message = JSON.parse(data.toString());
     } catch (err) {
-      logger.error(`Failed to parse JSON message from ${chargePointId}: ${err.message}`);
+      logger.error(`Failed to parse JSON message from ${chargePointId}: ${(err as any).message}`);
       ws.send(JSON.stringify([4, null, { errorCode: 'FormationViolation', description: 'Invalid JSON' }]));
       return;
     }
   }
-
 
   try {
 
@@ -50,6 +49,13 @@ export async function handleMessage(data: Buffer, isBinary: boolean, ws: WebSock
     // ==========================
 
     const [messageType, uniqueId, action, payload] = message;
+
+    const format = connectionManager.getFormat(chargePointId);
+
+    // Если в payload флаг смены (опционально, e.g., req.format = 'binary')
+    if (payload.format) {
+      connectionManager.setFormat(chargePointId, payload.format);
+    }
 
     // Валидация !!!
 
@@ -89,11 +95,16 @@ export async function handleMessage(data: Buffer, isBinary: boolean, ws: WebSock
         response = { error: 'UnknownAction' };  // OCPP CallError
     }
 
-    const fullResponse = [3, uniqueId, response];
-    ws.send(JSON.stringify(fullResponse));
+    let fullResponse;
+    if (format === 'binary') {
+      fullResponse = msgpack.encode([3, uniqueId, response]);
+    } else {
+      fullResponse = JSON.stringify([3, uniqueId, response]);
+    }
+    ws.send(fullResponse); ws.send(JSON.stringify(fullResponse));
   } catch (err) {
-    console.error(`Router parse error from ${chargePointId}: ${err.message}. Raw: ${data.toString()}`);
+    console.error(`Router parse error from ${chargePointId}: ${(err as any).message}. Raw: ${data.toString()}`);
     // Безопасный CallError
-    ws.send(JSON.stringify([4, null, { errorCode: 'GenericError', description: err.message }]));
+    ws.send(JSON.stringify([4, null, { errorCode: 'GenericError', description: (err as any).message }]));
   }
 }

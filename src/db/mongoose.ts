@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { lastOffline } from '../server/wsServer';
 
 const mongoURI = 'mongodb://localhost:27017/csms';  // Твоя БД "csms"
 

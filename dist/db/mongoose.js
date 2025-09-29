@@ -23,7 +23,13 @@ const chargePointSchema = new mongoose_1.default.Schema({
     model: { type: String, required: true },
     serial: { type: String },
     firmware: { type: String },
-    status: { type: String, default: 'Available' } // Из statusNotification
+    status: { type: String, default: 'Available' }, // Из statusNotification
+    lastOffline: { type: Date },
+    lastBoot: { type: Date },
+    iccid: { type: String }, // Boot
+    imsi: { type: String }, // Boot
+    meterType: { type: String }, // Boot
+    meterSerialNumber: { type: String }, // Boot
 });
 const transactionSchema = new mongoose_1.default.Schema({
     id: { type: String, required: true, unique: true },

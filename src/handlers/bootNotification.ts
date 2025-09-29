@@ -2,9 +2,9 @@ import { BootNotificationRequest } from '../../types/1.6/BootNotification';
 import { BootNotificationResponse } from '../../types/1.6/BootNotificationResponse';
 import { sendRemoteMessage } from "../utils/RemoteControl"
 import { ChargePoint } from "../db/mongoose"
-import { logger } from '../server/logger'
+import { logger } from '../logger'
 import { LocalList } from "../db/mongoose"
-import { connectionManager } from '../server';
+import { connectionManager } from '../server/index';
 
 
 export async function handleBootNotification(req: BootNotificationRequest, chargePointId: string, ws: WebSocket): Promise<BootNotificationResponse> {

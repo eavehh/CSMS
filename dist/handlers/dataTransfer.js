@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.handleDataTransfer = handleDataTransfer;
 const mongoose_1 = require("../db/mongoose"); // DB для лога
-const logger_1 = require("../server/logger");
+const logger_1 = require("../logger");
 async function handleDataTransfer(req, chargePointId, ws) {
     try {
         await mongoose_1.ChargePoint.findOneAndUpdate({ id: chargePointId }, { $set: { lastDataTransfer: { vendorId: req.vendorId, data: req.data } } }, { upsert: true });

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendRemoteMessage = sendRemoteMessage;
 const uuid_1 = require("uuid");
-const logger_1 = require("../server/logger");
+const logger_1 = require("../logger");
 function sendRemoteMessage(connectionManager, chargePointId, action, payload) {
     const ws = connectionManager.get(chargePointId);
     if (!ws) {

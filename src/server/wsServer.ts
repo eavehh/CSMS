@@ -2,9 +2,8 @@ import WebSocket, { Server as WSServer } from 'ws';
 import { Server as HttpServer } from 'http';
 import { ConnectionManager } from './connectionManager';
 import { handleMessage } from './messageRouter';
-import { logger } from './logger';
+import { logger } from '../logger';
 
-export let lastOffline: Date;
 
 export class WsServer {
     private wss: WSServer;
@@ -30,8 +29,8 @@ export class WsServer {
 
             ws.on('close', () => {
                 logger?.info(`Disconnected: ${chargePointId}`);
-                connectionManager.remove(chargePointId);
                 connectionManager.setLastOffline(chargePointId, new Date())
+                connectionManager.remove(chargePointId);
             });
 
             ws.on('error', (err) => {

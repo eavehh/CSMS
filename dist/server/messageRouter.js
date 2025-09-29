@@ -35,7 +35,7 @@ var __importStar = (this && this.__importStar) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.handleMessage = handleMessage;
 const msgpack = __importStar(require("@msgpack/msgpack"));
-const logger_1 = require("../server/logger");
+const logger_1 = require("../logger");
 // import { validateMessage } from './utils/ajvValidator';  // Если есть; иначе закомментируй
 const index_1 = require("../server/index");
 const bootNotification_1 = require("../handlers/bootNotification");
@@ -44,7 +44,6 @@ const heartbeat_1 = require("../handlers/heartbeat");
 const statusNotification_1 = require("../handlers/statusNotification");
 const diagnosticsStatusNotification_1 = require("../handlers/diagnosticsStatusNotification");
 const changeConfiguration_1 = require("../handlers/changeConfiguration");
-const sendLocalList_1 = require("../handlers/sendLocalList");
 async function handleMessage(data, isBinary, ws, chargePointId) {
     let message;
     if (isBinary) {
@@ -82,10 +81,13 @@ async function handleMessage(data, isBinary, ws, chargePointId) {
         }
         // ==========================
         const [messageType, uniqueId, action, payload] = message;
+        const format = index_1.connectionManager.getFormat(chargePointId);
+        // Если в payload флаг смены (опционально, e.g., req.format = 'binary')
+        if (payload.format) {
+            index_1.connectionManager.setFormat(chargePointId, payload.format);
+        }
         // Валидация !!!
-        if (typeof messageType !== 'number' || messageType !== 2) {
-            console.log(`Ignored non-Call message from ${chargePointId}: type ${messageType}`);
-            return;
+        if (messageType === 3) { //CallResult
         }
         let response;
         switch (action) {
@@ -107,8 +109,6 @@ async function handleMessage(data, isBinary, ws, chargePointId) {
             case 'ChangeConfiguration':
                 response = await (0, changeConfiguration_1.handleChangeConfiguration)(payload, chargePointId, ws);
                 break;
-            case 'SendLocalList':
-                response = await (0, sendLocalList_1.handleSendLocalList)(payload, chargePointId, ws, index_1.connectionManager);
                 // case 'FirmwareStatusNotification':
                 //   response = await handleFirmwareStatusNotification(payload, chargePointId, ws);
                 //   break;
@@ -118,7 +118,14 @@ async function handleMessage(data, isBinary, ws, chargePointId) {
             default:
                 response = { error: 'UnknownAction' }; // OCPP CallError
         }
-        const fullResponse = [3, uniqueId, response];
+        let fullResponse;
+        if (format === 'binary') {
+            fullResponse = msgpack.encode([3, uniqueId, response]);
+        }
+        else {
+            fullResponse = JSON.stringify([3, uniqueId, response]);
+        }
+        ws.send(fullResponse);
         ws.send(JSON.stringify(fullResponse));
     }
     catch (err) {

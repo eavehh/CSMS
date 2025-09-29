@@ -1,7 +1,7 @@
 import { ChangeConfigurationRequest } from '../../types/1.6/ChangeConfiguration';
 import { ChangeConfigurationResponse } from '../../types/1.6/ChangeConfigurationResponse';
 import { Config } from '../db/mongoose';  // DB для config
-import { logger } from '../server/logger';
+import { logger } from '../logger';
 import WebSocket from 'ws';
 
 export async function handleChangeConfiguration(req: ChangeConfigurationRequest, chargePointId: string, ws: WebSocket): Promise<ChangeConfigurationResponse> {
@@ -14,10 +14,10 @@ export async function handleChangeConfiguration(req: ChangeConfigurationRequest,
                 { upsert: true }
             );
         }
-        logger.info(`Change config on ${chargePointId}: keys ${configurationKey.map(k => k.key).join(',')}`);
+        logger.info(`Change config on ${chargePointId}: keys ${configurationKey.map((k: any) => k.key).join(',')}`);
         return { status: 'Accepted' };
     } catch (err) {
-        logger.error(`DB error in ChangeConfiguration: ${err.message}`);
+        logger.error(`DB error in ChangeConfiguration: ${(err as any).message}`);
         return { status: 'Rejected' };
     }
 }
