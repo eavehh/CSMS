@@ -57,6 +57,7 @@ export async function handleMessage(data: Buffer, isBinary: boolean, ws: WebSock
       connectionManager.setFormat(chargePointId, payload.format);
     }
 
+    connectionManager.updateLastActivity(chargePointId); // для ocpp 4.6 heartbeat не использовался избыточно
     // Валидация !!!
 
     if (messageType === 3) { //CallResult

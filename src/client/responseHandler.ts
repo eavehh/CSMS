@@ -27,8 +27,6 @@ export function handleResponse(data: Buffer, isBinary: boolean, ws: WebSocket) {
     }
 
     const [messageType, uniqueId, response] = message;
-    logger.info(`Response received: type ${messageType}, uniqueId ${uniqueId}, response ${JSON.stringify(response)}`);
-
     if (messageType === 3) {  // CallResult от сервера
         if (response.format) {
             manager.setFormat(response.format);
@@ -38,7 +36,7 @@ export function handleResponse(data: Buffer, isBinary: boolean, ws: WebSocket) {
             const bootResp = response as BootNotificationResponse;
             if (bootResp.status === 'Accepted') {
                 logger.info(`Boot accepted. Time: ${bootResp.currentTime}, Interval: ${bootResp.interval}`);
-                // Запусти Heartbeat loop
+                manager.updateInterval(bootResp.interval) // обновили интервал в clientManager
                 heartbeatInterval = setInterval(() => sendHeartbeat(ws, {}, manager), bootResp.interval * 1000);
             } else {
                 logger.error(`Boot rejected: ${bootResp.status}`);

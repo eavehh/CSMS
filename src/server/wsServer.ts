@@ -3,7 +3,7 @@ import { Server as HttpServer } from 'http';
 import { ConnectionManager } from './connectionManager';
 import { handleMessage } from './messageRouter';
 import { logger } from '../logger';
-
+import { INTERVAL } from '../handlers/bootNotification'
 
 export class WsServer {
     private wss: WSServer;
@@ -27,6 +27,11 @@ export class WsServer {
                 handleMessage(data, isBinary, ws, chargePointId);  // Роутим сообщение
             });
 
+            if (!connectionManager.isActive(chargePointId)) {
+                logger.info(`terminate connection with ${chargePointId}, there is not isAlive`)
+                ws.terminate()
+            }
+
             ws.on('close', () => {
                 logger?.info(`Disconnected: ${chargePointId}`);
                 connectionManager.setLastOffline(chargePointId, new Date())
@@ -36,6 +41,19 @@ export class WsServer {
             ws.on('error', (err) => {
                 logger?.error(`WS error: ${err.message}`);
             });
+
+            setInterval(() => {
+                this.wss.clients.forEach((ws: WebSocket) => {
+                    const chargePointId = connectionManager.getByWs(ws);  // Добавь метод в connectionManager
+
+                    if (connectionManager.lastActivity) {
+                        if (chargePointId && !connectionManager.isActive(chargePointId)) {
+                            logger.info(`Terminate a not active connection ${chargePointId}`);
+                            ws.terminate();
+                        }
+                    }
+                });
+            }, INTERVAL);  // 60s timeout default
 
         });
     }

@@ -60,22 +60,23 @@ function handleResponse(data, isBinary, ws) {
         }
     }
     const [messageType, uniqueId, response] = message;
-    logger_1.logger.info(`Response received: type ${messageType}, uniqueId ${uniqueId}, response ${JSON.stringify(response)}`);
     if (messageType === 3) { // CallResult от сервера
         if (response.format) {
             index_1.manager.setFormat(response.format);
         }
-        if (response.status) { // BootResponse
+        if (response.status !== undefined) {
             const bootResp = response;
             if (bootResp.status === 'Accepted') {
                 logger_1.logger.info(`Boot accepted. Time: ${bootResp.currentTime}, Interval: ${bootResp.interval}`);
-                heartbeatInterval = setInterval(() => (0, messageSender_1.sendHeartbeat)(ws, {}, index_1.manager), bootResp.interval * 1000); // *1000 для мс
+                index_1.manager.updateInterval(bootResp.interval); // обновили интервал в clientManager
+                heartbeatInterval = setInterval(() => (0, messageSender_1.sendHeartbeat)(ws, {}, index_1.manager), bootResp.interval * 1000);
             }
             else {
                 logger_1.logger.error(`Boot rejected: ${bootResp.status}`);
             }
         }
-        else if (response.currentTime) { // HeartbeatResponse
+        // Для HeartbeatResponse (проверяем по currentTime)
+        else if (response.currentTime !== undefined) {
             const heartbeatResp = response;
             logger_1.logger.info(`Heartbeat response: currentTime ${heartbeatResp.currentTime}`);
         }

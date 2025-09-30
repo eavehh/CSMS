@@ -1,11 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.INTERVAL = void 0;
 exports.handleBootNotification = handleBootNotification;
 const RemoteControl_1 = require("../utils/RemoteControl");
 const mongoose_1 = require("../db/mongoose");
 const logger_1 = require("../logger");
 const mongoose_2 = require("../db/mongoose");
 const index_1 = require("../server/index");
+exports.INTERVAL = 60;
 async function handleBootNotification(req, chargePointId, ws) {
     try {
         // Проверим, не прошло ли больше суток с последней загрузки
@@ -40,19 +42,19 @@ async function handleBootNotification(req, chargePointId, ws) {
         }, { upsert: true, new: true } // upsert: true = создай, если нет; new: true = верни обновлённый
         );
         logger_1.logger.boot(`Boot from ${chargePointId}:
-      Vendor: ${req.chargePointVendor} \n,
-      Model: ${req.chargePointModel} \n
-      Point serial number: ${req.meterSerialNumber} \n
-      Box serial number: ${req.chargeBoxSerialNumber} \n
-      Firmware: ${req.firmwareVersion} \n
-      iccid: ${req.iccid} \n
-      imsi: ${req.imsi} \n
-      Meter type: ${req.meterType} \n
-      Meter serial number: ${req.meterSerialNumber} \n
+      Vendor: ${req.chargePointVendor}
+      Model: ${req.chargePointModel} 
+      Point serial number: ${req.meterSerialNumber}
+      Box serial number: ${req.chargeBoxSerialNumber} 
+      Firmware: ${req.firmwareVersion} 
+      iccid: ${req.iccid} 
+      imsi: ${req.imsi} 
+      Meter type: ${req.meterType} 
+      Meter serial number: ${req.meterSerialNumber} 
       saved to MongoDB`);
     }
     catch (err) {
         logger_1.logger.error(`DB save error: ${err} `);
     }
-    return { currentTime: new Date().toISOString(), interval: 60, status: 'Accepted' };
+    return { currentTime: new Date().toISOString(), interval: exports.INTERVAL, status: 'Accepted' };
 }

@@ -5,7 +5,7 @@ import { ChargePoint } from "../db/mongoose"
 import { logger } from '../logger'
 import { LocalList } from "../db/mongoose"
 import { connectionManager } from '../server/index';
-
+export const INTERVAL: number = 60
 
 export async function handleBootNotification(req: BootNotificationRequest, chargePointId: string, ws: WebSocket): Promise<BootNotificationResponse> {
   try {
@@ -44,20 +44,20 @@ export async function handleBootNotification(req: BootNotificationRequest, charg
     );
 
     logger.boot(`Boot from ${chargePointId}:
-      Vendor: ${req.chargePointVendor} \n,
-      Model: ${req.chargePointModel} \n
-      Point serial number: ${req.meterSerialNumber} \n
-      Box serial number: ${req.chargeBoxSerialNumber} \n
-      Firmware: ${req.firmwareVersion} \n
-      iccid: ${req.iccid} \n
-      imsi: ${req.imsi} \n
-      Meter type: ${req.meterType} \n
-      Meter serial number: ${req.meterSerialNumber} \n
+      Vendor: ${req.chargePointVendor}
+      Model: ${req.chargePointModel} 
+      Point serial number: ${req.meterSerialNumber}
+      Box serial number: ${req.chargeBoxSerialNumber} 
+      Firmware: ${req.firmwareVersion} 
+      iccid: ${req.iccid} 
+      imsi: ${req.imsi} 
+      Meter type: ${req.meterType} 
+      Meter serial number: ${req.meterSerialNumber} 
       saved to MongoDB`);
 
   } catch (err) {
     logger.error(`DB save error: ${err} `);
   }
 
-  return { currentTime: new Date().toISOString(), interval: 60, status: 'Accepted' };
+  return { currentTime: new Date().toISOString(), interval: INTERVAL, status: 'Accepted' };
 }

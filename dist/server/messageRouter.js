@@ -86,6 +86,7 @@ async function handleMessage(data, isBinary, ws, chargePointId) {
         if (payload.format) {
             index_1.connectionManager.setFormat(chargePointId, payload.format);
         }
+        index_1.connectionManager.updateLastActivity(chargePointId); // для ocpp 4.6 heartbeat не использовался избыточно
         // Валидация !!!
         if (messageType === 3) { //CallResult
         }

@@ -4,7 +4,7 @@ import { logger } from "../logger"
 import WebSocket from 'ws';
 
 export async function handleHeartbeat(req: HeartbeatRequest, chargePointId: string, ws: WebSocket): Promise<HeartbeatResponse> {
-    logger.info(`ping from ${chargePointId}`)
+    logger.info(`heartbeat from ${chargePointId}`)
 
     return {
         currentTime: new Date().toISOString()

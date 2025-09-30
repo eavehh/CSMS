@@ -49,9 +49,13 @@ function sendBootNotification(ws, payload, manager) {
     else {
         ws.send(JSON.stringify(message));
     }
+    manager.updateLastSentTime();
     logger_1.logger.info('Sent BootNotification');
 }
 function sendHeartbeat(ws, payload, manager) {
+    if (!manager.shouldSendHeartbeat()) {
+        logger_1.logger.info(`heartbeat is not required (ocpp/v1.6 chapter 4.6 - skip sending)`);
+    }
     const message = [2, (0, uuid_1.v4)(), 'Heartbeat', payload];
     if (manager.getFormat() === 'binary') {
         ws.send(msgpack.encode(message));
@@ -59,5 +63,6 @@ function sendHeartbeat(ws, payload, manager) {
     else {
         ws.send(JSON.stringify(message));
     }
-    logger_1.logger.info('ping');
+    manager.updateLastSentTime();
+    logger_1.logger.info(`heartbeat request`);
 }
