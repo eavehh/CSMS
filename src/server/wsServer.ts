@@ -37,26 +37,6 @@ export class WsServer {
                 logger?.error(`WS error: ${err.message}`);
             });
 
-            (ws as any).isAlive = true;
-            ws.on("pong", () => { (ws as any).isAlive = true });
-
-            //ping interval
-            setInterval(() => {
-                this.wss.clients.forEach((ws: WebSocket) => {
-                    if (!(ws as any).isAlive) {
-                        logger.error(`Terminating dead connection`)
-                        connectionManager.remove(chargePointId)
-                        connectionManager.setLastOffline(chargePointId, new Date())
-                        ws.terminate()
-                        return
-                    }
-                    (ws as any).isAlive = false;
-                    ws.ping(() => {
-
-                    });  // Node.js callback для ping
-                })
-            }, 30000) // ping каждые 30 sec
-
         });
     }
 

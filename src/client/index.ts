@@ -1,16 +1,17 @@
-import WebSocket from 'ws';
-import * as http from 'http';
-import { logger } from '../logger.js';
-import { handleResponse } from './responseHandler';
-import { ClientManager } from './connectionManager'
-import { connectClient } from './wsClient'
+import { logger } from '../logger';
+import { connectClient } from './wsClient';
+import { ClientManager } from './connectionManager';
+import { sendHeartbeat } from './messageSender';
 
-export const manager = new ClientManager()
+export const manager = new ClientManager();  // Экспорт для импортов
 
-const server = http.createServer();
+async function main() {
+  try {
+    const ws = await connectClient();  // Connect + boot в on('open')
+    logger.info('Client ready — boot sent');
+  } catch (err) {
+    logger.error(`Client error: ${err}`);
+  }
+}
 
-const wsServer = new WebSocket.Server({ server })
-
-server.listen(8001, () => {
-    logger.info(`http on 8000`)
-})
+main();

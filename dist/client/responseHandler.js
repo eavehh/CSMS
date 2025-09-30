@@ -37,6 +37,8 @@ exports.handleResponse = handleResponse;
 const msgpack = __importStar(require("@msgpack/msgpack"));
 const logger_1 = require("../logger");
 const index_1 = require("./index"); // Ок, если index экспортирует
+const messageSender_1 = require("./messageSender");
+let heartbeatInterval;
 function handleResponse(data, isBinary, ws) {
     let message;
     if (isBinary) {
@@ -45,7 +47,7 @@ function handleResponse(data, isBinary, ws) {
         }
         catch (err) {
             logger_1.logger.error(`Failed to decode MessagePack response: ${err.message}`);
-            return; // Не отправляй error — клиент не сервер
+            return;
         }
     }
     else {
@@ -59,21 +61,28 @@ function handleResponse(data, isBinary, ws) {
     }
     const [messageType, uniqueId, response] = message;
     logger_1.logger.info(`Response received: type ${messageType}, uniqueId ${uniqueId}, response ${JSON.stringify(response)}`);
-    if (messageType === 3) {
+    if (messageType === 3) { // CallResult от сервера
         if (response.format) {
             index_1.manager.setFormat(response.format);
         }
-        if (response.status) {
+        if (response.status) { // BootResponse
             const bootResp = response;
             if (bootResp.status === 'Accepted') {
                 logger_1.logger.info(`Boot accepted. Time: ${bootResp.currentTime}, Interval: ${bootResp.interval}`);
+                heartbeatInterval = setInterval(() => (0, messageSender_1.sendHeartbeat)(ws, {}, index_1.manager), bootResp.interval * 1000); // *1000 для мс
             }
             else {
                 logger_1.logger.error(`Boot rejected: ${bootResp.status}`);
             }
         }
+        else if (response.currentTime) { // HeartbeatResponse
+            const heartbeatResp = response;
+            logger_1.logger.info(`Heartbeat response: currentTime ${heartbeatResp.currentTime}`);
+        }
     }
     else if (messageType === 4) { // CallError
         logger_1.logger.error(`Error from server: ${response.errorCode || 'Unknown'}`);
+        if (heartbeatInterval)
+            clearInterval(heartbeatInterval); // Останови loop на ошибке
     }
 }

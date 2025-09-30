@@ -34,6 +34,7 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendBootNotification = sendBootNotification;
+exports.sendHeartbeat = sendHeartbeat;
 const msgpack = __importStar(require("@msgpack/msgpack"));
 const uuid_1 = require("uuid");
 const logger_1 = require("../logger");
@@ -49,4 +50,14 @@ function sendBootNotification(ws, payload, manager) {
         ws.send(JSON.stringify(message));
     }
     logger_1.logger.info('Sent BootNotification');
+}
+function sendHeartbeat(ws, payload, manager) {
+    const message = [2, (0, uuid_1.v4)(), 'Heartbeat', payload];
+    if (manager.getFormat() === 'binary') {
+        ws.send(msgpack.encode(message));
+    }
+    else {
+        ws.send(JSON.stringify(message));
+    }
+    logger_1.logger.info('ping');
 }

@@ -28,23 +28,6 @@ class WsServer {
             ws.on('error', (err) => {
                 logger_1.logger?.error(`WS error: ${err.message}`);
             });
-            ws.isAlive = true;
-            ws.on("pong", () => { ws.isAlive = true; });
-            //ping interval
-            setInterval(() => {
-                this.wss.clients.forEach((ws) => {
-                    if (!ws.isAlive) {
-                        logger_1.logger.error(`Terminating dead connection`);
-                        connectionManager.remove(chargePointId);
-                        connectionManager.setLastOffline(chargePointId, new Date());
-                        ws.terminate();
-                        return;
-                    }
-                    ws.isAlive = false;
-                    ws.ping(() => {
-                    }); // Node.js callback для ping
-                });
-            }, 30000); // ping каждые 30 sec
         });
     }
     close() {
