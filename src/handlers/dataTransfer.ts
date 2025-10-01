@@ -1,20 +1,16 @@
 import { DataTransferRequest } from '../../types/1.6/DataTransfer';
 import { DataTransferResponse } from '../../types/1.6/DataTransferResponse';
-import { ChargePoint } from '../db/mongoose';  // DB для лога
-import { logger } from '../logger';
+import { Log } from '../db/mongoose';
+import { logger } from '../server/logger';
 import WebSocket from 'ws';
 
 export async function handleDataTransfer(req: DataTransferRequest, chargePointId: string, ws: WebSocket): Promise<DataTransferResponse> {
     try {
-        await ChargePoint.findOneAndUpdate(
-            { id: chargePointId },
-            { $set: { lastDataTransfer: { vendorId: req.vendorId, data: req.data } } },
-            { upsert: true }
-        );
+        await Log.create({ action: 'DataTransfer', chargePointId, payload: req });
         logger.info(`DataTransfer from ${chargePointId}: vendor ${req.vendorId}, data ${req.data}`);
         return { status: 'Accepted' };
     } catch (err) {
-        logger.error(`DB error in DataTransfer: ${(err as any).message}`);
+        logger.error(`Error in DataTransfer: ${err}`);
         return { status: 'Rejected' };
     }
 }

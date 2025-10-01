@@ -1,7 +1,6 @@
 import { logger } from '../logger';
 import { connectClient } from './wsClient';
 import { ClientManager } from './connectionManager';
-import { spawnChargePointClient } from '../utils/spawnClient'
 
 export const manager = new ClientManager();  // Экспорт для импортов
 

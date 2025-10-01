@@ -13,3 +13,7 @@ export function sendRemoteMessage(connectionManager: ConnectionManager, chargePo
     ws.send(JSON.stringify(message))
     logger.info(`Sent ${action} to ${chargePointId}`);
 }
+export function sendRemoteStart(connectionManager: ConnectionManager, chargePointId: string) {
+    const payload = { idTag: 'TAG001', connectorId: 1 };
+    sendRemoteMessage(connectionManager, chargePointId, 'RemoteStartTransaction', payload);
+}
