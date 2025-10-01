@@ -1,0 +1,26 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.connectionManager = void 0;
+const express_1 = __importDefault(require("express"));
+const http_1 = require("http");
+const wsServer_1 = require("./wsServer");
+const connectionManager_1 = require("./connectionManager");
+const logger_1 = require("../logger");
+const mongoose_1 = require("../db/mongoose");
+const app = (0, express_1.default)();
+const PORT = 8000;
+exports.connectionManager = new connectionManager_1.ConnectionManager();
+const httpServer = new http_1.Server(app);
+new wsServer_1.WsServer(httpServer, exports.connectionManager);
+// Graceful shutdown (чтобы сервер красиво закрывался)
+process.on('SIGINT', () => {
+    logger_1.logger?.info('Shutting down...');
+    httpServer.close(() => process.exit(0));
+});
+(0, mongoose_1.connectDB)(); //async
+httpServer.listen(PORT, () => {
+    logger_1.logger?.info(`CSMS Server on port ${PORT}`); // Или console.log
+});
