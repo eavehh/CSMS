@@ -1,8 +1,8 @@
-import { MeterValuesRequest } from '../../types/1.6/MeterValues';
-import { MeterValuesResponse } from '../../types/1.6/MeterValuesResponse';
-import { Transaction } from '../db/mongoose';
-import { Log } from '../db/mongoose';
-import { logger } from '../logger';
+import { MeterValuesRequest } from '../types/1.6/MeterValues';
+import { MeterValuesResponse } from '../types/1.6/MeterValuesResponse';
+import { Transaction } from '../../db/mongoose';
+import { Log } from '../../db/mongoose';
+import { logger } from '../../logger';
 import WebSocket from 'ws';
 
 export async function handleMeterValues(req: MeterValuesRequest, chargePointId: string, ws: WebSocket): Promise<MeterValuesResponse> {

@@ -1,5 +1,5 @@
-import { CancelReservationRequest } from '../../../types/1.6/CancelReservation';
-import { CancelReservationResponse } from '../../../types/1.6/CancelReservationResponse';
+import { CancelReservationRequest } from '../../server/types/1.6/CancelReservation';
+import { CancelReservationResponse } from '../../server/types/1.6/CancelReservationResponse';
 import { Reservation } from '../../db/mongoose';
 import { Log } from '../../db/mongoose';
 import { logger } from '../../logger';

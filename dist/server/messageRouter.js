@@ -38,17 +38,17 @@ const msgpack = __importStar(require("@msgpack/msgpack"));
 const logger_1 = require("../logger");
 const index_1 = require("./index");
 // Sec 4: Charge Point initiated
-const authorize_1 = require("../handlers/authorize");
-const bootNotification_1 = require("../handlers/bootNotification");
-const dataTransfer_1 = require("../handlers/dataTransfer");
-const diagnosticsStatusNotification_1 = require("../handlers/diagnosticsStatusNotification");
-const firmwareStatusNotification_1 = require("../handlers/firmwareStatusNotification");
-const heartbeat_1 = require("../handlers/heartbeat");
-const meterValues_1 = require("../handlers/meterValues");
-const startTransaction_1 = require("../handlers/startTransaction");
-const statusNotification_1 = require("../handlers/statusNotification");
-const stopTransaction_1 = require("../handlers/stopTransaction");
-const getConfiguration_1 = require("../handlers/getConfiguration");
+const authorize_1 = require("./handlers/authorize");
+const bootNotification_1 = require("./handlers/bootNotification");
+const dataTransfer_1 = require("./handlers/dataTransfer");
+const GetConfiguration_1 = require("../client/handlers/GetConfiguration");
+const diagnosticsStatusNotification_1 = require("./handlers/diagnosticsStatusNotification");
+const firmwareStatusNotification_1 = require("./handlers/firmwareStatusNotification");
+const heartbeat_1 = require("./handlers/heartbeat");
+const meterValues_1 = require("./handlers/meterValues");
+const startTransaction_1 = require("./handlers/startTransaction");
+const statusNotification_1 = require("./handlers/statusNotification");
+const stopTransaction_1 = require("./handlers/stopTransaction");
 // Sec 5: Central initiated
 const cancelReservation_1 = require("../client/handlers/cancelReservation");
 const changeAvailability_1 = require("../client/handlers/changeAvailability");
@@ -168,7 +168,7 @@ async function handleMessage(data, isBinary, ws, chargePointId) {
                 response = await (0, getCompositeSchedule_1.handleGetCompositeSchedule)(payload, chargePointId, ws);
                 break;
             case 'GetConfiguration':
-                response = await (0, getConfiguration_1.handleGetConfiguration)(payload, chargePointId, ws);
+                response = await (0, GetConfiguration_1.handleGetConfiguration)(payload, chargePointId, ws);
                 break;
             case 'GetDiagnostics':
                 response = await (0, getDiagnostics_1.handleGetDiagnostics)(payload, chargePointId, ws);

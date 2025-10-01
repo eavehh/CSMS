@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.handleGetConfiguration = handleGetConfiguration;
 const mongoose_1 = require("../../db/mongoose");
-const mongoose_2 = require("../../db/mongoose");
 const logger_1 = require("../../logger");
 async function handleGetConfiguration(req, chargePointId, ws) {
     try {
@@ -16,9 +15,9 @@ async function handleGetConfiguration(req, chargePointId, ws) {
         const responseKey = configs.map(c => ({
             key: c.key,
             readonly: c.readonly,
-            value: c.value || undefined // Фикс: null → undefined, тип совпадёт
-        })).filter(c => c.value !== undefined || c.readonly); // Опционально: фильтр, если value null — пропусти
-        await mongoose_2.Log.create({ action: 'GetConfiguration', chargePointId, payload: req });
+            value: c.value || undefined // Фикс null undefined, тип совпадёт
+        })).filter(c => c.value !== undefined || c.readonly); // Опционально: фильтр если value null 
+        await mongoose_1.Log.create({ action: 'GetConfiguration', chargePointId, payload: req });
         logger_1.logger.info(`Get config from ${chargePointId}: keys ${req.key ? req.key.join(', ') : 'all'}`);
         return { configurationKey: responseKey };
     }

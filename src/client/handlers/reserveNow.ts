@@ -1,5 +1,5 @@
-import { ReserveNowRequest } from '../../../types/1.6/ReserveNow';
-import { ReserveNowResponse } from '../../../types/1.6/ReserveNowResponse';
+import { ReserveNowRequest } from '../../server/types/1.6/ReserveNow';
+import { ReserveNowResponse } from '../../server/types/1.6/ReserveNowResponse';
 import { Reservation } from '../../db/mongoose';
 import { Log } from '../../db/mongoose';
 import { logger } from '../../logger';

@@ -1,5 +1,5 @@
-import { UpdateFirmwareRequest } from '../../../types/1.6/UpdateFirmware';
-import { UpdateFirmwareResponse } from '../../../types/1.6/UpdateFirmwareResponse';
+import { UpdateFirmwareRequest } from '../../server/types/1.6/UpdateFirmware';
+import { UpdateFirmwareResponse } from '../../server/types/1.6/UpdateFirmwareResponse';
 import { Firmware } from '../../db/mongoose';
 import { Log } from '../../db/mongoose';
 import { logger } from '../../logger';
@@ -9,8 +9,10 @@ export async function handleUpdateFirmware(req: UpdateFirmwareRequest, chargePoi
     try {
         await Firmware.findOneAndUpdate(
             { chargePointId },
-            { firmwareVersion: Date.now(),
-            status: 'Downloaded' },
+            {
+                firmwareVersion: Date.now(),
+                status: 'Downloaded'
+            },
             { upsert: true }
         );
         await Log.create({ action: 'UpdateFirmware', chargePointId, payload: req });

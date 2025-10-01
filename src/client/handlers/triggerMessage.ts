@@ -1,5 +1,5 @@
-import { TriggerMessageRequest } from '../../../types/1.6/TriggerMessage';
-import {  TriggerMessageResponse } from '../../../types/1.6/TriggerMessageResponse';
+import { TriggerMessageRequest } from '../../server/types/1.6/TriggerMessage';
+import { TriggerMessageResponse } from '../../server/types/1.6/TriggerMessageResponse';
 import { Log } from '../../db/mongoose';
 import { logger } from '../../logger';
 import WebSocket from 'ws';

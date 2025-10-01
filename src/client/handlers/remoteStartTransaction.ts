@@ -1,5 +1,5 @@
-import { RemoteStartTransactionRequest } from '../../../types/1.6/RemoteStartTransaction';
-import { RemoteStartTransactionResponse } from '../../../types/1.6/RemoteStartTransactionResponse';
+import { RemoteStartTransactionRequest } from '../../server/types/1.6/RemoteStartTransaction';
+import { RemoteStartTransactionResponse } from '../../server/types/1.6/RemoteStartTransactionResponse';
 import { Log } from '../../db/mongoose';
 import { Transaction } from '../../db/mongoose';
 import { logger } from '../../logger';

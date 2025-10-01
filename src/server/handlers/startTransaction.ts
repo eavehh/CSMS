@@ -1,9 +1,9 @@
-import { StartTransactionRequest } from '../../types/1.6/StartTransaction';
-import { StartTransactionResponse } from '../../types/1.6/StartTransactionResponse';
-import { Transaction } from '../db/mongoose';
-import { Log } from '../db/mongoose';
+import { StartTransactionRequest } from '../types/1.6/StartTransaction';
+import { StartTransactionResponse } from '../types/1.6/StartTransactionResponse';
+import { Transaction } from '../../db/mongoose';
+import { Log } from '../../db/mongoose';
 import { v4 as uuidv4 } from 'uuid';
-import { logger } from '../logger';
+import { logger } from '../../logger';
 import WebSocket from 'ws';
 
 export async function handleStartTransaction(req: StartTransactionRequest, chargePointId: string, ws: WebSocket): Promise<StartTransactionResponse> {

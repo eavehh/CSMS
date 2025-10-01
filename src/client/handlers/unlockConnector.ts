@@ -1,5 +1,5 @@
-import { UnlockConnectorRequest } from '../../../types/1.6/UnlockConnector';
-import { UnlockConnectorResponse } from '../../../types/1.6/UnlockConnectorResponse';
+import { UnlockConnectorRequest } from '../../server/types/1.6/UnlockConnector';
+import { UnlockConnectorResponse } from '../../server/types/1.6/UnlockConnectorResponse';
 import { Log } from '../../db/mongoose';
 import { logger } from '../../logger';
 import WebSocket from 'ws';

@@ -1,5 +1,5 @@
-import { ClearCacheRequest } from '../../../types/1.6/ClearCache';
-import { ClearCacheResponse } from '../../../types/1.6/ClearCacheResponse';
+import { ClearCacheRequest } from '../../server/types/1.6/ClearCache';
+import { ClearCacheResponse } from '../../server/types/1.6/ClearCacheResponse';
 import { Log } from '../../db/mongoose';
 import { logger } from '../../logger';
 import WebSocket from 'ws';

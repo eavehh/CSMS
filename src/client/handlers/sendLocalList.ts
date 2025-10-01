@@ -1,8 +1,8 @@
-import { SendLocalListRequest } from '../../../types/1.6/SendLocalList';
-import { SendLocalListResponse } from '../../../types/1.6/SendLocalListResponse';
+import { SendLocalListRequest } from '../../server/types/1.6/SendLocalList';
+import { SendLocalListResponse } from '../../server/types/1.6/SendLocalListResponse';
 import { LocalList } from '../../db/mongoose';
 import { Log } from '../../db/mongoose';
-import { sendRemoteMessage } from '../../utils/RemoteControl';
+import { sendRemoteMessage } from '../../utils/remoteControl';
 import { logger } from '../../logger';
 import WebSocket from 'ws';
 import { connectionManager } from '../../server';  // Или передай param

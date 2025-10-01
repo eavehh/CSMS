@@ -1,5 +1,5 @@
-import { GetLocalListVersionRequest } from '../../../types/1.6/GetLocalListVersion';
-import { GetLocalListVersionResponse } from '../../../types/1.6/GetLocalListVersionResponse';
+import { GetLocalListVersionRequest } from '../../server/types/1.6/GetLocalListVersion';
+import { GetLocalListVersionResponse } from '../../server/types/1.6/GetLocalListVersionResponse';
 import { LocalList } from '../../db/mongoose';
 import { Log } from '../../db/mongoose';
 import { logger } from '../../logger';

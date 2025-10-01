@@ -1,10 +1,10 @@
-import { BootNotificationRequest } from '../../types/1.6/BootNotification';
-import { BootNotificationResponse } from '../../types/1.6/BootNotificationResponse';
-import { sendRemoteMessage } from "../utils/RemoteControl"
-import { ChargePoint } from "../db/mongoose"
-import { logger } from '../logger'
-import { LocalList } from "../db/mongoose"
-import { connectionManager } from '../server/index';
+import { BootNotificationRequest } from '../types/1.6/BootNotification';
+import { BootNotificationResponse } from '../types/1.6/BootNotificationResponse';
+import { sendRemoteMessage } from '../../utils/remoteControl'
+import { ChargePoint } from "../../db/mongoose"
+import { logger } from '../../logger'
+import { LocalList } from "../../db/mongoose"
+import { connectionManager } from '../../server/index';
 export const INTERVAL: number = 60
 
 export async function handleBootNotification(req: BootNotificationRequest, chargePointId: string, ws: WebSocket): Promise<BootNotificationResponse> {

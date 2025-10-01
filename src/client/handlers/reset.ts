@@ -1,5 +1,5 @@
-import { ResetRequest } from '../../../types/1.6/Reset';
-import { ResetResponse } from '../../../types/1.6/ResetResponse';
+import { ResetRequest } from '../../server/types/1.6/Reset';
+import { ResetResponse } from '../../server/types/1.6/ResetResponse';
 import { ChargePoint } from '../../db/mongoose';
 import { Log } from '../../db/mongoose';
 import { logger } from '../../logger';

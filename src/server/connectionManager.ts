@@ -1,7 +1,8 @@
 import WebSocket from 'ws';
 import { logger } from '../logger';
 import { ChargePoint } from '../db/mongoose'
-import { INTERVAL } from '../handlers/bootNotification'
+import { INTERVAL } from './handlers/bootNotification'
+
 export class ConnectionManager {
     private connections: Map<string, WebSocket> = new Map();
     private reverseConnections: Map<WebSocket, string> = new Map();

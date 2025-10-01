@@ -1,5 +1,5 @@
-import { ChangeAvailabilityRequest } from '../../../types/1.6/ChangeAvailability';
-import { ChangeAvailabilityResponse } from '../../../types/1.6/ChangeAvailabilityResponse';
+import { ChangeAvailabilityRequest } from '../../server/types/1.6/ChangeAvailability';
+import { ChangeAvailabilityResponse } from '../../server/types/1.6/ChangeAvailabilityResponse';
 import { ChargePoint } from '../../db/mongoose';
 import { Log } from '../../db/mongoose';
 import { logger } from '../../logger';

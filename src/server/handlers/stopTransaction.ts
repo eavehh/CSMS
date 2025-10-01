@@ -1,8 +1,8 @@
-import { StopTransactionRequest } from '../../types/1.6/StopTransaction';
-import { StopTransactionResponse } from '../../types/1.6/StopTransactionResponse';
-import { Transaction } from '../db/mongoose';
-import { Log } from '../db/mongoose';
-import { logger } from '../logger';
+import { StopTransactionRequest } from '../types/1.6/StopTransaction';
+import { StopTransactionResponse } from '../types/1.6/StopTransactionResponse';
+import { Transaction } from '../../db/mongoose';
+import { Log } from '../../db/mongoose';
+import { logger } from '../../logger';
 import WebSocket from 'ws';
 
 export async function handleStopTransaction(req: StopTransactionRequest, chargePointId: string, ws: WebSocket): Promise<StopTransactionResponse> {

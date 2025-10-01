@@ -1,5 +1,5 @@
-import { ClearChargingProfileRequest } from '../../../types/1.6/ClearChargingProfile';
-import { ClearChargingProfileResponse } from '../../../types/1.6/ClearChargingProfileResponse';
+import { ClearChargingProfileRequest } from '../../server/types/1.6/ClearChargingProfile';
+import { ClearChargingProfileResponse } from '../../server/types/1.6/ClearChargingProfileResponse';
 import { ChargingProfile } from '../../db/mongoose';
 import { Log } from '../../db/mongoose';
 import { logger } from '../../logger';

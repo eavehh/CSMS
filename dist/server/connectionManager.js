@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ConnectionManager = void 0;
 const logger_1 = require("../logger");
 const mongoose_1 = require("../db/mongoose");
-const bootNotification_1 = require("../handlers/bootNotification");
+const bootNotification_1 = require("./handlers/bootNotification");
 class ConnectionManager {
     constructor() {
         this.connections = new Map();

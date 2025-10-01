@@ -1,19 +1,22 @@
-import { v4 as uuidv4 } from "uuid";
-import { ConnectionManager } from "../server/connectionManager";
-import { logger } from "../logger";
+import { v4 as uuidv4 } from 'uuid';
+import { ConnectionManager } from '../server/connectionManager';
+import { logger } from '../logger';
 
-export function sendRemoteMessage(connectionManager: ConnectionManager, chargePointId: string, action: string, payload: any): void {
-    const ws = connectionManager.get(chargePointId)
-
+export function sendRemoteMessage(
+    connectionManager: ConnectionManager,
+    chargePointId: string,
+    action: string,
+    payload: any
+) {
+    const ws = connectionManager.get(chargePointId);
     if (!ws) {
-        logger.error(`No connection to charge point ${chargePointId}`);
+        logger.error(`Нет связи с ${chargePointId}`);
         return;
     }
-    const message = [2, uuidv4(), action, payload]
-    ws.send(JSON.stringify(message))
-    logger.info(`Sent ${action} to ${chargePointId}`);
-}
-export function sendRemoteStart(connectionManager: ConnectionManager, chargePointId: string) {
-    const payload = { idTag: 'TAG001', connectorId: 1 };
-    sendRemoteMessage(connectionManager, chargePointId, 'RemoteStartTransaction', payload);
+
+    const uniqueId = uuidv4();
+    const message = [2, uniqueId, action, payload];
+
+    ws.send(JSON.stringify(message));
+    logger.info(`Отправил ${action} на ${chargePointId}: ${JSON.stringify(payload)}`);
 }

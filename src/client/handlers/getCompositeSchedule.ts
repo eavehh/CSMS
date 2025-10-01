@@ -1,5 +1,5 @@
-import { GetCompositeScheduleRequest } from '../../../types/1.6/GetCompositeSchedule';
-import { GetCompositeScheduleResponse } from '../../../types/1.6/GetCompositeScheduleResponse';
+import { GetCompositeScheduleRequest } from '../../server/types/1.6/GetCompositeSchedule';
+import { GetCompositeScheduleResponse } from '../../server/types/1.6/GetCompositeScheduleResponse';
 import { Log } from '../../db/mongoose';
 import { logger } from '../../logger';
 import WebSocket from 'ws';

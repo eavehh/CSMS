@@ -4,7 +4,7 @@ exports.WsServer = void 0;
 const ws_1 = require("ws");
 const messageRouter_1 = require("./messageRouter");
 const logger_1 = require("../logger");
-const bootNotification_1 = require("../handlers/bootNotification");
+const bootNotification_1 = require("./handlers/bootNotification");
 class WsServer {
     constructor(httpServer, connectionManager) {
         this.wss = new ws_1.Server({

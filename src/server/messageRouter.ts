@@ -5,17 +5,17 @@ import { connectionManager } from './index'
 import { validateMessage } from '../utils/ajvValidator'
 
 // Sec 4: Charge Point initiated
-import { handleAuthorize } from '../handlers/authorize';
-import { handleBootNotification } from '../handlers/bootNotification';
-import { handleDataTransfer } from '../handlers/dataTransfer';
-import { handleDiagnosticsStatusNotification } from '../handlers/diagnosticsStatusNotification';
-import { handleFirmwareStatusNotification } from '../handlers/firmwareStatusNotification';
-import { handleHeartbeat } from '../handlers/heartbeat';
-import { handleMeterValues } from '../handlers/meterValues';
-import { handleStartTransaction } from '../handlers/startTransaction';
-import { handleStatusNotification } from '../handlers/statusNotification';
-import { handleStopTransaction } from '../handlers/stopTransaction';
-import { handleGetConfiguration } from '../handlers/getConfiguration';
+import { handleAuthorize } from './handlers/authorize';
+import { handleBootNotification } from './handlers/bootNotification';
+import { handleDataTransfer } from './handlers/dataTransfer';
+import { handleGetConfiguration } from '../client/handlers/GetConfiguration';
+import { handleDiagnosticsStatusNotification } from './handlers/diagnosticsStatusNotification';
+import { handleFirmwareStatusNotification } from './handlers/firmwareStatusNotification';
+import { handleHeartbeat } from './handlers/heartbeat';
+import { handleMeterValues } from './handlers/meterValues';
+import { handleStartTransaction } from './handlers/startTransaction';
+import { handleStatusNotification } from './handlers/statusNotification';
+import { handleStopTransaction } from './handlers/stopTransaction';
 
 // Sec 5: Central initiated
 import { handleCancelReservation } from '../client/handlers/cancelReservation';

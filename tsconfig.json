@@ -14,7 +14,8 @@
     "resolveJsonModule": true
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "src/server/types"
   ],
   "exclude": [
     "node_modules",

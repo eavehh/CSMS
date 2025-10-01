@@ -1,5 +1,5 @@
-import { SetChargingProfileRequest } from '../../../types/1.6/SetChargingProfile';
-import {  SetChargingProfileResponse } from '../../../types/1.6/SetChargingProfileResponse';
+import { SetChargingProfileRequest } from '../../server/types/1.6/SetChargingProfile';
+import { SetChargingProfileResponse } from '../../server/types/1.6/SetChargingProfileResponse';
 import { ChargingProfile } from '../../db/mongoose';
 import { Log } from '../../db/mongoose';
 import { logger } from '../../logger';

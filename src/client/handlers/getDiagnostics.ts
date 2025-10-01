@@ -1,5 +1,5 @@
-import { GetDiagnosticsRequest } from '../../../types/1.6/GetDiagnostics';
-import { GetDiagnosticsResponse } from '../../../types/1.6/GetDiagnosticsResponse';
+import { GetDiagnosticsRequest } from '../../server/types/1.6/GetDiagnostics';
+import { GetDiagnosticsResponse } from '../../server/types/1.6/GetDiagnosticsResponse';
 import { Diagnostics } from '../../db/mongoose';
 import { Log } from '../../db/mongoose';
 import { logger } from '../../logger';

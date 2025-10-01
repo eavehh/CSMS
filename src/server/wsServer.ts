@@ -3,7 +3,7 @@ import { Server as HttpServer } from 'http';
 import { ConnectionManager } from './connectionManager';
 import { handleMessage } from './messageRouter';
 import { logger } from '../logger';
-import { INTERVAL } from '../handlers/bootNotification'
+import { INTERVAL } from './handlers/bootNotification'
 
 export class WsServer {
     private wss: WSServer;
