@@ -3,27 +3,28 @@ import * as msgpack from '@msgpack/msgpack'
 import { logger } from '../logger';
 import { connectionManager } from './index'
 import { validateMessage } from '../utils/ajvValidator'
+
 // Sec 4: Charge Point initiated
 import { handleAuthorize } from '../handlers/authorize';
 import { handleBootNotification } from '../handlers/bootNotification';
 import { handleDataTransfer } from '../handlers/dataTransfer';
 import { handleDiagnosticsStatusNotification } from '../handlers/diagnosticsStatusNotification';
-import { handleFirmwareStatusNotification } from '../handlers/FirmwareStatusNotification';
+import { handleFirmwareStatusNotification } from '../handlers/firmwareStatusNotification';
 import { handleHeartbeat } from '../handlers/heartbeat';
 import { handleMeterValues } from '../handlers/meterValues';
 import { handleStartTransaction } from '../handlers/startTransaction';
 import { handleStatusNotification } from '../handlers/statusNotification';
 import { handleStopTransaction } from '../handlers/stopTransaction';
+import { handleGetConfiguration } from '../handlers/getConfiguration';
 
 // Sec 5: Central initiated
 import { handleCancelReservation } from '../client/handlers/cancelReservation';
 import { handleChangeAvailability } from '../client/handlers/changeAvailability';
 import { handleChangeConfiguration } from '../client/handlers/changeConfiguration';
-import { handleClearCache } from '../client/handlers/ClearCache';
-import { handleClearChargingProfile } from '../client/handlers/ClearChargingProfile';
+import { handleClearCache } from '../client/handlers/clearCache';
+import { handleClearChargingProfile } from '../client/handlers/clearChargingProfile';
 import { handleGetCompositeSchedule } from '../client/handlers/getCompositeSchedule';
-import { handleGetConfiguration } from '../client/handlers/getConfiguration';
-import { handleGetDiagnostics } from '../client/handlers/GetDiagnostics';
+import { handleGetDiagnostics } from '../client/handlers/getDiagnostics';
 import { handleGetLocalListVersion } from '../client/handlers/getLocalListVersion';
 import { handleRemoteStartTransaction } from '../client/handlers/remoteStartTransaction';
 import { handleRemoteStopTransaction } from '../client/handlers/remoteStopTransaction';
@@ -31,9 +32,11 @@ import { handleReserveNow } from '../client/handlers/reserveNow';
 import { handleReset } from '../client/handlers/reset';
 import { handleSendLocalList } from '../client/handlers/sendLocalList';
 import { handleSetChargingProfile } from '../client/handlers/setChargingProfile';
-import { handleTriggerMessage } from '../client/handlers/TriggerMessage';
+import { handleTriggerMessage } from '../client/handlers/triggerMessage';
 import { handleUnlockConnector } from '../client/handlers/unlockConnector';
 import { handleUpdateFirmware } from '../client/handlers/updateFirmware';
+
+
 
 export async function handleMessage(data: Buffer, isBinary: boolean, ws: WebSocket, chargePointId: string) {
   let message;
@@ -63,22 +66,22 @@ export async function handleMessage(data: Buffer, isBinary: boolean, ws: WebSock
 
     const format = connectionManager.getFormat(chargePointId);
 
-    const validation = validateMessage(payload, `${action}Request`);
-    if (!validation.valid) {
-      logger.error(`Validation failed for ${action} from ${chargePointId}: ${validation.errors.map(e => e.message).join('; ')}`);
-      const errorResponse = {
-        errorCode: 'FormationViolation',
-        description: 'Invalid payload',
-        errorDetails: validation.errors?.[0]?.message || ''
-      };
-      const fullError = [4, uniqueId, errorResponse];
-      if (format === 'binary') {
-        ws.send(msgpack.encode(fullError));
-      } else {
-        ws.send(JSON.stringify(fullError));
-      }
-      return;
-    }
+    // const validation = validateMessage(payload, `${action}Request`);
+    // if (!validation.valid) {
+    //   logger.error(`Validation failed for ${action} from ${chargePointId}: ${(validation.errors as any).map(e => e.message).join('; ')}`);
+    //   const errorResponse = {
+    //     errorCode: 'FormationViolation',
+    //     description: 'Invalid payload',
+    //     errorDetails: validation.errors?.[0]?.message || ''
+    //   };
+    //   const fullError = [4, uniqueId, errorResponse];
+    //   if (format === 'binary') {
+    //     ws.send(msgpack.encode(fullError));
+    //   } else {
+    //     ws.send(JSON.stringify(fullError));
+    //   }
+    //   return;
+    // }
 
     // Если в payload флаг смены (опционально, e.g., req.format = 'binary')
     if (payload.format) {

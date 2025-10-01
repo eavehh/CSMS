@@ -61,6 +61,13 @@ export const Config = mongoose.model('Config', configSchema);
 export const ChargePoint = mongoose.model('ChargePoint', chargePointSchema);
 export const Transaction = mongoose.model('Transaction', transactionSchema);
 
+const logSchema = new mongoose.Schema({
+    action: { type: String, required: true },  // 'BootNotification', 'StartTransaction' и т.д.
+    chargePointId: { type: String, required: true },  // 'CP_001'
+    payload: { type: Object },  // {vendor: 'Test', model: 'Model'} — весь req
+    timestamp: { type: Date, default: Date.now }  // Авто-время
+});
+export const Log = mongoose.model('Log', logSchema);
 
 
 // Reservation (5.1, 5.13)

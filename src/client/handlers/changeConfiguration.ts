@@ -1,7 +1,7 @@
-import { ChangeConfigurationRequest } from '../../types/1.6/ChangeConfiguration';
-import { ChangeConfigurationResponse } from '../../types/1.6/ChangeConfigurationResponse';
-import { Config } from '../db/mongoose';  // DB для config
-import { logger } from '../logger';
+import { ChangeConfigurationRequest } from '../../../types/1.6/ChangeConfiguration';
+import { ChangeConfigurationResponse } from '../../../types/1.6/ChangeConfigurationResponse';
+import { Config } from '../../db/mongoose';  // DB для config
+import { logger } from '../../logger';
 import WebSocket from 'ws';
 
 export async function handleChangeConfiguration(req: ChangeConfigurationRequest, chargePointId: string, ws: WebSocket): Promise<ChangeConfigurationResponse> {

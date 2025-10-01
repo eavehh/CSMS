@@ -8,8 +8,8 @@ export async function handleClearCache(req: ClearCacheRequest, chargePointId: st
   try {
     // Логика: очисти локальный кэш на Charge Point (сервер не хранит)
     await Log.create({ action: 'ClearCache', chargePointId, payload: req });
-    logger.info(`Clear cache for ${chargePointId}: ${req.status}`);
-    return { status: req.status || 'Accepted' };
+    logger.info(`Clear cache for ${chargePointId}`);
+    return { status: 'Accepted' };
   } catch (err) {
     logger.error(`Error in ClearCache: ${err}`);
     return { status: 'Rejected' };

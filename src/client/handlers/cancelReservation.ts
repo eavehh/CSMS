@@ -13,8 +13,8 @@ export async function handleCancelReservation(req: CancelReservationRequest, cha
       { upsert: false }
     );
     await Log.create({ action: 'CancelReservation', chargePointId, payload: req });
-    logger.info(`Cancel reservation ${req.reservationId} from ${chargePointId}: ${req.status}`);
-    return { status: req.status || 'Accepted' };
+    logger.info(`Cancel reservation ${req.reservationId} from ${chargePointId}}`);
+    return { status: 'Accepted' };
   } catch (err) {
     logger.error(`Error in CancelReservation: ${err}`);
     return { status: 'Rejected' };

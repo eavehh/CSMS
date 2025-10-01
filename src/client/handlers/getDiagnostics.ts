@@ -14,9 +14,9 @@ export async function handleGetDiagnostics(req: GetDiagnosticsRequest, chargePoi
         );
         await Log.create({ action: 'GetDiagnostics', chargePointId, payload: req });
         logger.info(`Get diagnostics for ${chargePointId}: ${req.location}`);
-        return { status: 'Accepted' };
+        return {};
     } catch (err) {
         logger.error(`Error in GetDiagnostics: ${err}`);
-        return { status: 'Rejected' };
+        return {};
     }
 }

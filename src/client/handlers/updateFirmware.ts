@@ -5,7 +5,7 @@ import { Log } from '../../db/mongoose';
 import { logger } from '../../logger';
 import WebSocket from 'ws';
 
-export async function handleUpdateFirmware(req: UpdateFirmwareRequest, chargePointId: string, ws: WebSocket): Promise<UpdateStatus> {
+export async function handleUpdateFirmware(req: UpdateFirmwareRequest, chargePointId: string, ws: WebSocket): Promise<UpdateFirmwareResponse> {
     try {
         await Firmware.findOneAndUpdate(
             { chargePointId },
@@ -15,9 +15,9 @@ export async function handleUpdateFirmware(req: UpdateFirmwareRequest, chargePoi
         );
         await Log.create({ action: 'UpdateFirmware', chargePointId, payload: req });
         logger.info(`Update firmware for ${chargePointId}: version ${Date.now()}`);
-        return 'Accepted';
+        return {};
     } catch (err) {
         logger.error(`Error in UpdateFirmware: ${err}`);
-        return 'Rejected';
+        return {};
     }
 }

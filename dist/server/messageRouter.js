@@ -36,14 +36,37 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.handleMessage = handleMessage;
 const msgpack = __importStar(require("@msgpack/msgpack"));
 const logger_1 = require("../logger");
-// import { validateMessage } from './utils/ajvValidator';  // Если есть; иначе закомментируй
-const index_1 = require("../server/index");
-const bootNotification_1 = require("../handlers/bootNotification");
+const index_1 = require("./index");
+// Sec 4: Charge Point initiated
 const authorize_1 = require("../handlers/authorize");
-const heartbeat_1 = require("../handlers/heartbeat");
-const statusNotification_1 = require("../handlers/statusNotification");
+const bootNotification_1 = require("../handlers/bootNotification");
+const dataTransfer_1 = require("../handlers/dataTransfer");
 const diagnosticsStatusNotification_1 = require("../handlers/diagnosticsStatusNotification");
-const changeConfiguration_1 = require("../handlers/changeConfiguration");
+const firmwareStatusNotification_1 = require("../handlers/firmwareStatusNotification");
+const heartbeat_1 = require("../handlers/heartbeat");
+const meterValues_1 = require("../handlers/meterValues");
+const startTransaction_1 = require("../handlers/startTransaction");
+const statusNotification_1 = require("../handlers/statusNotification");
+const stopTransaction_1 = require("../handlers/stopTransaction");
+const getConfiguration_1 = require("../handlers/getConfiguration");
+// Sec 5: Central initiated
+const cancelReservation_1 = require("../client/handlers/cancelReservation");
+const changeAvailability_1 = require("../client/handlers/changeAvailability");
+const changeConfiguration_1 = require("../client/handlers/changeConfiguration");
+const clearCache_1 = require("../client/handlers/clearCache");
+const clearChargingProfile_1 = require("../client/handlers/clearChargingProfile");
+const getCompositeSchedule_1 = require("../client/handlers/getCompositeSchedule");
+const getDiagnostics_1 = require("../client/handlers/getDiagnostics");
+const getLocalListVersion_1 = require("../client/handlers/getLocalListVersion");
+const remoteStartTransaction_1 = require("../client/handlers/remoteStartTransaction");
+const remoteStopTransaction_1 = require("../client/handlers/remoteStopTransaction");
+const reserveNow_1 = require("../client/handlers/reserveNow");
+const reset_1 = require("../client/handlers/reset");
+const sendLocalList_1 = require("../client/handlers/sendLocalList");
+const setChargingProfile_1 = require("../client/handlers/setChargingProfile");
+const triggerMessage_1 = require("../client/handlers/triggerMessage");
+const unlockConnector_1 = require("../client/handlers/unlockConnector");
+const updateFirmware_1 = require("../client/handlers/updateFirmware");
 async function handleMessage(data, isBinary, ws, chargePointId) {
     let message;
     if (isBinary) {
@@ -67,21 +90,24 @@ async function handleMessage(data, isBinary, ws, chargePointId) {
         }
     }
     try {
-        // ======================= проверка
-        if (!Array.isArray(message)) {
-            console.error(`Invalid message from ${chargePointId}: not an array. Got:`, message);
-            ws.send(JSON.stringify([4, null, { errorCode: 'FormationViolation', description: 'Message must be array' }]));
-            return;
-        }
-        // Проверяем длину (OCPP минимум 3-4 элемента)
-        if (message.length < 3) {
-            console.error(`Invalid message from ${chargePointId}: too short. Length: ${message.length}`);
-            ws.send(JSON.stringify([4, null, { errorCode: 'FormationViolation' }]));
-            return;
-        }
-        // ==========================
         const [messageType, uniqueId, action, payload] = message;
         const format = index_1.connectionManager.getFormat(chargePointId);
+        // const validation = validateMessage(payload, `${action}Request`);
+        // if (!validation.valid) {
+        //   logger.error(`Validation failed for ${action} from ${chargePointId}: ${(validation.errors as any).map(e => e.message).join('; ')}`);
+        //   const errorResponse = {
+        //     errorCode: 'FormationViolation',
+        //     description: 'Invalid payload',
+        //     errorDetails: validation.errors?.[0]?.message || ''
+        //   };
+        //   const fullError = [4, uniqueId, errorResponse];
+        //   if (format === 'binary') {
+        //     ws.send(msgpack.encode(fullError));
+        //   } else {
+        //     ws.send(JSON.stringify(fullError));
+        //   }
+        //   return;
+        // }
         // Если в payload флаг смены (опционально, e.g., req.format = 'binary')
         if (payload.format) {
             index_1.connectionManager.setFormat(chargePointId, payload.format);
@@ -104,20 +130,90 @@ async function handleMessage(data, isBinary, ws, chargePointId) {
             case 'StatusNotification':
                 response = await (0, statusNotification_1.handleStatusNotification)(payload, chargePointId, ws);
                 break;
+            case 'DataTransfer':
+                response = await (0, dataTransfer_1.handleDataTransfer)(payload, chargePointId, ws);
+                break;
             case 'DiagnosticsStatusNotification':
                 response = await (0, diagnosticsStatusNotification_1.handleDiagnosticsStatusNotification)(payload, chargePointId, ws);
+                break;
+            case 'FirmwareStatusNotification':
+                response = await (0, firmwareStatusNotification_1.handleFirmwareStatusNotification)(payload, chargePointId, ws);
+                break;
+            case 'MeterValues':
+                response = await (0, meterValues_1.handleMeterValues)(payload, chargePointId, ws);
+                break;
+            case 'StartTransaction':
+                response = await (0, startTransaction_1.handleStartTransaction)(payload, chargePointId, ws);
+                break;
+            case 'StopTransaction':
+                response = await (0, stopTransaction_1.handleStopTransaction)(payload, chargePointId, ws);
+                break;
+            // Sec 5 (ответы на Central)
+            case 'CancelReservation':
+                response = await (0, cancelReservation_1.handleCancelReservation)(payload, chargePointId, ws);
+                break;
+            case 'ChangeAvailability':
+                response = await (0, changeAvailability_1.handleChangeAvailability)(payload, chargePointId, ws);
                 break;
             case 'ChangeConfiguration':
                 response = await (0, changeConfiguration_1.handleChangeConfiguration)(payload, chargePointId, ws);
                 break;
-                // case 'FirmwareStatusNotification':
-                //   response = await handleFirmwareStatusNotification(payload, chargePointId, ws);
-                //   break;
-                // case 'MeterValues':
-                //   response = await handleMeterValues(payload, chargePointId, ws);
+            case 'ClearCache':
+                response = await (0, clearCache_1.handleClearCache)(payload, chargePointId, ws);
+                break;
+            case 'ClearChargingProfile':
+                response = await (0, clearChargingProfile_1.handleClearChargingProfile)(payload, chargePointId, ws);
+                break;
+            case 'GetCompositeSchedule':
+                response = await (0, getCompositeSchedule_1.handleGetCompositeSchedule)(payload, chargePointId, ws);
+                break;
+            case 'GetConfiguration':
+                response = await (0, getConfiguration_1.handleGetConfiguration)(payload, chargePointId, ws);
+                break;
+            case 'GetDiagnostics':
+                response = await (0, getDiagnostics_1.handleGetDiagnostics)(payload, chargePointId, ws);
+                break;
+            case 'GetLocalListVersion':
+                response = await (0, getLocalListVersion_1.handleGetLocalListVersion)(payload, chargePointId, ws);
+                break;
+            case 'RemoteStartTransaction':
+                response = await (0, remoteStartTransaction_1.handleRemoteStartTransaction)(payload, chargePointId, ws);
+                break;
+            case 'RemoteStopTransaction':
+                response = await (0, remoteStopTransaction_1.handleRemoteStopTransaction)(payload, chargePointId, ws);
+                break;
+            case 'ReserveNow':
+                response = await (0, reserveNow_1.handleReserveNow)(payload, chargePointId, ws);
+                break;
+            case 'Reset':
+                response = await (0, reset_1.handleReset)(payload, chargePointId, ws);
+                break;
+            case 'SendLocalList':
+                response = await (0, sendLocalList_1.handleSendLocalList)(payload, chargePointId, ws);
+                break;
+            case 'SetChargingProfile':
+                response = await (0, setChargingProfile_1.handleSetChargingProfile)(payload, chargePointId, ws);
+                break;
+            case 'TriggerMessage':
+                response = await (0, triggerMessage_1.handleTriggerMessage)(payload, chargePointId, ws);
+                break;
+            case 'UnlockConnector':
+                response = await (0, unlockConnector_1.handleUnlockConnector)(payload, chargePointId, ws);
+                break;
+            case 'UpdateFirmware':
+                response = await (0, updateFirmware_1.handleUpdateFirmware)(payload, chargePointId, ws);
+                break;
+            case 'StartTransaction':
+                response = await (0, startTransaction_1.handleStartTransaction)(payload, chargePointId, ws);
+                break;
+            case 'StopTransaction':
+                response = await (0, stopTransaction_1.handleStopTransaction)(payload, chargePointId, ws);
+                break;
+            case 'SendLocalList':
+                response = await (0, sendLocalList_1.handleSendLocalList)(payload, chargePointId, ws);
                 break;
             default:
-                response = { error: 'UnknownAction' }; // OCPP CallError
+                response = { errorCode: 'NotImplemented', description: `Action ${action} not supported` };
         }
         let fullResponse;
         if (format === 'binary') {
