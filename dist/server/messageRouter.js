@@ -41,13 +41,12 @@ const index_1 = require("./index");
 const authorize_1 = require("./handlers/authorize");
 const bootNotification_1 = require("./handlers/bootNotification");
 const dataTransfer_1 = require("./handlers/dataTransfer");
-const GetConfiguration_1 = require("../client/handlers/GetConfiguration");
+const getConfiguration_1 = require("../client/handlers/getConfiguration");
 const diagnosticsStatusNotification_1 = require("./handlers/diagnosticsStatusNotification");
 const firmwareStatusNotification_1 = require("./handlers/firmwareStatusNotification");
 const heartbeat_1 = require("./handlers/heartbeat");
 const meterValues_1 = require("./handlers/meterValues");
 const startTransaction_1 = require("./handlers/startTransaction");
-const statusNotification_1 = require("./handlers/statusNotification");
 const stopTransaction_1 = require("./handlers/stopTransaction");
 // Sec 5: Central initiated
 const cancelReservation_1 = require("../client/handlers/cancelReservation");
@@ -127,9 +126,9 @@ async function handleMessage(data, isBinary, ws, chargePointId) {
             case 'Heartbeat':
                 response = await (0, heartbeat_1.handleHeartbeat)(payload, chargePointId, ws);
                 break;
-            case 'StatusNotification':
-                response = await (0, statusNotification_1.handleStatusNotification)(payload, chargePointId, ws);
-                break;
+            // case 'StatusNotification':
+            // response = await handleStatusNotification(payload, chargePointId, ws);
+            //   break;
             case 'DataTransfer':
                 response = await (0, dataTransfer_1.handleDataTransfer)(payload, chargePointId, ws);
                 break;
@@ -168,7 +167,7 @@ async function handleMessage(data, isBinary, ws, chargePointId) {
                 response = await (0, getCompositeSchedule_1.handleGetCompositeSchedule)(payload, chargePointId, ws);
                 break;
             case 'GetConfiguration':
-                response = await (0, GetConfiguration_1.handleGetConfiguration)(payload, chargePointId, ws);
+                response = await (0, getConfiguration_1.handleGetConfiguration)(payload, chargePointId, ws);
                 break;
             case 'GetDiagnostics':
                 response = await (0, getDiagnostics_1.handleGetDiagnostics)(payload, chargePointId, ws);
@@ -223,7 +222,6 @@ async function handleMessage(data, isBinary, ws, chargePointId) {
             fullResponse = JSON.stringify([3, uniqueId, response]);
         }
         ws.send(fullResponse);
-        ws.send(JSON.stringify(fullResponse));
     }
     catch (err) {
         console.error(`Router parse error from ${chargePointId}: ${err.message}. Raw: ${data.toString()}`);

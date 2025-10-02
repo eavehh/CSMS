@@ -4,12 +4,13 @@ exports.manager = void 0;
 const logger_1 = require("../logger");
 const wsClient_1 = require("./wsClient");
 const connectionManager_1 = require("./connectionManager");
+const test_1 = require("./test");
 exports.manager = new connectionManager_1.ClientManager(); // Экспорт для импортов
 const chargePointId = process.argv[2] || 'CP_001'; // ID из arg
 async function main() {
     try {
         const ws = await (0, wsClient_1.connectClient)(); // Connect + boot в on('open')
-        //    demonstrateOCPPFunctionality()
+        (0, test_1.demonstrateOCPPFunctionality)();
         logger_1.logger.info(`Client ${chargePointId} ready`);
     }
     catch (err) {

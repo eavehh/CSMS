@@ -114,8 +114,7 @@ function sendStopTransaction(ws, payload, manager) {
     logger_1.logger.info(`Sent StopTransaction for transaction ${payload.transactionId}`);
 }
 function sendStatusNotification(ws, payload, manager) {
-    if (!(0, ajvValidator_1.validateMessage)(payload, 'StatusNotificationRequest'))
-        return;
+    // if (!validateMessage(payload, 'StatusNotificationRequest')) return;
     const message = [2, (0, uuid_1.v4)(), 'StatusNotification', payload];
     if (manager.getFormat() === 'binary') {
         ws.send(msgpack.encode(message));

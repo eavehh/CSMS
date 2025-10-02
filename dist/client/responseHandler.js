@@ -41,6 +41,7 @@ const messageSender_1 = require("./messageSender");
 let heartbeatInterval;
 let statusTimeout; // Для Finishing → Available
 function handleResponse(data, isBinary, ws) {
+    logger_1.logger.info(`[RAW] <<< ${data.toString()}`);
     let message;
     if (isBinary) {
         try {
@@ -60,10 +61,11 @@ function handleResponse(data, isBinary, ws) {
             return;
         }
     }
-    const [messageType, uniqueId, response] = message;
-    logger_1.logger.info(`Response received: type ${messageType}, uniqueId ${uniqueId}, response ${JSON.stringify(response)}`);
+    const [messageType, uniqueId, actionOrResponse, ResponseOrNothing] = message;
+    logger_1.logger.info(`Response received: type ${messageType}, uniqueId ${uniqueId}}`);
     if (messageType === 3) { // CallResult от сервера
-        if (response.format) {
+        const response = actionOrResponse;
+        if (response?.format) {
             index_1.manager.setFormat(response.format);
         }
         // BootResponse (status + currentTime)
@@ -72,9 +74,6 @@ function handleResponse(data, isBinary, ws) {
             if (bootResp.status === 'Accepted') {
                 logger_1.logger.info(`Boot accepted. Time: ${bootResp.currentTime}, Interval: ${bootResp.interval}`);
                 index_1.manager.updateInterval(bootResp.interval);
-                if (heartbeatInterval)
-                    clearInterval(heartbeatInterval);
-                heartbeatInterval = setInterval(() => (0, messageSender_1.sendHeartbeat)(ws, {}, index_1.manager), bootResp.interval * 1000);
                 // Начальное StatusNotification (Available)
                 (0, messageSender_1.sendStatusNotification)(ws, {
                     connectorId: 1,
@@ -128,8 +127,20 @@ function handleResponse(data, isBinary, ws) {
                 status: 'Finishing',
                 errorCode: 'NoError'
             }, index_1.manager);
+            if (statusTimeout)
+                clearTimeout(statusTimeout);
+            statusTimeout = setTimeout(() => {
+                const state = index_1.manager.getState(1);
+                if (state?.status === 'Finishing') {
+                    (0, messageSender_1.sendStatusNotification)(ws, {
+                        connectorId: 1,
+                        status: 'Available',
+                        errorCode: 'NoError'
+                    }, index_1.manager);
+                }
+            }, 2000);
+            // MeterValuesResponse / StatusNotificationResponse (пустой {})
         }
-        // MeterValuesResponse / StatusNotificationResponse (пустой {})
         else if (Object.keys(response).length === 0) {
             logger_1.logger.info(`MeterValues/StatusNotification confirmed`);
         }
@@ -172,14 +183,17 @@ function handleResponse(data, isBinary, ws) {
             }
         }
     }
+    // callError
     else if (messageType === 4) { // CallError
-        logger_1.logger.error(`Error from server: ${response.errorCode || 'Unknown'} - ${response.description || ''}`);
+        const error = actionOrResponse;
+        logger_1.logger.error(`Error from server: ${error.errorCode || 'Unknown'} - ${error.description || ''}`);
         if (heartbeatInterval)
             clearInterval(heartbeatInterval);
     }
     // Входящие от сервера (type 2, Central initiated)
     else if (messageType === 2) {
-        const [_, uniqueId, action, payload] = message;
+        const action = actionOrResponse;
+        const payload = ResponseOrNothing;
         switch (action) {
             case 'RemoteStartTransaction':
                 handleRemoteStartTransaction(ws, uniqueId, payload, index_1.manager);
