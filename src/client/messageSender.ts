@@ -87,7 +87,7 @@ export function sendStopTransaction(ws: WebSocket, payload: StopTransactionReque
 }
 
 export function sendStatusNotification(ws: WebSocket, payload: StatusNotificationRequest, manager: ClientManager) {
-    if (!validateMessage(payload, 'StatusNotificationRequest')) return;
+    // if (!validateMessage(payload, 'StatusNotificationRequest')) return;
 
     const message = [2, uuidv4(), 'StatusNotification', payload];
     if (manager.getFormat() === 'binary') {

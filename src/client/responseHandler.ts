@@ -16,12 +16,18 @@ import { RemoteStartTransactionResponse } from '../server/types/1.6/RemoteStartT
 import { RemoteStopTransactionResponse } from '../server/types/1.6/RemoteStopTransactionResponse'
 import { ChangeConfigurationResponse } from '../server/types/1.6/ChangeConfigurationResponse'
 import { ChargePointStatus } from '../utils/baseTypes';
+import { format } from "path";
 
 
 let heartbeatInterval: NodeJS.Timeout;
 let statusTimeout: NodeJS.Timeout;  // Для Finishing → Available
 
 export function handleResponse(data: Buffer, isBinary: boolean, ws: WebSocket) {
+
+
+  logger.info(`[RAW] <<< ${data.toString()}`);
+
+
   let message: any;
   if (isBinary) {
     try {
@@ -39,11 +45,14 @@ export function handleResponse(data: Buffer, isBinary: boolean, ws: WebSocket) {
     }
   }
 
-  const [messageType, uniqueId, response] = message;
-  logger.info(`Response received: type ${messageType}, uniqueId ${uniqueId}, response ${JSON.stringify(response)}`);
+
+  const [messageType, uniqueId, actionOrResponse, ResponseOrNothing] = message;
+
+  logger.info(`Response received: type ${messageType}, uniqueId ${uniqueId}}`);
 
   if (messageType === 3) {  // CallResult от сервера
-    if (response.format) {
+    const response = actionOrResponse
+    if (response?.format) {
       manager.setFormat(response.format);
     }
 
@@ -53,9 +62,6 @@ export function handleResponse(data: Buffer, isBinary: boolean, ws: WebSocket) {
       if (bootResp.status === 'Accepted') {
         logger.info(`Boot accepted. Time: ${bootResp.currentTime}, Interval: ${bootResp.interval}`);
         manager.updateInterval(bootResp.interval);
-
-        if (heartbeatInterval) clearInterval(heartbeatInterval);
-        heartbeatInterval = setInterval(() => sendHeartbeat(ws, {}, manager), bootResp.interval * 1000);
 
         // Начальное StatusNotification (Available)
         sendStatusNotification(ws, {
@@ -115,9 +121,23 @@ export function handleResponse(data: Buffer, isBinary: boolean, ws: WebSocket) {
         status: 'Finishing' as ChargePointStatus,
         errorCode: 'NoError'
       }, manager);
+
+      if (statusTimeout) clearTimeout(statusTimeout);
+
+      statusTimeout = setTimeout(() => {
+        const state = manager.getState(1);
+        if (state?.status === 'Finishing') {
+          sendStatusNotification(ws, {
+            connectorId: 1,
+            status: 'Available',
+            errorCode: 'NoError'
+          }, manager);
+        }
+      }, 2000);
+
+      // MeterValuesResponse / StatusNotificationResponse (пустой {})
     }
 
-    // MeterValuesResponse / StatusNotificationResponse (пустой {})
     else if (Object.keys(response).length === 0) {
       logger.info(`MeterValues/StatusNotification confirmed`);
     }
@@ -161,14 +181,19 @@ export function handleResponse(data: Buffer, isBinary: boolean, ws: WebSocket) {
         logger.error(`Unknown keys: ${getConfigResp.unknownKey.join(', ')}`);
       }
     }
-  } else if (messageType === 4) {  // CallError
-    logger.error(`Error from server: ${response.errorCode || 'Unknown'} - ${response.description || ''}`);
+
+  }
+  // callError
+  else if (messageType === 4) {  // CallError
+    const error = actionOrResponse;
+    logger.error(`Error from server: ${error.errorCode || 'Unknown'} - ${error.description || ''}`);
     if (heartbeatInterval) clearInterval(heartbeatInterval);
   }
 
   // Входящие от сервера (type 2, Central initiated)
   else if (messageType === 2) {
-    const [_, uniqueId, action, payload] = message;
+    const action = actionOrResponse;
+    const payload = ResponseOrNothing;
     switch (action) {
       case 'RemoteStartTransaction':
         handleRemoteStartTransaction(ws, uniqueId, payload, manager);

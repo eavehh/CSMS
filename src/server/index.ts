@@ -1,27 +1,34 @@
-import express from 'express';
-import { Server } from 'http';
+// src/server/index.ts
+import { createServer, IncomingMessage, ServerResponse } from 'http';
 import { WsServer } from './wsServer';
 import { ConnectionManager } from './connectionManager';
 import { logger } from '../logger';
-import { connectDB } from "../db/mongoose"
+import { connectDB } from '../db/mongoose';
 
-const app = express();
 const PORT = 8000;
 
+const httpServer = createServer(
+    (req: IncomingMessage, res: ServerResponse) => {
+        // можно отдать 200 OK для проверки живости
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end('CSMS WebSocket endpoint: ws://localhost:' + PORT + '/ocpp\n');
+    }
+);
+
 export const connectionManager = new ConnectionManager();
-
-const httpServer = new Server(app);
-
 new WsServer(httpServer, connectionManager);
 
-// Graceful shutdown (чтобы сервер красиво закрывался)
 process.on('SIGINT', () => {
-    logger?.info('Shutting down...');
-    httpServer.close(() => process.exit(0));
+    logger.info('Shutting down...');
+    httpServer.close(() => {
+        logger.info('HTTP server closed');
+        process.exit(0);
+    });
 });
 
-connectDB() //async
-
-httpServer.listen(PORT, () => {
-    logger?.info(`CSMS Server on port ${PORT}`);  // Или console.log
-});
+(async () => {
+    await connectDB();
+    httpServer.listen(PORT, () => {
+        logger.info(`CSMS Server listening on port ${PORT} (no Express)`);
+    });
+})();

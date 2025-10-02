@@ -8,7 +8,7 @@ import { validateMessage } from '../utils/ajvValidator'
 import { handleAuthorize } from './handlers/authorize';
 import { handleBootNotification } from './handlers/bootNotification';
 import { handleDataTransfer } from './handlers/dataTransfer';
-import { handleGetConfiguration } from '../client/handlers/GetConfiguration';
+import { handleGetConfiguration } from '../client/handlers/getConfiguration';
 import { handleDiagnosticsStatusNotification } from './handlers/diagnosticsStatusNotification';
 import { handleFirmwareStatusNotification } from './handlers/firmwareStatusNotification';
 import { handleHeartbeat } from './handlers/heartbeat';
@@ -108,9 +108,9 @@ export async function handleMessage(data: Buffer, isBinary: boolean, ws: WebSock
       case 'Heartbeat':
         response = await handleHeartbeat(payload, chargePointId, ws);
         break;
-      case 'StatusNotification':
-        response = await handleStatusNotification(payload, chargePointId, ws);
-        break;
+      // case 'StatusNotification':
+      // response = await handleStatusNotification(payload, chargePointId, ws);
+      //   break;
       case 'DataTransfer':
         response = await handleDataTransfer(payload, chargePointId, ws);
         break;
@@ -203,10 +203,11 @@ export async function handleMessage(data: Buffer, isBinary: boolean, ws: WebSock
     } else {
       fullResponse = JSON.stringify([3, uniqueId, response]);
     }
-    ws.send(fullResponse); ws.send(JSON.stringify(fullResponse));
+    ws.send(fullResponse);
   } catch (err) {
     console.error(`Router parse error from ${chargePointId}: ${(err as any).message}. Raw: ${data.toString()}`);
     // Безопасный CallError
     ws.send(JSON.stringify([4, null, { errorCode: 'GenericError', description: (err as any).message }]));
   }
 }
+

@@ -70,7 +70,7 @@ export class ClientManager {
 
 
 export class ChargePointState {
-  private status: ChargePointStatus = 'Available';
+  status: ChargePointStatus = 'Available';
   private currentTransaction: number | null = null;
   private connectorId: number;
   private meterValue: number = 0;

@@ -1,12 +1,16 @@
 import { StatusNotificationRequest } from "../types/1.6/StatusNotification"
 import { StatusNotificationResponse } from "../types/1.6/StatusNotificationResponse"
-import WevSocket from "ws"
+import WebSocket from "ws"
+import { manager } from '../../client/index'
 import { logger } from "../../logger"
 
-export async function handleStatusNotification(req: StatusNotificationRequest, chargePointId: string, ws: WevSocket): Promise<StatusNotificationResponse> {
-    logger.info(`Status from ${chargePointId}; connector ${req.connectorId} ${req.status}`)
+export async function handleStatusNotification(
+    payload: any,
+    chargePointId: string,
+    ws: WebSocket
+) {
+    const { connectorId, status, errorCode, timestamp } = payload;
 
-    return {
-
-    }
+    logger.info(`[StatusNotification] ${chargePointId} connector ${connectorId} - ${status}`);
+    return {};
 }
