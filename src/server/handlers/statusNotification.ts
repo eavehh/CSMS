@@ -12,5 +12,8 @@ export async function handleStatusNotification(
     const { connectorId, status, errorCode, timestamp } = payload;
 
     logger.info(`[StatusNotification] ${chargePointId} connector ${connectorId} - ${status}`);
-    return {};
+
+    // без внешнего триггера
+
+    return {}; // Корректный пустой ответ
 }

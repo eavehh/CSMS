@@ -16,7 +16,7 @@ class ConnectionManager {
     }
     isActive(chargePointId, timeout = bootNotification_1.INTERVAL * 1000) {
         const lstAct = this.lastActivity.get(chargePointId);
-        return (lstAct && (timeout > Date.now() - lstAct));
+        return lstAct && (Date.now() - lstAct < timeout); // Разница ВМЕСТО сравнения
     }
     add(ws, chargePointId) {
         this.connections.set(chargePointId, ws);

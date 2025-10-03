@@ -9,6 +9,9 @@ export class ClientManager {
   private interval = 60;
   private chargePointId: string;
   private connectors: Map<number, ChargePointState> = new Map();  // Map connectorId → state
+  lastStatusNotificationId: string | null = null;
+  lastMeterValuesId: string | null = null;
+  lastStopTransactionId: string | null = null;
 
   constructor(chargePointId: string = 'CP_001') {
     this.chargePointId = chargePointId;

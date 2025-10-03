@@ -18,10 +18,8 @@ import { ChangeConfigurationResponse } from '../server/types/1.6/ChangeConfigura
 import { ChargePointStatus } from '../utils/baseTypes';
 import { format } from "path";
 
-
-let heartbeatInterval: NodeJS.Timeout;
-let statusTimeout: NodeJS.Timeout;  // Для Finishing → Available
-
+let heartbeatInterval: NodeJS.Timeout | null = null;
+let statusTimeout: NodeJS.Timeout | null = null;
 export function handleResponse(data: Buffer, isBinary: boolean, ws: WebSocket) {
 
 
@@ -109,8 +107,14 @@ export function handleResponse(data: Buffer, isBinary: boolean, ws: WebSocket) {
       }
     }
 
-    // StopTransactionResponse (idTagInfo или {})
-    else if (response.idTagInfo !== undefined || Object.keys(response).length === 0) {
+    // StatusNotificationResponse (пустой {}) - ДОЛЖЕН БЫТЬ ПЕРВЫМ!
+    else if (Object.keys(response).length === 0) {
+      logger.info(`StatusNotification/MeterValues confirmed`);
+      // Ничего не делаем - просто подтверждение для StatusNotification и MeterValues
+    }
+
+    // StopTransactionResponse (idTagInfo)
+    else if (response.idTagInfo !== undefined) {
       const stopResp = response as StopTransactionResponse;
       logger.info(`Transaction stopped successfully`);
       manager.getState(1).stopTransaction();  // Обнови state
@@ -134,8 +138,6 @@ export function handleResponse(data: Buffer, isBinary: boolean, ws: WebSocket) {
           }, manager);
         }
       }, 2000);
-
-      // MeterValuesResponse / StatusNotificationResponse (пустой {})
     }
 
     else if (Object.keys(response).length === 0) {

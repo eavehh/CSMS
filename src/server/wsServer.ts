@@ -4,61 +4,74 @@ import { ConnectionManager } from './connectionManager';
 import { handleMessage } from './messageRouter';
 import { logger } from '../logger';
 import { INTERVAL } from './handlers/bootNotification'
-
 export class WsServer {
     private wss: WSServer;
+    private cleanupInterval: NodeJS.Timeout;
 
     constructor(httpServer: HttpServer, connectionManager: ConnectionManager) {
         this.wss = new WSServer({
             server: httpServer,
-            path: '/ocpp',  // Клиент подключается к ws://localhost:8000/ocpp?chargeBoxIdentity=CP_001
+            path: '/ocpp',
         });
-
+        let chargePointId : string
         this.wss.on('connection', (ws: WebSocket, req: any) => {
-            // Извлекаем ID из URL (OCPP стандарт)
-            const url = req.url || '';
-            const params = new URLSearchParams(url.split('?')[1]);
-            const chargePointId = params.get('chargeBoxIdentity') || 'unknown';
+            this.wss.on('connection', (ws: WebSocket, req: any) => {
+                const url = req.url || '';
+                logger.info(`[CONNECTION] New connection: ${url}`);
 
-            logger?.info(`Connected: ${chargePointId}`);
-            connectionManager.add(ws, chargePointId);  // Добавляем в менеджер
+                // Универсальный парсинг - ищем chargeBoxIdentity в любом месте URL
+                const urlParts = url.split('?');
+                const params = new URLSearchParams(urlParts[1] || '');
+
+                chargePointId = params.get('chargeBoxIdentity') || 'unknown';
+
+                // Если не нашли в параметрах, пробуем извлечь из пути
+                if (chargePointId === 'unknown') {
+                    const pathParts = urlParts[0].split('/');
+                    // Ищем последнюю непустую часть пути как chargePointId
+                    chargePointId = pathParts.filter((part :any) => part.length > 0).pop() || 'unknown';
+                }
+
+                logger.info(`[CONNECTION] Extracted chargeBoxIdentity: ${chargePointId}`);
+
+                // Добавляем соединение
+                connectionManager.add(ws, chargePointId);
+                // ... остальной код
+            });
+            // ЗАТЕМ обновляем активность
+            connectionManager.updateLastActivity(chargePointId);
 
             ws.on('message', (data: Buffer, isBinary: boolean) => {
-                handleMessage(data, isBinary, ws, chargePointId);  // Роутим сообщение
+                handleMessage(data, isBinary, ws, chargePointId);
             });
-
-            if (!connectionManager.isActive(chargePointId)) {
-                logger.info(`terminate connection with ${chargePointId}, there is not isAlive`)
-                ws.terminate()
-            }
 
             ws.on('close', () => {
                 logger?.info(`Disconnected: ${chargePointId}`);
-                connectionManager.setLastOffline(chargePointId, new Date())
+                connectionManager.setLastOffline(chargePointId, new Date());
                 connectionManager.remove(chargePointId);
             });
 
             ws.on('error', (err) => {
-                logger?.error(`WS error: ${err.message}`);
+                logger?.error(`WS error for ${chargePointId}: ${err.message}`);
             });
-
-            setInterval(() => {
-                this.wss.clients.forEach((ws: WebSocket) => {
-                    const chargePointId = connectionManager.getByWs(ws);  // Добавь метод в connectionManager
-
-                    if (connectionManager.lastActivity) {
-                        if (chargePointId && !connectionManager.isActive(chargePointId)) {
-                            logger.info(`Terminate a not active connection ${chargePointId}`);
-                            ws.terminate();
-                        }
-                    }
-                });
-            }, INTERVAL);  // 60s timeout default
-
         });
+
+        // Запускаем очистку неактивных соединений каждые 5 минут вместо 60 секунд
+        this.cleanupInterval = setInterval(() => {
+            this.wss.clients.forEach((ws: WebSocket) => {
+                const chargePointId = connectionManager.getByWs(ws);
+                if (chargePointId && !connectionManager.isActive(chargePointId, 60 * 1000)) { // 5 минут таймаут
+                    logger.info(`Terminate inactive connection: ${chargePointId}`);
+                    ws.terminate();
+                }
+            });
+        }, 300000); // 5 минут
     }
 
     close() {
+        if (this.cleanupInterval) {
+            clearInterval(this.cleanupInterval);
+        }
         this.wss.close();
     }
 }

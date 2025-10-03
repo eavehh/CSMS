@@ -64,6 +64,7 @@ export async function handleMessage(data: Buffer, isBinary: boolean, ws: WebSock
 
     const [messageType, uniqueId, action, payload] = message;
 
+    logger.info(`[${chargePointId}] Received: ${action}`);
     const format = connectionManager.getFormat(chargePointId);
 
     // const validation = validateMessage(payload, `${action}Request`);
@@ -100,7 +101,7 @@ export async function handleMessage(data: Buffer, isBinary: boolean, ws: WebSock
 
     switch (action) {
       case 'BootNotification':
-        response = await handleBootNotification(payload, chargePointId, ws);
+        response = await handleBootNotification(payload, chargePointId, (ws as any));
         break;
       case 'Authorize':
         response = await handleAuthorize(payload, chargePointId, ws);
@@ -108,9 +109,9 @@ export async function handleMessage(data: Buffer, isBinary: boolean, ws: WebSock
       case 'Heartbeat':
         response = await handleHeartbeat(payload, chargePointId, ws);
         break;
-      // case 'StatusNotification':
-      // response = await handleStatusNotification(payload, chargePointId, ws);
-      //   break;
+      case 'StatusNotification':
+        response = await handleStatusNotification(payload, chargePointId, ws);
+        break;
       case 'DataTransfer':
         response = await handleDataTransfer(payload, chargePointId, ws);
         break;

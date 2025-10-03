@@ -47,6 +47,7 @@ const firmwareStatusNotification_1 = require("./handlers/firmwareStatusNotificat
 const heartbeat_1 = require("./handlers/heartbeat");
 const meterValues_1 = require("./handlers/meterValues");
 const startTransaction_1 = require("./handlers/startTransaction");
+const statusNotification_1 = require("./handlers/statusNotification");
 const stopTransaction_1 = require("./handlers/stopTransaction");
 // Sec 5: Central initiated
 const cancelReservation_1 = require("../client/handlers/cancelReservation");
@@ -90,6 +91,7 @@ async function handleMessage(data, isBinary, ws, chargePointId) {
     }
     try {
         const [messageType, uniqueId, action, payload] = message;
+        logger_1.logger.info(`[${chargePointId}] Received: ${action}`);
         const format = index_1.connectionManager.getFormat(chargePointId);
         // const validation = validateMessage(payload, `${action}Request`);
         // if (!validation.valid) {
@@ -126,9 +128,9 @@ async function handleMessage(data, isBinary, ws, chargePointId) {
             case 'Heartbeat':
                 response = await (0, heartbeat_1.handleHeartbeat)(payload, chargePointId, ws);
                 break;
-            // case 'StatusNotification':
-            // response = await handleStatusNotification(payload, chargePointId, ws);
-            //   break;
+            case 'StatusNotification':
+                response = await (0, statusNotification_1.handleStatusNotification)(payload, chargePointId, ws);
+                break;
             case 'DataTransfer':
                 response = await (0, dataTransfer_1.handleDataTransfer)(payload, chargePointId, ws);
                 break;

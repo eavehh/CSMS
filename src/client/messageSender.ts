@@ -82,6 +82,8 @@ export function sendStopTransaction(ws: WebSocket, payload: StopTransactionReque
     } else {
         ws.send(JSON.stringify(message));
     }
+    manager.lastStopTransactionId = uuidv4();
+
     manager.updateLastSentTime();
     logger.info(`Sent StopTransaction for transaction ${payload.transactionId}`);
 }
@@ -95,6 +97,7 @@ export function sendStatusNotification(ws: WebSocket, payload: StatusNotificatio
     } else {
         ws.send(JSON.stringify(message));
     }
+    manager.lastStatusNotificationId = uuidv4();
     manager.updateLastSentTime();
     logger.info(`Sent StatusNotification for connector ${payload.connectorId}, status: ${payload.status}`);
 }
@@ -108,6 +111,8 @@ export function sendMeterValues(ws: WebSocket, payload: MeterValuesRequest, mana
     } else {
         ws.send(JSON.stringify(message));
     }
+    manager.lastMeterValuesId = uuidv4();
+
     manager.updateLastSentTime();
     logger.info(`Sent MeterValues for connector ${payload.connectorId}`);
 }

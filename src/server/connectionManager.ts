@@ -15,9 +15,7 @@ export class ConnectionManager {
 
     isActive(chargePointId: string, timeout = INTERVAL * 1000) {
         const lstAct = this.lastActivity.get(chargePointId);
-        return (
-            lstAct && (timeout > Date.now() - lstAct)
-        )
+        return lstAct && (Date.now() - lstAct < timeout);  // Разница ВМЕСТО сравнения
     }
     add(ws: WebSocket, chargePointId: string) {
         this.connections.set(chargePointId, ws);
