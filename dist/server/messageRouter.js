@@ -37,11 +37,11 @@ exports.handleMessage = handleMessage;
 const msgpack = __importStar(require("@msgpack/msgpack"));
 const logger_1 = require("../logger");
 const index_1 = require("./index");
+const ajvValidator_1 = require("../utils/ajvValidator");
 // Sec 4: Charge Point initiated
 const authorize_1 = require("./handlers/authorize");
 const bootNotification_1 = require("./handlers/bootNotification");
 const dataTransfer_1 = require("./handlers/dataTransfer");
-const getConfiguration_1 = require("../client/handlers/getConfiguration");
 const diagnosticsStatusNotification_1 = require("./handlers/diagnosticsStatusNotification");
 const firmwareStatusNotification_1 = require("./handlers/firmwareStatusNotification");
 const heartbeat_1 = require("./handlers/heartbeat");
@@ -50,23 +50,24 @@ const startTransaction_1 = require("./handlers/startTransaction");
 const statusNotification_1 = require("./handlers/statusNotification");
 const stopTransaction_1 = require("./handlers/stopTransaction");
 // Sec 5: Central initiated
-const cancelReservation_1 = require("../client/handlers/cancelReservation");
-const changeAvailability_1 = require("../client/handlers/changeAvailability");
-const changeConfiguration_1 = require("../client/handlers/changeConfiguration");
-const clearCache_1 = require("../client/handlers/clearCache");
-const clearChargingProfile_1 = require("../client/handlers/clearChargingProfile");
-const getCompositeSchedule_1 = require("../client/handlers/getCompositeSchedule");
-const getDiagnostics_1 = require("../client/handlers/getDiagnostics");
-const getLocalListVersion_1 = require("../client/handlers/getLocalListVersion");
-const remoteStartTransaction_1 = require("../client/handlers/remoteStartTransaction");
-const remoteStopTransaction_1 = require("../client/handlers/remoteStopTransaction");
-const reserveNow_1 = require("../client/handlers/reserveNow");
-const reset_1 = require("../client/handlers/reset");
-const sendLocalList_1 = require("../client/handlers/sendLocalList");
-const setChargingProfile_1 = require("../client/handlers/setChargingProfile");
-const triggerMessage_1 = require("../client/handlers/triggerMessage");
-const unlockConnector_1 = require("../client/handlers/unlockConnector");
-const updateFirmware_1 = require("../client/handlers/updateFirmware");
+const cancelReservation_1 = require("./handlers/cancelReservation");
+const changeAvailability_1 = require("./handlers/changeAvailability");
+const changeConfiguration_1 = require("./handlers/changeConfiguration");
+const clearCache_1 = require("./handlers/clearCache");
+const clearChargingProfile_1 = require("./handlers/clearChargingProfile");
+const getCompositeSchedule_1 = require("./handlers/getCompositeSchedule");
+const getDiagnostics_1 = require("./handlers/getDiagnostics");
+const getLocalListVersion_1 = require("./handlers/getLocalListVersion");
+const remoteStartTransaction_1 = require("./handlers/remoteStartTransaction");
+const remoteStopTransaction_1 = require("./handlers/remoteStopTransaction");
+const reserveNow_1 = require("./handlers/reserveNow");
+const reset_1 = require("./handlers/reset");
+const sendLocalList_1 = require("./handlers/sendLocalList");
+const setChargingProfile_1 = require("./handlers/setChargingProfile");
+const triggerMessage_1 = require("./handlers/triggerMessage");
+const unlockConnector_1 = require("./handlers/unlockConnector");
+const updateFirmware_1 = require("./handlers/updateFirmware");
+const getConfiguration_1 = require("./handlers/getConfiguration");
 async function handleMessage(data, isBinary, ws, chargePointId) {
     let message;
     if (isBinary) {
@@ -93,22 +94,23 @@ async function handleMessage(data, isBinary, ws, chargePointId) {
         const [messageType, uniqueId, action, payload] = message;
         logger_1.logger.info(`[${chargePointId}] Received: ${action}`);
         const format = index_1.connectionManager.getFormat(chargePointId);
-        // const validation = validateMessage(payload, `${action}Request`);
-        // if (!validation.valid) {
-        //   logger.error(`Validation failed for ${action} from ${chargePointId}: ${(validation.errors as any).map(e => e.message).join('; ')}`);
-        //   const errorResponse = {
-        //     errorCode: 'FormationViolation',
-        //     description: 'Invalid payload',
-        //     errorDetails: validation.errors?.[0]?.message || ''
-        //   };
-        //   const fullError = [4, uniqueId, errorResponse];
-        //   if (format === 'binary') {
-        //     ws.send(msgpack.encode(fullError));
-        //   } else {
-        //     ws.send(JSON.stringify(fullError));
-        //   }
-        //   return;
-        // }
+        const validation = (0, ajvValidator_1.validateMessage)(payload, `${action}Request`);
+        if (!validation.valid) {
+            logger_1.logger.error(`Validation failed for ${action} from ${chargePointId}: ${validation.errors.map((e) => e.message).join('; ')}`);
+            const errorResponse = {
+                errorCode: 'FormationViolation',
+                description: 'Invalid payload',
+                errorDetails: validation.errors?.[0]?.message || ''
+            };
+            const fullError = [4, uniqueId, errorResponse];
+            if (format === 'binary') {
+                ws.send(msgpack.encode(fullError));
+            }
+            else {
+                ws.send(JSON.stringify(fullError));
+            }
+            return;
+        }
         // Если в payload флаг смены (опционально, e.g., req.format = 'binary')
         if (payload.format) {
             index_1.connectionManager.setFormat(chargePointId, payload.format);

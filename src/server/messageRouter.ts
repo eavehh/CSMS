@@ -8,7 +8,6 @@ import { validateMessage } from '../utils/ajvValidator'
 import { handleAuthorize } from './handlers/authorize';
 import { handleBootNotification } from './handlers/bootNotification';
 import { handleDataTransfer } from './handlers/dataTransfer';
-import { handleGetConfiguration } from '../client/handlers/getConfiguration';
 import { handleDiagnosticsStatusNotification } from './handlers/diagnosticsStatusNotification';
 import { handleFirmwareStatusNotification } from './handlers/firmwareStatusNotification';
 import { handleHeartbeat } from './handlers/heartbeat';
@@ -18,23 +17,24 @@ import { handleStatusNotification } from './handlers/statusNotification';
 import { handleStopTransaction } from './handlers/stopTransaction';
 
 // Sec 5: Central initiated
-import { handleCancelReservation } from '../client/handlers/cancelReservation';
-import { handleChangeAvailability } from '../client/handlers/changeAvailability';
-import { handleChangeConfiguration } from '../client/handlers/changeConfiguration';
-import { handleClearCache } from '../client/handlers/clearCache';
-import { handleClearChargingProfile } from '../client/handlers/clearChargingProfile';
-import { handleGetCompositeSchedule } from '../client/handlers/getCompositeSchedule';
-import { handleGetDiagnostics } from '../client/handlers/getDiagnostics';
-import { handleGetLocalListVersion } from '../client/handlers/getLocalListVersion';
-import { handleRemoteStartTransaction } from '../client/handlers/remoteStartTransaction';
-import { handleRemoteStopTransaction } from '../client/handlers/remoteStopTransaction';
-import { handleReserveNow } from '../client/handlers/reserveNow';
-import { handleReset } from '../client/handlers/reset';
-import { handleSendLocalList } from '../client/handlers/sendLocalList';
-import { handleSetChargingProfile } from '../client/handlers/setChargingProfile';
-import { handleTriggerMessage } from '../client/handlers/triggerMessage';
-import { handleUnlockConnector } from '../client/handlers/unlockConnector';
-import { handleUpdateFirmware } from '../client/handlers/updateFirmware';
+import { handleCancelReservation } from './handlers/cancelReservation';
+import { handleChangeAvailability } from './handlers/changeAvailability';
+import { handleChangeConfiguration } from './handlers/changeConfiguration';
+import { handleClearCache } from './handlers/clearCache';
+import { handleClearChargingProfile } from './handlers/clearChargingProfile';
+import { handleGetCompositeSchedule } from './handlers/getCompositeSchedule';
+import { handleGetDiagnostics } from './handlers/getDiagnostics';
+import { handleGetLocalListVersion } from './handlers/getLocalListVersion';
+import { handleRemoteStartTransaction } from './handlers/remoteStartTransaction';
+import { handleRemoteStopTransaction } from './handlers/remoteStopTransaction';
+import { handleReserveNow } from './handlers/reserveNow';
+import { handleReset } from './handlers/reset';
+import { handleSendLocalList } from './handlers/sendLocalList';
+import { handleSetChargingProfile } from './handlers/setChargingProfile';
+import { handleTriggerMessage } from './handlers/triggerMessage';
+import { handleUnlockConnector } from './handlers/unlockConnector';
+import { handleUpdateFirmware } from './handlers/updateFirmware';
+import { handleGetConfiguration } from './handlers/getConfiguration';
 
 
 
@@ -67,22 +67,22 @@ export async function handleMessage(data: Buffer, isBinary: boolean, ws: WebSock
     logger.info(`[${chargePointId}] Received: ${action}`);
     const format = connectionManager.getFormat(chargePointId);
 
-    // const validation = validateMessage(payload, `${action}Request`);
-    // if (!validation.valid) {
-    //   logger.error(`Validation failed for ${action} from ${chargePointId}: ${(validation.errors as any).map(e => e.message).join('; ')}`);
-    //   const errorResponse = {
-    //     errorCode: 'FormationViolation',
-    //     description: 'Invalid payload',
-    //     errorDetails: validation.errors?.[0]?.message || ''
-    //   };
-    //   const fullError = [4, uniqueId, errorResponse];
-    //   if (format === 'binary') {
-    //     ws.send(msgpack.encode(fullError));
-    //   } else {
-    //     ws.send(JSON.stringify(fullError));
-    //   }
-    //   return;
-    // }
+    const validation = validateMessage(payload, `${action}Request`);
+    if (!validation.valid) {
+      logger.error(`Validation failed for ${action} from ${chargePointId}: ${(validation.errors as any).map((e: any) => e.message).join('; ')}`);
+      const errorResponse = {
+        errorCode: 'FormationViolation',
+        description: 'Invalid payload',
+        errorDetails: validation.errors?.[0]?.message || ''
+      };
+      const fullError = [4, uniqueId, errorResponse];
+      if (format === 'binary') {
+        ws.send(msgpack.encode(fullError));
+      } else {
+        ws.send(JSON.stringify(fullError));
+      }
+      return;
+    }
 
     // Если в payload флаг смены (опционально, e.g., req.format = 'binary')
     if (payload.format) {

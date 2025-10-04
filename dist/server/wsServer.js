@@ -8,7 +8,6 @@ class WsServer {
     constructor(httpServer, connectionManager) {
         this.wss = new ws_1.Server({
             server: httpServer,
-            path: '/ocpp',
         });
         let chargePointId;
         this.wss.on('connection', (ws, req) => {
@@ -26,11 +25,8 @@ class WsServer {
                     chargePointId = pathParts.filter((part) => part.length > 0).pop() || 'unknown';
                 }
                 logger_1.logger.info(`[CONNECTION] Extracted chargeBoxIdentity: ${chargePointId}`);
-                // Добавляем соединение
                 connectionManager.add(ws, chargePointId);
-                // ... остальной код
             });
-            // ЗАТЕМ обновляем активность
             connectionManager.updateLastActivity(chargePointId);
             ws.on('message', (data, isBinary) => {
                 (0, messageRouter_1.handleMessage)(data, isBinary, ws, chargePointId);
@@ -44,16 +40,15 @@ class WsServer {
                 logger_1.logger?.error(`WS error for ${chargePointId}: ${err.message}`);
             });
         });
-        // Запускаем очистку неактивных соединений каждые 5 минут вместо 60 секунд
         this.cleanupInterval = setInterval(() => {
             this.wss.clients.forEach((ws) => {
                 const chargePointId = connectionManager.getByWs(ws);
-                if (chargePointId && !connectionManager.isActive(chargePointId, 60 * 1000)) { // 5 минут таймаут
+                if (chargePointId && !connectionManager.isActive(chargePointId, 60 * 1000)) {
                     logger_1.logger.info(`Terminate inactive connection: ${chargePointId}`);
                     ws.terminate();
                 }
             });
-        }, 300000); // 5 минут
+        }, 60 * 1000); // 5 минут
     }
     close() {
         if (this.cleanupInterval) {

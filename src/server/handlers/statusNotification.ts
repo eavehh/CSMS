@@ -1,7 +1,6 @@
 import { StatusNotificationRequest } from "../types/1.6/StatusNotification"
 import { StatusNotificationResponse } from "../types/1.6/StatusNotificationResponse"
 import WebSocket from "ws"
-import { manager } from '../../client/index'
 import { logger } from "../../logger"
 
 export async function handleStatusNotification(

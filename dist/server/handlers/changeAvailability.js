@@ -1,0 +1,19 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.handleChangeAvailability = handleChangeAvailability;
+const mongoose_1 = require("../../db/mongoose");
+const mongoose_2 = require("../../db/mongoose");
+const logger_1 = require("../../logger");
+async function handleChangeAvailability(req, chargePointId, ws) {
+    try {
+        await mongoose_1.ChargePoint.findOneAndUpdate({ id: chargePointId }, { availabilityStatus: req.type }, // Operative/Inoperative
+        { upsert: true });
+        await mongoose_2.Log.create({ action: 'ChangeAvailability', chargePointId, payload: req });
+        logger_1.logger.info(`Change availability for ${chargePointId}, connector ${req.connectorId}: ${req.type}`);
+        return { status: 'Accepted' };
+    }
+    catch (err) {
+        logger_1.logger.error(`Error in ChangeAvailability: ${err}`);
+        return { status: 'Rejected' };
+    }
+}
