@@ -67,22 +67,22 @@ export async function handleMessage(data: Buffer, isBinary: boolean, ws: WebSock
     logger.info(`[${chargePointId}] Received: ${action}`);
     const format = connectionManager.getFormat(chargePointId);
 
-    const validation = validateMessage(payload, `${action}Request`);
-    if (!validation.valid) {
-      logger.error(`Validation failed for ${action} from ${chargePointId}: ${(validation.errors as any).map((e: any) => e.message).join('; ')}`);
-      const errorResponse = {
-        errorCode: 'FormationViolation',
-        description: 'Invalid payload',
-        errorDetails: validation.errors?.[0]?.message || ''
-      };
-      const fullError = [4, uniqueId, errorResponse];
-      if (format === 'binary') {
-        ws.send(msgpack.encode(fullError));
-      } else {
-        ws.send(JSON.stringify(fullError));
-      }
-      return;
-    }
+    // const validation = validateMessage(payload, `${action}Request`);
+    // if (!validation.valid) {
+    //   logger.error(`Validation failed for ${action} from ${chargePointId}: ${(validation.errors as any).map((e: any) => e.message).join('; ')}`);
+    //   const errorResponse = {
+    //     errorCode: 'FormationViolation',
+    //     description: 'Invalid payload',
+    //     errorDetails: validation.errors?.[0]?.message || ''
+    //   };
+    //   const fullError = [4, uniqueId, errorResponse];
+    //   if (format === 'binary') {
+    //     ws.send(msgpack.encode(fullError));
+    //   } else {
+    //     ws.send(JSON.stringify(fullError));
+    //   }
+    //   return;
+    // }
 
     // Если в payload флаг смены (опционально, e.g., req.format = 'binary')
     if (payload.format) {

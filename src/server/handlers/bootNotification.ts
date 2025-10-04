@@ -43,6 +43,8 @@ export async function handleBootNotification(req: BootNotificationRequest, charg
       { upsert: true, new: true }  // upsert: true = создай, если нет; new: true = верни обновлённый
     );
 
+    connectionManager.initializeConnectors(chargePointId)
+
     logger.boot(`Boot from ${chargePointId}:
       Vendor: ${req.chargePointVendor}
       Model: ${req.chargePointModel} 

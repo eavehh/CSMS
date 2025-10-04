@@ -37,7 +37,6 @@ exports.handleMessage = handleMessage;
 const msgpack = __importStar(require("@msgpack/msgpack"));
 const logger_1 = require("../logger");
 const index_1 = require("./index");
-const ajvValidator_1 = require("../utils/ajvValidator");
 // Sec 4: Charge Point initiated
 const authorize_1 = require("./handlers/authorize");
 const bootNotification_1 = require("./handlers/bootNotification");
@@ -94,23 +93,22 @@ async function handleMessage(data, isBinary, ws, chargePointId) {
         const [messageType, uniqueId, action, payload] = message;
         logger_1.logger.info(`[${chargePointId}] Received: ${action}`);
         const format = index_1.connectionManager.getFormat(chargePointId);
-        const validation = (0, ajvValidator_1.validateMessage)(payload, `${action}Request`);
-        if (!validation.valid) {
-            logger_1.logger.error(`Validation failed for ${action} from ${chargePointId}: ${validation.errors.map((e) => e.message).join('; ')}`);
-            const errorResponse = {
-                errorCode: 'FormationViolation',
-                description: 'Invalid payload',
-                errorDetails: validation.errors?.[0]?.message || ''
-            };
-            const fullError = [4, uniqueId, errorResponse];
-            if (format === 'binary') {
-                ws.send(msgpack.encode(fullError));
-            }
-            else {
-                ws.send(JSON.stringify(fullError));
-            }
-            return;
-        }
+        // const validation = validateMessage(payload, `${action}Request`);
+        // if (!validation.valid) {
+        //   logger.error(`Validation failed for ${action} from ${chargePointId}: ${(validation.errors as any).map((e: any) => e.message).join('; ')}`);
+        //   const errorResponse = {
+        //     errorCode: 'FormationViolation',
+        //     description: 'Invalid payload',
+        //     errorDetails: validation.errors?.[0]?.message || ''
+        //   };
+        //   const fullError = [4, uniqueId, errorResponse];
+        //   if (format === 'binary') {
+        //     ws.send(msgpack.encode(fullError));
+        //   } else {
+        //     ws.send(JSON.stringify(fullError));
+        //   }
+        //   return;
+        // }
         // Если в payload флаг смены (опционально, e.g., req.format = 'binary')
         if (payload.format) {
             index_1.connectionManager.setFormat(chargePointId, payload.format);

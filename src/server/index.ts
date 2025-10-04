@@ -1,34 +1,70 @@
-// src/server/index.ts
-import { createServer, IncomingMessage, ServerResponse } from 'http';
+import { createServer, IncomingMessage, ServerResponse, Server } from 'http';
 import { WsServer } from './wsServer';
 import { ConnectionManager } from './connectionManager';
 import { logger } from '../logger';
 import { connectDB } from '../db/mongoose';
 
-const PORT = 8000;
+const PORT = process.env.PORT || 8081;
 
-const httpServer = createServer(
-    (req: IncomingMessage, res: ServerResponse) => {
-        // можно отдать 200 OK для проверки живости
-        res.writeHead(200, { 'Content-Type': 'text/plain' });
-        res.end('CSMS WebSocket endpoint: ws://localhost:' + PORT + '/ocpp\n');
-    }
-);
+// Создаём HTTP-сервер
+const httpServer = createServer((req: IncomingMessage, res: ServerResponse) => {
+    logger.info(`[HTTP] Received ${req.method} request to: ${req.url}`);
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end(`CSMS WebSocket endpoint: ws://localhost:${PORT}\n`);
+});
 
-export const connectionManager = new ConnectionManager();
-new WsServer(httpServer, connectionManager);
+export let connectionManager = new ConnectionManager();
 
-process.on('SIGINT', () => {
-    logger.info('Shutting down...');
-    httpServer.close(() => {
-        logger.info('HTTP server closed');
-        process.exit(0);
-    });
+// Создаём WS-сервер
+const wsServer = new WsServer(httpServer, connectionManager);
+logger.info('[MAIN] WsServer created');
+
+// Graceful shutdown
+export let shutdownTimeout: NodeJS.Timeout | null = null;
+const SHUTDOWN_TIMEOUT = 30000;  // 30 секунд на завершение соединений
+
+function initiateShutdown(signal: string) {
+    logger.info(`[SHUTDOWN] Received ${signal}. Initiating graceful shutdown...`);
+
+    // Закрываем новые подключения в WS
+    wsServer.closeNewConnections();
+
+    // Устанавливаем таймаут для принудительного завершения
+    shutdownTimeout = setTimeout(() => {
+        logger.error(`[SHUTDOWN] Force closing after ${SHUTDOWN_TIMEOUT}ms`);
+        httpServer.close(() => {
+            process.exit(1);  // Принудительное завершение
+        });
+    }, SHUTDOWN_TIMEOUT);
+
+    // Ждём закрытия всех соединений
+    const checkConnections = () => {
+        const remaining = connectionManager.getAllConnections()?.size;
+        if (remaining === 0) {
+            logger.info('[SHUTDOWN] All connections closed. Shutting down.');
+            clearTimeout(shutdownTimeout!);
+            httpServer.close(() => process.exit(0));
+        } else {
+            logger.info(`[SHUTDOWN] Waiting for ${remaining} connections to close...`);
+            setTimeout(checkConnections, 1000);  // Проверяем каждую секунду
+        }
+    };
+
+    setImmediate(checkConnections);
+}
+
+// Обработка сигналов
+process.on('SIGINT', () => initiateShutdown('SIGINT'));
+process.on('SIGTERM', () => initiateShutdown('SIGTERM'));
+
+httpServer.on('error', (error) => {
+    logger.error(`[HTTP_SERVER] Error: ${error.message}`);
 });
 
 (async () => {
     await connectDB();
+    logger.info('[MAIN] Starting HTTP server...');
     httpServer.listen(PORT, () => {
-        logger.info(`CSMS Server listening on port ${PORT} (no Express)`);
+        logger.info(`[MAIN] CSMS Server fully initialized on port ${PORT}`);
     });
 })();
