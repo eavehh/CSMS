@@ -7,6 +7,7 @@ const bootNotification_1 = require("./handlers/bootNotification");
 class ConnectionManager {
     constructor() {
         this.connections = new Map();
+        this.pendingRequests = new Map(); // по id сервер понимает какой action ответ пришел, uniqueId -> action
         this.reverseConnections = new Map();
         this.formats = new Map();
         this.connectorStates = new Map();
@@ -49,6 +50,15 @@ class ConnectionManager {
     }
     getByWs(ws) {
         return this.reverseConnections.get(ws);
+    }
+    setPendingRequest(uniqueId, action) {
+        this.pendingRequests.set(uniqueId, action);
+        logger_1.logger.debug(`Pending request set: ${uniqueId} → ${action}`);
+    }
+    getAndClearPendingRequest(uniqueId) {
+        const action = this.pendingRequests.get(uniqueId);
+        this.pendingRequests.delete(uniqueId);
+        return action;
     }
     setLastOffline(chargePointId, date) {
         mongoose_1.ChargePoint.findOneAndUpdate({ id: chargePointId }, { lastOffline: date }, { upsert: true }).then(() => logger_1.logger.info(`[Heartbeat] Set lastOffline for ${chargePointId}: ${date}`))

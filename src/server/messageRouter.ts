@@ -45,7 +45,7 @@ export async function handleMessage(data: Buffer, isBinary: boolean, ws: WebSock
     try {
       message = msgpack.decode(data);
     } catch (err) {
-      logger.error(`[decode MSG] Failed to decode MessagePack message from ${chargePointId}: ${(err as any).message}`);
+      logger.error(`[MessageRouter] Failed to decode MessagePack message from ${chargePointId}: ${(err as any).message}`);
       ws.send(JSON.stringify([4, null, { errorCode: 'FormationViolation', description: 'Invalid MessagePack' }]));
       return;
     }
@@ -53,162 +53,168 @@ export async function handleMessage(data: Buffer, isBinary: boolean, ws: WebSock
     try {
       message = JSON.parse(data.toString());
     } catch (err) {
-      logger.error(`[parse JSON] Failed to parse JSON message from ${chargePointId}: ${(err as any).message}`);
+      logger.error(`[MessageRouter] Failed to parse JSON message from ${chargePointId}: ${(err as any).message}`);
       ws.send(JSON.stringify([4, null, { errorCode: 'FormationViolation', description: 'Invalid JSON' }]));
       return;
     }
   }
 
   try {
+    const [messageType, uniqueId, actionOrPayload, payloadOrNothing] = message;
 
-
-    const [messageType, uniqueId, action, payload] = message;
-
-    logger.info(`[handleMessage] from ${chargePointId} Received: ${action}`);
     const format = connectionManager.getFormat(chargePointId);
+    connectionManager.updateLastActivity(chargePointId);  // Обновляем активность
 
-    const validation = validateMessage(payload, `${action}Request`);
-    if (!validation.valid) {
-      logger.error(`Validation failed for ${action} from ${chargePointId}: ${(validation.errors as any).map((e: any) => e.message).join('; ')}`);
-      const errorResponse = {
-        errorCode: 'FormationViolation',
-        description: 'Invalid payload',
-        errorDetails: validation.errors?.[0]?.message || ''
-      };
-      const fullError = [4, uniqueId, errorResponse];
-      if (format === 'binary') {
-        ws.send(msgpack.encode(fullError));
-      } else {
-        ws.send(JSON.stringify(fullError));
+    // Валидация (только для type 2 — запросов от клиента)
+    if (messageType === 2) {
+      logger.info(`[MessageRouter] from ${chargePointId} Received request: ${actionOrPayload}`);
+      const validation = validateMessage(actionOrPayload, `${actionOrPayload}`);
+      if (!validation) {
+        logger.error(`[MessageRouter] Validation failed for ${actionOrPayload} from ${chargePointId}`);
+
+        const errorResponse = {
+          errorCode: 'FormationViolation',
+          description: 'Invalid payload',
+          errorDetails: 'Payload does not match OCPP schema'
+        };
+
+        const fullError = [4, uniqueId, errorResponse];
+
+        if (format === 'binary') {
+          ws.send(msgpack.encode(fullError));
+        } else {
+          ws.send(JSON.stringify(fullError));
+        }
+        return;
       }
-      return;
-    }
 
+      // Если в payload флаг смены формата (опционально)
+      if (actionOrPayload.format) {
+        connectionManager.setFormat(chargePointId, actionOrPayload.format);
+      }
 
+      // Обработка запросов от клиента (type 2)
+      let response: any;
 
-    // Если в payload флаг смены (опционально, e.g., req.format = 'binary')
-    if (payload.format) {
-      connectionManager.setFormat(chargePointId, payload.format);
-    }
+      switch (actionOrPayload) {
+        case 'BootNotification':
+          response = await handleBootNotification(payloadOrNothing, chargePointId, (ws as any));
+          break;
+        case 'Authorize':
+          response = await handleAuthorize(payloadOrNothing, chargePointId, ws);
+          break;
+        case 'Heartbeat':
+          response = await handleHeartbeat(payloadOrNothing, chargePointId, ws);
+          break;
+        case 'StatusNotification':
+          response = await handleStatusNotification(payloadOrNothing, chargePointId, ws);
+          break;
+        case 'DataTransfer':
+          response = await handleDataTransfer(payloadOrNothing, chargePointId, ws);
+          break;
+        case 'DiagnosticsStatusNotification':
+          response = await handleDiagnosticsStatusNotification(payloadOrNothing, chargePointId, ws);
+          break;
+        case 'FirmwareStatusNotification':
+          response = await handleFirmwareStatusNotification(payloadOrNothing, chargePointId, ws);
+          break;
+        case 'MeterValues':
+          response = await handleMeterValues(payloadOrNothing, chargePointId, ws);
+          break;
+        case 'StartTransaction':
+          response = await handleStartTransaction(payloadOrNothing, chargePointId, ws);
+          break;
+        case 'StopTransaction':
+          response = await handleStopTransaction(payloadOrNothing, chargePointId, ws);
+          break;
+        default:
+          response = { errorCode: 'NotImplemented', description: `Action ${actionOrPayload} not supported` };
+          logger.warn(`Unhandled action from ${chargePointId}: ${actionOrPayload}`);
+      }
 
-    connectionManager.updateLastActivity(chargePointId); // для ocpp 4.6 heartbeat не использовался избыточно
-    // Валидация !!!
+      // Отправка ответа (type 3)
+      const fullResponse = format === 'binary' ? msgpack.encode([3, uniqueId, response]) : JSON.stringify([3, uniqueId, response]);
+      ws.send(fullResponse);
+    } else if (messageType === 3) {  // Ответы от клиента на наши команды (type 2)
+      logger.info(`[MeesageRouter] from ${chargePointId} Received response for ID: ${uniqueId}`);
 
-    if (messageType === 3) { //CallResult
+      // Корреляция по uniqueId (используйте pendingRequests из ConnectionManager)
+      const requestAction = connectionManager.getAndClearPendingRequest(uniqueId);
+      if (!requestAction) {
+        logger.warn(`[MeesageRouter] Received response for unknown request ID: ${uniqueId} from ${chargePointId}`);
+        return;
+      }
 
-    }
+      const responsePayload = actionOrPayload;  // Payload ответа (e.g., {status: 'Accepted'})
 
-
-    let response: any;
-
-    switch (action) {
-      case 'BootNotification':
-        response = await handleBootNotification(payload, chargePointId, (ws as any));
-        break;
-      case 'Authorize':
-        response = await handleAuthorize(payload, chargePointId, ws);
-        break;
-      case 'Heartbeat':
-        response = await handleHeartbeat(payload, chargePointId, ws);
-        break;
-      case 'StatusNotification':
-        response = await handleStatusNotification(payload, chargePointId, ws);
-        break;
-      case 'DataTransfer':
-        response = await handleDataTransfer(payload, chargePointId, ws);
-        break;
-      case 'DiagnosticsStatusNotification':
-        response = await handleDiagnosticsStatusNotification(payload, chargePointId, ws);
-        break;
-      case 'FirmwareStatusNotification':
-        response = await handleFirmwareStatusNotification(payload, chargePointId, ws);
-        break;
-      case 'MeterValues':
-        response = await handleMeterValues(payload, chargePointId, ws);
-        break;
-      case 'StartTransaction':
-        response = await handleStartTransaction(payload, chargePointId, ws);
-        break;
-      case 'StopTransaction':
-        response = await handleStopTransaction(payload, chargePointId, ws);
-        break;
-      // Sec 5 (ответы на Central)
-      case 'CancelReservation':
-        response = await handleCancelReservation(payload, chargePointId, ws);
-        break;
-      case 'ChangeAvailability':
-        response = await handleChangeAvailability(payload, chargePointId, ws);
-        break;
-      case 'ChangeConfiguration':
-        response = await handleChangeConfiguration(payload, chargePointId, ws);
-        break;
-      case 'ClearCache':
-        response = await handleClearCache(payload, chargePointId, ws);
-        break;
-      case 'ClearChargingProfile':
-        response = await handleClearChargingProfile(payload, chargePointId, ws);
-        break;
-      case 'GetCompositeSchedule':
-        response = await handleGetCompositeSchedule(payload, chargePointId, ws);
-        break;
-      case 'GetConfiguration':
-        response = await handleGetConfiguration(payload, chargePointId, ws);
-        break;
-      case 'GetDiagnostics':
-        response = await handleGetDiagnostics(payload, chargePointId, ws);
-        break;
-      case 'GetLocalListVersion':
-        response = await handleGetLocalListVersion(payload, chargePointId, ws);
-        break;
-      case 'RemoteStartTransaction':
-        response = await handleRemoteStartTransaction(payload, chargePointId, ws);
-        break;
-      case 'RemoteStopTransaction':
-        response = await handleRemoteStopTransaction(payload, chargePointId, ws);
-        break;
-      case 'ReserveNow':
-        response = await handleReserveNow(payload, chargePointId, ws);
-        break;
-      case 'Reset':
-        response = await handleReset(payload, chargePointId, ws);
-        break;
-      case 'SendLocalList':
-        response = await handleSendLocalList(payload, chargePointId, ws);
-        break;
-      case 'SetChargingProfile':
-        response = await handleSetChargingProfile(payload, chargePointId, ws);
-        break;
-      case 'TriggerMessage':
-        response = await handleTriggerMessage(payload, chargePointId, ws);
-        break;
-      case 'UnlockConnector':
-        response = await handleUnlockConnector(payload, chargePointId, ws);
-        break;
-      case 'UpdateFirmware':
-        response = await handleUpdateFirmware(payload, chargePointId, ws);
-        break;
-      case 'StartTransaction':
-        response = await handleStartTransaction(payload, chargePointId, ws);
-        break;
-      case 'StopTransaction':
-        response = await handleStopTransaction(payload, chargePointId, ws);
-        break;
-      case 'SendLocalList':
-        response = await handleSendLocalList(payload, chargePointId, ws);
-        break;
-      default:
-        response = { errorCode: 'NotImplemented', description: `Action ${action} not supported` };
-    }
-
-    let fullResponse;
-    if (format === 'binary') {
-      fullResponse = msgpack.encode([3, uniqueId, response]);
+      // Обработка ответов (switch на requestAction)
+      switch (requestAction) {
+        case 'ReserveNow':
+          await handleReserveNow(responsePayload, chargePointId, ws);
+          break;
+        case 'CancelReservation':
+          await handleCancelReservation(responsePayload, chargePointId, ws);
+          break;
+        case 'ChangeAvailability':
+          await handleChangeAvailability(responsePayload, chargePointId, ws);
+          break;
+        case 'ChangeConfiguration':
+          await handleChangeConfiguration(responsePayload, chargePointId, ws);
+          break;
+        case 'ClearCache':
+          await handleClearCache(responsePayload, chargePointId, ws);
+          break;
+        case 'ClearChargingProfile':
+          await handleClearChargingProfile(responsePayload, chargePointId, ws);
+          break;
+        case 'GetCompositeSchedule':
+          await handleGetCompositeSchedule(responsePayload, chargePointId, ws);
+          break;
+        case 'GetConfiguration':
+          await handleGetConfiguration(responsePayload, chargePointId, ws);
+          break;
+        case 'GetDiagnostics':
+          await handleGetDiagnostics(responsePayload, chargePointId, ws);
+          break;
+        case 'GetLocalListVersion':
+          await handleGetLocalListVersion(responsePayload, chargePointId, ws);
+          break;
+        case 'RemoteStartTransaction':
+          await handleRemoteStartTransaction(responsePayload, chargePointId, ws);
+          break;
+        case 'RemoteStopTransaction':
+          await handleRemoteStopTransaction(responsePayload, chargePointId, ws);
+          break;
+        case 'Reset':
+          await handleReset(responsePayload, chargePointId, ws);
+          break;
+        case 'SendLocalList':
+          await handleSendLocalList(responsePayload, chargePointId, ws);
+          break;
+        case 'SetChargingProfile':
+          await handleSetChargingProfile(responsePayload, chargePointId, ws);
+          break;
+        case 'TriggerMessage':
+          await handleTriggerMessage(responsePayload, chargePointId, ws);
+          break;
+        case 'UnlockConnector':
+          await handleUnlockConnector(responsePayload, chargePointId, ws);
+          break;
+        case 'UpdateFirmware':
+          await handleUpdateFirmware(responsePayload, chargePointId, ws);
+          break;
+        default:
+          logger.warn(`[MessageRouter] Unhandled response for action ${requestAction} from ${chargePointId}`);
+      }
+    } else if (messageType === 4) {  // CallError от клиента
+      logger.error(`[handleMessage] CallError from ${chargePointId}: ${JSON.stringify(actionOrPayload)}`);
+      // Очистите pending для этого uniqueId
+      //                                      connectionManager.getAndClearPending(uniqueId);
     } else {
-      fullResponse = JSON.stringify([3, uniqueId, response]);
+      logger.error(`[handleMessage] Unknown message type ${messageType} from ${chargePointId}`);
     }
-    ws.send(fullResponse);
   } catch (err) {
-    logger.error(`[Response send] Router parse error from ${chargePointId}: ${(err as any).message}. RESPONSE: ${data.toString()}`);
+    logger.error(`[Response send] Router parse error from ${chargePointId}: ${(err as any).message}. MESSAGE: ${data.toString()}`);
     // Безопасный CallError
     ws.send(JSON.stringify([4, null, { errorCode: 'GenericError', description: (err as any).message }]));
   }

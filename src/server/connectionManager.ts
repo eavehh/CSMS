@@ -15,6 +15,7 @@ export interface ConnectorState {
 
 export class ConnectionManager {
     private connections: Map<string, WebSocket> = new Map();
+    private pendingRequests: Map<string, string> = new Map();  // по id сервер понимает какой action ответ пришел, uniqueId -> action
     private reverseConnections: Map<WebSocket, string> = new Map();
     private formats: Map<string, "json" | "binary"> = new Map();
     private connectorStates: Map<string, Map<number, ConnectorState>> = new Map();
@@ -63,6 +64,17 @@ export class ConnectionManager {
 
     getByWs(ws: WebSocket): string | undefined {
         return this.reverseConnections.get(ws);
+    }
+
+    setPendingRequest(uniqueId: string, action: string): void {
+        this.pendingRequests.set(uniqueId, action);
+        logger.debug(`Pending request set: ${uniqueId} → ${action}`);
+    }
+
+    getAndClearPendingRequest(uniqueId: string): string | undefined {
+        const action = this.pendingRequests.get(uniqueId);
+        this.pendingRequests.delete(uniqueId);
+        return action;
     }
 
     setLastOffline(chargePointId: string, date: Date) {
