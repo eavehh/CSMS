@@ -15,11 +15,11 @@ async function handleReserveNow(req, chargePointId, ws) {
         });
         await reservation.save();
         await mongoose_2.Log.create({ action: 'ReserveNow', chargePointId, payload: req });
-        logger_1.logger.info(`Reserve now for ${chargePointId}, connector ${req.connectorId}: idTag ${req.idTag}`);
+        logger_1.logger.info(`[ReserveNow] for ${chargePointId}, connector ${req.connectorId}: idTag ${req.idTag}`);
         return { status: 'Accepted' };
     }
     catch (err) {
-        logger_1.logger.error(`Error in ReserveNow: ${err}`);
+        logger_1.logger.error(`[ReserveNow] Error in ReserveNow: ${err}`);
         return { status: 'Rejected' };
     }
 }

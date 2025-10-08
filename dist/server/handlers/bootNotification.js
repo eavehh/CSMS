@@ -42,7 +42,7 @@ async function handleBootNotification(req, chargePointId, ws) {
         }, { upsert: true, new: true } // upsert: true = создай, если нет; new: true = верни обновлённый
         );
         index_1.connectionManager.initializeConnectors(chargePointId);
-        logger_1.logger.boot(`Boot from ${chargePointId}:
+        logger_1.logger.info(`Boot from ${chargePointId}:
       Vendor: ${req.chargePointVendor}
       Model: ${req.chargePointModel} 
       Point serial number: ${req.meterSerialNumber}

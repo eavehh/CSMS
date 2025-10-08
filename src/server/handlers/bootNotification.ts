@@ -45,7 +45,7 @@ export async function handleBootNotification(req: BootNotificationRequest, charg
 
     connectionManager.initializeConnectors(chargePointId)
 
-    logger.boot(`Boot from ${chargePointId}:
+    logger.info(`Boot from ${chargePointId}:
       Vendor: ${req.chargePointVendor}
       Model: ${req.chargePointModel} 
       Point serial number: ${req.meterSerialNumber}

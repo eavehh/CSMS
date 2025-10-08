@@ -8,8 +8,8 @@ import WebSocket from 'ws';
 
 export async function handleStopTransaction(req: StopTransactionRequest, chargePointId: string, ws: WebSocket): Promise<StopTransactionResponse> {
     try {
-        // Проверка авторизации ID-тега (опционально; стандарт OCPP: если idTag передан и не авторизован, статус 'Blocked')
-        const idTagStatus = req.idTag ? 'Accepted' : 'Accepted';  // Замените на реальную проверку в БД
+        // Проверка авторизации ID-тега (опционально; стандарт OCPP)
+        const idTagStatus = req.idTag ? 'Accepted' : 'Accepted';
 
         const tx = await Transaction.findOneAndUpdate(
             { id: req.transactionId.toString() },  // Приводим к строке, если модель ожидает string
@@ -24,7 +24,7 @@ export async function handleStopTransaction(req: StopTransactionRequest, chargeP
         );
 
         if (!tx) {
-            logger.error(`Tx not found: ${req.transactionId}`);
+            logger.error(`[StopTransaction] Tx not found: ${req.transactionId}`);
             return { idTagInfo: { status: 'Invalid' } };
         }
 
@@ -33,22 +33,29 @@ export async function handleStopTransaction(req: StopTransactionRequest, chargeP
         // Обновляем состояние коннектора: извлекаем connectorId из найденной транзакции
         const connectorId = tx.connectorId;  // Из модели Transaction (сохранено в StartTransaction)
         if (!connectorId) {
-            logger.error(`No connectorId found for tx ${req.transactionId}`);
+            logger.error(`[StopTransaction] No connectorId found for tx ${req.transactionId}`);
             return { idTagInfo: { status: 'Invalid' } };
+        }
+
+        // Проверяем текущее состояние коннектора (опционально, для безопасности)
+        const currentState = connectionManager.getConnectorState(chargePointId, connectorId);
+        if (currentState && currentState.status !== 'Charging') {
+            logger.warn(`[StopTransaction] for non-charging connector ${connectorId} on ${chargePointId}`);
         }
 
         connectionManager.updateConnectorState(chargePointId, connectorId, 'Finishing');
 
-        logger.info(`Stop tx from ${chargePointId}: id ${req.transactionId}, energy ${req.meterStop}, reason: ${req.reason || 'Local'}, connector: ${connectorId}`);
-        
-        // Планируем сброс всех коннекторов в 'Available' через таймаут (стандарт OCPP)
+        logger.info(`[StopTransaction] Stop tx from ${chargePointId}: id ${req.transactionId}, energy ${req.meterStop}, reason: ${req.reason || 'Local'}, connector: ${connectorId}`);
+
+        // Индивидуальный таймаут: Сброс только этого коннектора в 'Available' через 2 секунды
         setTimeout(() => {
-            connectionManager.resetAllConnectorsToAvailable(chargePointId);
-        }, 2000);  // 2 секунды на Finishing
+            connectionManager.updateConnectorState(chargePointId, connectorId, 'Available');
+            logger.info(`[StopTransaction] Connector ${connectorId} on ${chargePointId} reset to Available after Finishing`);
+        }, 2000);  // Стандартный таймаут по OCPP (1–5 секунд)
 
         return { idTagInfo: { status: idTagStatus } };
     } catch (err) {
-        logger.error(`Error in StopTransaction: ${err}`);
+        logger.error(`[StopTransaction] Error in StopTransaction: ${err}`);
         return { idTagInfo: { status: 'Blocked' } };
     }
 }

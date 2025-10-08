@@ -10,7 +10,7 @@ export function sendRemoteMessage(
 ) {
     const ws = connectionManager.get(chargePointId);
     if (!ws) {
-        logger.error(`Нет связи с ${chargePointId}`);
+        logger.error(`[remoteControl] Нет связи с ${chargePointId}`);
         return;
     }
 
@@ -18,5 +18,5 @@ export function sendRemoteMessage(
     const message = [2, uniqueId, action, payload];
 
     ws.send(JSON.stringify(message));
-    logger.info(`Отправил ${action} на ${chargePointId}: ${JSON.stringify(payload)}`);
+    logger.info(`[remoteControl] Отправил ${action} на ${chargePointId}: ${JSON.stringify(payload)}`);
 }

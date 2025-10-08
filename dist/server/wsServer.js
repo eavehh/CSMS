@@ -9,19 +9,19 @@ class WsServer {
     constructor(httpServer, connectionManager) {
         this.cleanupInterval = null;
         this.connectionCloseListeners = []; // Для уведомлений о закрытии
-        logger_1.logger.info('[WS_SERVER] Creating WebSocket server...');
+        logger_1.logger.info('[wsServer] Creating WebSocket server...');
         this.wss = new ws_1.Server({
             server: httpServer,
-            path: '/ocpp' // Или уберите для универсальности
+            path: '' // Или уберите для универсальности
         });
-        logger_1.logger.info('[WS_SERVER] WebSocket server instance created');
+        logger_1.logger.info('[wsServer] WebSocket server instance created');
         this.wss.on('error', (error) => {
-            logger_1.logger.error(`[WS_SERVER] Error: ${error.message}`);
+            logger_1.logger.error(`[wsServer] Error: ${error.message}`);
         });
         this.wss.on('connection', (ws, req) => {
             // Блокировка новых подключений во время shutdown
             if (this.isShuttingDown()) {
-                logger_1.logger.info('[WS_SERVER] Rejecting new connection during shutdown');
+                logger_1.logger.info('[wsServer] Rejecting new connection during shutdown');
                 ws.terminate();
                 return;
             }
@@ -43,7 +43,7 @@ class WsServer {
             connectionManager.add(ws, chargePointId);
             connectionManager.updateLastActivity(chargePointId);
             ws.on('message', (data, isBinary) => {
-                logger_1.logger.info(`[MESSAGE] Received from ${chargePointId}, binary: ${isBinary}`);
+                logger_1.logger.info(`[MESSAGE] Received from ${chargePointId}, is_binary: ${isBinary}`);
                 (0, messageRouter_1.handleMessage)(data, isBinary, ws, chargePointId);
             });
             ws.on('close', (code, reason) => {
@@ -53,7 +53,7 @@ class WsServer {
                 this.notifyConnectionClosed(); // Уведомляем о закрытии
             });
             ws.on('error', (err) => {
-                logger_1.logger.error(`[ERROR] WS error for ${chargePointId}: ${err.message}`);
+                logger_1.logger.error(`[WS_error] for ${chargePointId}: ${err.message}`);
             });
             logger_1.logger.info(`[CONNECTION] Successfully setup connection for ${chargePointId}`);
         });
@@ -63,20 +63,30 @@ class WsServer {
             logger_1.logger.info(`[CLEANUP] Checking ${clientCount} clients for activity`);
             this.wss.clients.forEach((ws) => {
                 const chargePointId = connectionManager.getByWs(ws);
-                if (chargePointId && !connectionManager.isActive(chargePointId, 5 * 60 * 1000)) {
+                if (chargePointId && !connectionManager.isActive(chargePointId, 60 * 1000)) {
                     logger_1.logger.info(`[CLEANUP] Terminate inactive connection: ${chargePointId}`);
                     ws.terminate();
                 }
             });
-        }, 300000); // 5 минут
-        logger_1.logger.info('[WS_SERVER] WebSocket server setup complete');
+        }, 60000);
+        // In WsServer constructor (after existing cleanupInterval)
+        connectionManager.reservationCleanupInterval = setInterval(() => {
+            logger_1.logger.debug('[Reservation Cleanup] Starting expired reservation check');
+            connectionManager.cleanupExpiredReservations(); // Вызов функции
+            logger_1.logger.debug('[Reservation Cleanup] Check completed');
+        }, 300000); // Каждые 5 минут (300000 ms)
+        // In close() method, clear the interval
+        if (connectionManager.reservationCleanupInterval) {
+            clearInterval(connectionManager.reservationCleanupInterval);
+            connectionManager.reservationCleanupInterval = null;
+        }
+        logger_1.logger.info('[wsServer] WebSocket server setup complete');
     }
     // Новый метод: Блокировать новые подключения во время shutdown
     closeNewConnections() {
-        logger_1.logger.info('[WS_SERVER] Closing new connections');
+        logger_1.logger.info('[wsServer] Closing new connections');
         this.wss.options = { ...this.wss.options, noServer: true }; // Блокируем
-        // Принудительно закрываем все активные (опционально, если нужно)
-        // this.wss.clients.forEach(ws => ws.terminate());
+        this.wss.clients.forEach(ws => ws.terminate());
     }
     // Новый метод: Регистрация слушателя для уведомлений о закрытии соединений
     onConnectionClosed(listener) {
@@ -89,17 +99,21 @@ class WsServer {
         return index_1.shutdownTimeout !== null; // Глобальная переменная из index.ts (или используйте флаг)
     }
     close() {
-        logger_1.logger.info('[WS_SERVER] Closing WebSocket server');
+        logger_1.logger.info('[wsServer] Closing WebSocket server');
         if (this.cleanupInterval) {
             clearInterval(this.cleanupInterval);
             this.cleanupInterval = null;
         }
+        if (index_1.connectionManager.reservationCleanupInterval) {
+            clearInterval(index_1.connectionManager.reservationCleanupInterval);
+            index_1.connectionManager.reservationCleanupInterval = null;
+        }
         this.wss.close((error) => {
             if (error) {
-                logger_1.logger.error(`[WS_SERVER] Close error: ${error.message}`);
+                logger_1.logger.error(`[wsServer] Close error: ${error.message}`);
             }
             else {
-                logger_1.logger.info('[WS_SERVER] WebSocket server closed');
+                logger_1.logger.info('[wsServer] WebSocket server closed');
             }
         });
     }

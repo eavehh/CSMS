@@ -31,8 +31,6 @@ async function handleStartTransaction(req, chargePointId, ws) {
         logger_1.logger.info(`Start tx from ${chargePointId}: id ${transId}, connector ${req.connectorId}`);
         // Обновляем состояние коннектора (transId как number, но если ConnectorState.transactionId ожидает string, приведите: transId.toString())
         index_1.connectionManager.updateConnectorState(chargePointId, req.connectorId, 'Charging', transId.toString());
-        // Опционально: Устанавливаем интерлок для других коннекторов (если применимо)
-        index_1.connectionManager.setInterlockUnavailable(chargePointId, req.connectorId);
         return response;
     }
     catch (err) {

@@ -1,13 +1,14 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
+import { logger } from '../logger';
 
 const mongoURI = 'mongodb://localhost:27017/csms';  // Твоя БД "csms"
 
 export async function connectDB() {
     try {
         await mongoose.connect(mongoURI);
-        console.log('MongoDB connected!');
+        logger.info('[mongo] MongoDB connected!');
     } catch (err) {
-        console.error('MongoDB error:', err);
+        logger.error(`[mongo] MongoDB error: ${err}`);
         process.exit(1);
     }
 }

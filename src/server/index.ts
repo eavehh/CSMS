@@ -4,11 +4,11 @@ import { ConnectionManager } from './connectionManager';
 import { logger } from '../logger';
 import { connectDB } from '../db/mongoose';
 
-const PORT = process.env.PORT || 8081;
+const PORT = 8081;
+
 
 // Создаём HTTP-сервер
 const httpServer = createServer((req: IncomingMessage, res: ServerResponse) => {
-    logger.info(`[HTTP] Received ${req.method} request to: ${req.url}`);
     res.writeHead(200, { 'Content-Type': 'text/plain' });
     res.end(`CSMS WebSocket endpoint: ws://localhost:${PORT}\n`);
 });
@@ -17,21 +17,19 @@ export let connectionManager = new ConnectionManager();
 
 // Создаём WS-сервер
 const wsServer = new WsServer(httpServer, connectionManager);
-logger.info('[MAIN] WsServer created');
 
 // Graceful shutdown
 export let shutdownTimeout: NodeJS.Timeout | null = null;
 const SHUTDOWN_TIMEOUT = 30000;  // 30 секунд на завершение соединений
 
 function initiateShutdown(signal: string) {
-    logger.info(`[SHUTDOWN] Received ${signal}. Initiating graceful shutdown...`);
-
+    logger.info(`[SHUTDOWN] Received ${signal}. Initiating closing connection`);
     // Закрываем новые подключения в WS
     wsServer.closeNewConnections();
 
     // Устанавливаем таймаут для принудительного завершения
     shutdownTimeout = setTimeout(() => {
-        logger.error(`[SHUTDOWN] Force closing after ${SHUTDOWN_TIMEOUT}ms`);
+        logger.warn(`[SHUTDOWN] Force closing after ${SHUTDOWN_TIMEOUT}ms`);
         httpServer.close(() => {
             process.exit(1);  // Принудительное завершение
         });
@@ -63,7 +61,7 @@ httpServer.on('error', (error) => {
 
 (async () => {
     await connectDB();
-    logger.info('[MAIN] Starting HTTP server...');
+    logger.info('[HTTP_SERVER] Starting HTTP server...');
     httpServer.listen(PORT, () => {
         logger.info(`[MAIN] CSMS Server fully initialized on port ${PORT}`);
     });

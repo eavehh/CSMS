@@ -36,14 +36,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ConfigurationKey = exports.Firmware = exports.Diagnostics = exports.ChargingProfile = exports.Reservation = exports.Log = exports.LocalList = exports.Config = exports.Transaction = exports.ChargePoint = void 0;
 exports.connectDB = connectDB;
 const mongoose_1 = __importStar(require("mongoose"));
+const logger_1 = require("../logger");
 const mongoURI = 'mongodb://localhost:27017/csms'; // Твоя БД "csms"
 async function connectDB() {
     try {
         await mongoose_1.default.connect(mongoURI);
-        console.log('MongoDB connected!');
+        logger_1.logger.info('[mongo] MongoDB connected!');
     }
     catch (err) {
-        console.error('MongoDB error:', err);
+        logger_1.logger.error(`[mongo] MongoDB error: ${err}`);
         process.exit(1);
     }
 }

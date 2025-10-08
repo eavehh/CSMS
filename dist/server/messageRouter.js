@@ -37,6 +37,7 @@ exports.handleMessage = handleMessage;
 const msgpack = __importStar(require("@msgpack/msgpack"));
 const logger_1 = require("../logger");
 const index_1 = require("./index");
+const ajvValidator_1 = require("../utils/ajvValidator");
 // Sec 4: Charge Point initiated
 const authorize_1 = require("./handlers/authorize");
 const bootNotification_1 = require("./handlers/bootNotification");
@@ -74,7 +75,7 @@ async function handleMessage(data, isBinary, ws, chargePointId) {
             message = msgpack.decode(data);
         }
         catch (err) {
-            logger_1.logger.error(`Failed to decode MessagePack message from ${chargePointId}: ${err.message}`);
+            logger_1.logger.error(`[decode MSG] Failed to decode MessagePack message from ${chargePointId}: ${err.message}`);
             ws.send(JSON.stringify([4, null, { errorCode: 'FormationViolation', description: 'Invalid MessagePack' }]));
             return;
         }
@@ -84,31 +85,32 @@ async function handleMessage(data, isBinary, ws, chargePointId) {
             message = JSON.parse(data.toString());
         }
         catch (err) {
-            logger_1.logger.error(`Failed to parse JSON message from ${chargePointId}: ${err.message}`);
+            logger_1.logger.error(`[parse JSON] Failed to parse JSON message from ${chargePointId}: ${err.message}`);
             ws.send(JSON.stringify([4, null, { errorCode: 'FormationViolation', description: 'Invalid JSON' }]));
             return;
         }
     }
     try {
         const [messageType, uniqueId, action, payload] = message;
-        logger_1.logger.info(`[${chargePointId}] Received: ${action}`);
+        logger_1.logger.info(`[handleMessage] from ${chargePointId} Received: ${action}`);
         const format = index_1.connectionManager.getFormat(chargePointId);
-        // const validation = validateMessage(payload, `${action}Request`);
-        // if (!validation.valid) {
-        //   logger.error(`Validation failed for ${action} from ${chargePointId}: ${(validation.errors as any).map((e: any) => e.message).join('; ')}`);
-        //   const errorResponse = {
-        //     errorCode: 'FormationViolation',
-        //     description: 'Invalid payload',
-        //     errorDetails: validation.errors?.[0]?.message || ''
-        //   };
-        //   const fullError = [4, uniqueId, errorResponse];
-        //   if (format === 'binary') {
-        //     ws.send(msgpack.encode(fullError));
-        //   } else {
-        //     ws.send(JSON.stringify(fullError));
-        //   }
-        //   return;
-        // }
+        const validation = (0, ajvValidator_1.validateMessage)(payload, `${action}Request`);
+        if (!validation.valid) {
+            logger_1.logger.error(`Validation failed for ${action} from ${chargePointId}: ${validation.errors.map((e) => e.message).join('; ')}`);
+            const errorResponse = {
+                errorCode: 'FormationViolation',
+                description: 'Invalid payload',
+                errorDetails: validation.errors?.[0]?.message || ''
+            };
+            const fullError = [4, uniqueId, errorResponse];
+            if (format === 'binary') {
+                ws.send(msgpack.encode(fullError));
+            }
+            else {
+                ws.send(JSON.stringify(fullError));
+            }
+            return;
+        }
         // Если в payload флаг смены (опционально, e.g., req.format = 'binary')
         if (payload.format) {
             index_1.connectionManager.setFormat(chargePointId, payload.format);
@@ -226,7 +228,7 @@ async function handleMessage(data, isBinary, ws, chargePointId) {
         ws.send(fullResponse);
     }
     catch (err) {
-        console.error(`Router parse error from ${chargePointId}: ${err.message}. Raw: ${data.toString()}`);
+        logger_1.logger.error(`[Response send] Router parse error from ${chargePointId}: ${err.message}. RESPONSE: ${data.toString()}`);
         // Безопасный CallError
         ws.send(JSON.stringify([4, null, { errorCode: 'GenericError', description: err.message }]));
     }

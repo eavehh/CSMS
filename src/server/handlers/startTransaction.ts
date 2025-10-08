@@ -39,9 +39,6 @@ export async function handleStartTransaction(req: StartTransactionRequest, charg
         // Обновляем состояние коннектора (transId как number, но если ConnectorState.transactionId ожидает string, приведите: transId.toString())
         connectionManager.updateConnectorState(chargePointId, req.connectorId, 'Charging', transId.toString());
 
-        // Опционально: Устанавливаем интерлок для других коннекторов (если применимо)
-        connectionManager.setInterlockUnavailable(chargePointId, req.connectorId);
-
         return response;
     } catch (err) {
         logger.error(`Error in StartTransaction: ${err}`);

@@ -16,10 +16,10 @@ export async function handleReserveNow(req: ReserveNowRequest, chargePointId: st
     });
     await reservation.save();
     await Log.create({ action: 'ReserveNow', chargePointId, payload: req });
-    logger.info(`Reserve now for ${chargePointId}, connector ${req.connectorId}: idTag ${req.idTag}`);
+    logger.info(`[ReserveNow] for ${chargePointId}, connector ${req.connectorId}: idTag ${req.idTag}`);
     return { status: 'Accepted' };
   } catch (err) {
-    logger.error(`Error in ReserveNow: ${err}`);
+    logger.error(`[ReserveNow] Error in ReserveNow: ${err}`);
     return { status: 'Rejected' };
   }
 }
