@@ -53,8 +53,7 @@ const TransactionSchema = new mongoose.Schema<ITransaction>({
     stopTime: { type: Date },
     meterStart: { type: Number },
     meterStop: { type: Number },
-    energy: { type: Number },
-    cost: { type: Number },
+    cost: { type: Number, default: 0 },  // Сумма (kWh * тариф)
     idTag: { type: String },
     reason: { type: String, enum: ['Local', 'Remote', 'EVDisconnected', 'HardReset', 'PowerLoss', 'Reboot'] },  // Enum из OCPP
     transactionData: [{ type: Schema.Types.Mixed }]  // Гибкий тип для MeterValue
@@ -131,6 +130,7 @@ const configurationKeySchema = new mongoose.Schema({
     value: { type: String },
     readonly: { type: Boolean, default: false }
 });
+
 
 // Экспорт моделей (используем типизированные модели)
 export const ChargePoint = mongoose.model('ChargePoint', chargePointSchema);

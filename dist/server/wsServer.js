@@ -21,7 +21,7 @@ class WsServer {
         this.wss.on('connection', (ws, req) => {
             // Блокировка новых подключений во время shutdown
             if (this.isShuttingDown()) {
-                logger_1.logger.info('[wsServer] Rejecting new connection during shutdown');
+                logger_1.logger.info('[wsServer] CS try to connect to the server; Rejecting new connection during shutdown');
                 ws.terminate();
                 return;
             }
@@ -41,9 +41,15 @@ class WsServer {
             }
             logger_1.logger.info(`[CONNECTION] ChargePoint ID: ${chargePointId}`);
             connectionManager.add(ws, chargePointId);
+            logger_1.logger.info(`[wsServer] CS added to the connection manager - ${chargePointId}`);
             connectionManager.updateLastActivity(chargePointId);
             ws.on('message', (data, isBinary) => {
-                logger_1.logger.info(`[MESSAGE] Received from ${chargePointId}, is_binary: ${isBinary}`);
+                if (isBinary) {
+                    logger_1.logger.info(`[MESSAGE] binary received from ${chargePointId}`);
+                }
+                else {
+                    logger_1.logger.info(`[MESSAGE] json received from ${chargePointId}`);
+                }
                 (0, messageRouter_1.handleMessage)(data, isBinary, ws, chargePointId);
             });
             ws.on('close', (code, reason) => {
@@ -60,21 +66,20 @@ class WsServer {
         // Интервал очистки неактивных (как ранее)
         this.cleanupInterval = setInterval(() => {
             const clientCount = this.wss.clients.size;
-            logger_1.logger.info(`[CLEANUP] Checking ${clientCount} clients for activity`);
+            logger_1.logger.info(`[WsServer] [CLEANUP] Checking ${clientCount} clients for activity`);
             this.wss.clients.forEach((ws) => {
                 const chargePointId = connectionManager.getByWs(ws);
-                if (chargePointId && !connectionManager.isActive(chargePointId, 60 * 1000)) {
-                    logger_1.logger.info(`[CLEANUP] Terminate inactive connection: ${chargePointId}`);
+                if (chargePointId && !connectionManager.isActive(chargePointId)) { // в течении 24 часов
+                    logger_1.logger.info(`[WsServer] [CLEANUP] Terminate inactive connection: ${chargePointId}`);
                     ws.terminate();
                 }
             });
-        }, 60000);
-        // In WsServer constructor (after existing cleanupInterval)
+        }, 10000 * 60 * 60 * 24);
         connectionManager.reservationCleanupInterval = setInterval(() => {
-            logger_1.logger.debug('[Reservation Cleanup] Starting expired reservation check');
+            logger_1.logger.debug('[WsServer] Reservation Cleanup: Starting expired reservation check');
             connectionManager.cleanupExpiredReservations(); // Вызов функции
-            logger_1.logger.debug('[Reservation Cleanup] Check completed');
-        }, 300000); // Каждые 5 минут (300000 ms)
+            logger_1.logger.debug('[WsServer] Reservation Cleanup: Check completed');
+        }, 60000 * 10); // Каждые 10 минут
         // In close() method, clear the interval
         if (connectionManager.reservationCleanupInterval) {
             clearInterval(connectionManager.reservationCleanupInterval);

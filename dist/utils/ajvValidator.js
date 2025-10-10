@@ -394,7 +394,7 @@ const schemas = {
         required: ['status'],
         additionalProperties: false
     }
-    // Добавьте другие, если нужно (например, DiagnosticsStatusNotification)
+    //  другие (например DiagnosticsStatusNotification)
 };
 // Компиляция схем (один раз при инициализации)
 const validators = {};

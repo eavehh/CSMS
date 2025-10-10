@@ -16,10 +16,10 @@ export async function handleUpdateFirmware(req: UpdateFirmwareRequest, chargePoi
             { upsert: true }
         );
         await Log.create({ action: 'UpdateFirmware', chargePointId, payload: req });
-        logger.info(`Update firmware for ${chargePointId}: version ${Date.now()}`);
+        logger.info(`[UpdateFirmware] for ${chargePointId}: version ${Date.now()}`);
         return {};
     } catch (err) {
-        logger.error(`Error in UpdateFirmware: ${err}`);
+        logger.error(`[UpdateFirmware] Error in UpdateFirmware: ${err}`);
         return {};
     }
 }

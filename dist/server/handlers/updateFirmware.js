@@ -11,11 +11,11 @@ async function handleUpdateFirmware(req, chargePointId, ws) {
             status: 'Downloaded'
         }, { upsert: true });
         await mongoose_2.Log.create({ action: 'UpdateFirmware', chargePointId, payload: req });
-        logger_1.logger.info(`Update firmware for ${chargePointId}: version ${Date.now()}`);
+        logger_1.logger.info(`[UpdateFirmware] for ${chargePointId}: version ${Date.now()}`);
         return {};
     }
     catch (err) {
-        logger_1.logger.error(`Error in UpdateFirmware: ${err}`);
+        logger_1.logger.error(`[UpdateFirmware] Error in UpdateFirmware: ${err}`);
         return {};
     }
 }

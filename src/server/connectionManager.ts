@@ -4,6 +4,7 @@ import { ChargePoint } from '../db/mongoose';
 import { INTERVAL } from './handlers/bootNotification';
 
 
+
 export interface ConnectorState {
     status: string;
     transactionId?: string;
@@ -26,7 +27,7 @@ export class ConnectionManager {
         this.lastActivity.set(chargePointId, Date.now());
     }
 
-    isActive(chargePointId: string, timeout = INTERVAL * 1000) {
+    isActive(chargePointId: string, timeout = 24 * 60 * 60 * 1000) {
         const lstAct = this.lastActivity.get(chargePointId);
         return lstAct && (Date.now() - lstAct < timeout);
     }
@@ -68,12 +69,14 @@ export class ConnectionManager {
 
     setPendingRequest(uniqueId: string, action: string): void {
         this.pendingRequests.set(uniqueId, action);
-        logger.debug(`Pending request set: ${uniqueId} → ${action}`);
+        logger.info(`[ConnectionManager] Pending request set: ${uniqueId} → ${action}`);
     }
 
     getAndClearPendingRequest(uniqueId: string): string | undefined {
         const action = this.pendingRequests.get(uniqueId);
         this.pendingRequests.delete(uniqueId);
+        logger.info(`[ConnectionManager] Pending request deleted: ${uniqueId} → ${action}`);
+
         return action;
     }
 
@@ -105,7 +108,7 @@ export class ConnectionManager {
     updateConnectorState(
         chargePointId: string,
         connectorId: number,
-        status: 'Available' | 'Preparing' | 'Charging' | 'Finishing' | 'Reserved' | 'Unavailable' | 'Faulted',
+        status: string,
         transactionId?: string,
         errorCode?: string,
         reservationId?: number,
@@ -140,7 +143,7 @@ export class ConnectionManager {
                 states.set(i, { status: 'Available', lastUpdate: new Date() });
             }
         }
-        logger.info(`[initializeConnectors] Initialized ${numConnectors} connectors for ${chargePointId}`);
+        logger.info(`[connectorManager] cinitializeConnectors: ${numConnectors} connectors for ${chargePointId}`);
     }
 
     getAllConnectors(chargePointId: string): Map<number, ConnectorState> | undefined {

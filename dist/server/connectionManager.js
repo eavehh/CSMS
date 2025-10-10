@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ConnectionManager = void 0;
 const logger_1 = require("../logger");
 const mongoose_1 = require("../db/mongoose");
-const bootNotification_1 = require("./handlers/bootNotification");
 class ConnectionManager {
     constructor() {
         this.connections = new Map();
@@ -17,7 +16,7 @@ class ConnectionManager {
     updateLastActivity(chargePointId) {
         this.lastActivity.set(chargePointId, Date.now());
     }
-    isActive(chargePointId, timeout = bootNotification_1.INTERVAL * 1000) {
+    isActive(chargePointId, timeout = 24 * 60 * 60 * 1000) {
         const lstAct = this.lastActivity.get(chargePointId);
         return lstAct && (Date.now() - lstAct < timeout);
     }
@@ -53,11 +52,12 @@ class ConnectionManager {
     }
     setPendingRequest(uniqueId, action) {
         this.pendingRequests.set(uniqueId, action);
-        logger_1.logger.debug(`Pending request set: ${uniqueId} → ${action}`);
+        logger_1.logger.info(`[ConnectionManager] Pending request set: ${uniqueId} → ${action}`);
     }
     getAndClearPendingRequest(uniqueId) {
         const action = this.pendingRequests.get(uniqueId);
         this.pendingRequests.delete(uniqueId);
+        logger_1.logger.info(`[ConnectionManager] Pending request deleted: ${uniqueId} → ${action}`);
         return action;
     }
     setLastOffline(chargePointId, date) {
@@ -105,7 +105,7 @@ class ConnectionManager {
                 states.set(i, { status: 'Available', lastUpdate: new Date() });
             }
         }
-        logger_1.logger.info(`[initializeConnectors] Initialized ${numConnectors} connectors for ${chargePointId}`);
+        logger_1.logger.info(`[connectorManager] cinitializeConnectors: ${numConnectors} connectors for ${chargePointId}`);
     }
     getAllConnectors(chargePointId) {
         return this.connectorStates.get(chargePointId);

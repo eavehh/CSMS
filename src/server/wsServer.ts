@@ -4,7 +4,6 @@ import { ConnectionManager } from './connectionManager';
 import { handleMessage } from './messageRouter';
 import { logger } from '../logger';
 import { connectionManager, shutdownTimeout } from './index'
-import { INTERVAL } from './handlers/bootNotification';
 
 export class WsServer {
     private wss: WSServer;
@@ -28,7 +27,7 @@ export class WsServer {
         this.wss.on('connection', (ws: WebSocket, req: any) => {
             // Блокировка новых подключений во время shutdown
             if (this.isShuttingDown()) {
-                logger.info('[wsServer] Rejecting new connection during shutdown');
+                logger.info('[wsServer] CS try to connect to the server; Rejecting new connection during shutdown');
                 ws.terminate();
                 return;
             }
@@ -54,10 +53,15 @@ export class WsServer {
             logger.info(`[CONNECTION] ChargePoint ID: ${chargePointId}`);
 
             connectionManager.add(ws, chargePointId);
+            logger.info(`[wsServer] CS added to the connection manager - ${chargePointId}`);
             connectionManager.updateLastActivity(chargePointId);
 
             ws.on('message', (data: Buffer, isBinary: boolean) => {
-                logger.info(`[MESSAGE] Received from ${chargePointId}, is_binary: ${isBinary}`);
+                if (isBinary) {
+                    logger.info(`[MESSAGE] binary received from ${chargePointId}`);
+                } else {
+                    logger.info(`[MESSAGE] json received from ${chargePointId}`);
+                }
                 handleMessage(data, isBinary, ws, chargePointId);
             });
 
@@ -78,23 +82,22 @@ export class WsServer {
         // Интервал очистки неактивных (как ранее)
         this.cleanupInterval = setInterval(() => {
             const clientCount = this.wss.clients.size;
-            logger.info(`[CLEANUP] Checking ${clientCount} clients for activity`);
+            logger.info(`[WsServer] [CLEANUP] Checking ${clientCount} clients for activity`);
 
             this.wss.clients.forEach((ws: WebSocket) => {
                 const chargePointId = connectionManager.getByWs(ws);
-                if (chargePointId && !connectionManager.isActive(chargePointId, 60 * 1000)) {
-                    logger.info(`[CLEANUP] Terminate inactive connection: ${chargePointId}`);
+                if (chargePointId && !connectionManager.isActive(chargePointId)) { // в течении 24 часов
+                    logger.info(`[WsServer] [CLEANUP] Terminate inactive connection: ${chargePointId}`);
                     ws.terminate();
                 }
             });
-        }, 60000);
+        }, 10000 * 60 * 60 * 24);
 
-        // In WsServer constructor (after existing cleanupInterval)
         connectionManager.reservationCleanupInterval = setInterval(() => {
-            logger.debug('[Reservation Cleanup] Starting expired reservation check');
+            logger.debug('[WsServer] Reservation Cleanup: Starting expired reservation check');
             connectionManager.cleanupExpiredReservations();  // Вызов функции
-            logger.debug('[Reservation Cleanup] Check completed');
-        }, 300000);  // Каждые 5 минут (300000 ms)
+            logger.debug('[WsServer] Reservation Cleanup: Check completed');
+        }, 60000 * 10);  // Каждые 10 минут
 
         // In close() method, clear the interval
         if (connectionManager.reservationCleanupInterval) {
