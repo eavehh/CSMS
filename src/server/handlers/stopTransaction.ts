@@ -1,6 +1,7 @@
 import { StopTransactionRequest } from '../types/1.6/StopTransaction';
 import { StopTransactionResponse } from '../types/1.6/StopTransactionResponse';
 import { Transaction } from '../../db/mongoose';
+import { ChargingSession } from '../../db/mongoose';
 import { Log } from '../../db/mongoose';
 import { logger } from '../../logger';
 import { connectionManager } from '../../server/index';
@@ -8,17 +9,16 @@ import WebSocket from 'ws';
 
 export async function handleStopTransaction(req: StopTransactionRequest, chargePointId: string, ws: WebSocket): Promise<StopTransactionResponse> {
     try {
-        // Проверка авторизации ID-тега (опционально; стандарт OCPP)
-        const idTagStatus = req.idTag ? 'Accepted' : 'Accepted';
+        const idTagStatus = req.idTag ? 'Accepted' : 'Accepted';  // Замените на реальную проверку
 
         const tx = await Transaction.findOneAndUpdate(
-            { id: req.transactionId.toString() },  // Приводим к строке, если модель ожидает string
+            { id: req.transactionId.toString() },
             {
                 stopTime: new Date(req.timestamp),
                 meterStop: req.meterStop,
-                reason: req.reason,  // Опциональное
-                transactionData: req.transactionData || [],  // Опциональное, с дефолтом
-                idTag: req.idTag || null  // Опциональное, для записи ID-тега остановки
+                reason: req.reason,
+                transactionData: req.transactionData || [],
+                idTag: req.idTag || null
             },
             { new: true }
         );
@@ -30,14 +30,43 @@ export async function handleStopTransaction(req: StopTransactionRequest, chargeP
 
         await Log.create({ action: 'StopTransaction', chargePointId, payload: req });
 
-        // Обновляем состояние коннектора: извлекаем connectorId из найденной транзакции
-        const connectorId = tx.connectorId;  // Из модели Transaction (сохранено в StartTransaction)
+        // Единый расчёт метрик (один раз, после обновления tx)
+        const totalWh = (req.meterStop || 0) - (tx.meterStart || 0);  // В Wh (исправлено: вычитание meterStart)
+        const totalKWh = totalWh / 1000;
+        const tariff = tx.tariffPerKWh || 0.1;
+        const cost = totalKWh * tariff;
+        const sessionDurationMinutes = (new Date(req.timestamp).getTime() - tx.startTime.getTime()) / (1000 * 60);
+        const maxPossibleKWh = sessionDurationMinutes * 0.05;  // 3 kW = 0.05 kWh/min
+        const efficiencyPercentage = maxPossibleKWh > 0 ? (totalKWh / maxPossibleKWh) * 100 : 0;
+
+        // Сохраняем метрики в tx (если поля в схеме)
+        tx.totalKWh = totalKWh;
+        tx.cost = cost;
+        tx.efficiencyPercentage = efficiencyPercentage;
+        await tx.save();
+
+        // Обновление сессии (если существует) — используем тот же расчёт
+        const session = await ChargingSession.findOne({ chargePointId, transactionId: req.transactionId.toString(), status: 'active' });
+        if (session) {
+            session.currentKWh = totalKWh;  // Финальный (исправлено: полный расчёт)
+            session.status = 'completed';
+            await session.save();
+            logger.info(`[StopTransaction] Session completed: totalKWh=${totalKWh.toFixed(2)}, cost=${cost.toFixed(2)}`);
+        }
+
+        await Log.create({
+            action: 'StopTransaction',
+            chargePointId,
+            payload: { ...req, metrics: { totalKWh, cost, efficiencyPercentage } }
+        });
+
+        // Обновление состояния коннектора
+        const connectorId = tx.connectorId;
         if (!connectorId) {
             logger.error(`[StopTransaction] No connectorId found for tx ${req.transactionId}`);
             return { idTagInfo: { status: 'Invalid' } };
         }
 
-        // Проверяем текущее состояние коннектора (опционально, для безопасности)
         const currentState = connectionManager.getConnectorState(chargePointId, connectorId);
         if (currentState && currentState.status !== 'Charging') {
             logger.warn(`[StopTransaction] for non-charging connector ${connectorId} on ${chargePointId}`);
@@ -45,13 +74,13 @@ export async function handleStopTransaction(req: StopTransactionRequest, chargeP
 
         connectionManager.updateConnectorState(chargePointId, connectorId, 'Finishing');
 
-        logger.info(`[StopTransaction] Stop tx from ${chargePointId}: id ${req.transactionId}, energy ${req.meterStop}, reason: ${req.reason || 'Local'}, connector: ${connectorId}`);
-
-        // Индивидуальный таймаут: Сброс только этого коннектора в 'Available' через 2 секунды
+        // Таймаут сброса только для этого коннектора
         setTimeout(() => {
             connectionManager.updateConnectorState(chargePointId, connectorId, 'Available');
-            logger.info(`[StopTransaction] Connector ${connectorId} on ${chargePointId} reset to Available after Finishing`);
-        }, 2000);  // Стандартный таймаут по OCPP (1–5 секунд)
+            logger.info(`[StopTransaction] Connector ${connectorId} on ${chargePointId} reset to Available`);
+        }, 2000);
+
+        logger.info(`[StopTransaction] Stop tx from ${chargePointId}: id ${req.transactionId}, totalKWh=${totalKWh.toFixed(2)}, cost=${cost.toFixed(2)} EUR, efficiency=${efficiencyPercentage.toFixed(1)}%, reason: ${req.reason || 'Local'}, connector: ${connectorId}`);
 
         return { idTagInfo: { status: idTagStatus } };
     } catch (err) {

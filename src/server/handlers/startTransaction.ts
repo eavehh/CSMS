@@ -2,12 +2,19 @@ import { StartTransactionRequest } from '../types/1.6/StartTransaction';
 import { StartTransactionResponse } from '../types/1.6/StartTransactionResponse';
 import { Transaction } from '../../db/mongoose';
 import { Log } from '../../db/mongoose';
+import { ChargingSession } from '../../db/mongoose';
 import { logger } from '../../logger';
 import WebSocket from 'ws';
 import { connectionManager } from '../../server/index';
 import { resolve } from 'path';
 
-export async function handleStartTransaction(req: StartTransactionRequest, chargePointId: string, ws: WebSocket): Promise<StartTransactionResponse> {
+export async function handleStartTransaction(req: StartTransactionRequest & {  // Расширение типа
+    limitType?: 'percentage' | 'amount' | 'full';
+    limitValue?: number;
+    tariffPerKWh?: number;
+}, chargePointId: string, ws: WebSocket): Promise<StartTransactionResponse> {
+
+
     const transId = Date.now();  // Генерация числового ID (миллисекунды с эпохи — уникально в пределах сессии)
 
     try {
@@ -26,6 +33,26 @@ export async function handleStartTransaction(req: StartTransactionRequest, charg
         await newTx.save();
         await Log.create({ action: 'StartTransaction', chargePointId, payload: req });
 
+        const limitType = req.limitType || 'full';  // 'percentage', 'amount', 'full'
+        const limitValue = req.limitValue || 100;  // Из запроса
+        const tariffPerKWh = req.tariffPerKWh || 0.1;
+        const batteryCapacityKWh = 60;  // Из конфигурации ChargePoint
+
+        const session = new ChargingSession({
+            id: `session-${transId}`,
+            chargePointId,
+            connectorId: req.connectorId,
+            transactionId: transId.toString(),
+            limitType,
+            limitValue,
+            tariffPerKWh,
+            batteryCapacityKWh,
+            startTime: new Date(req.timestamp),
+            status: 'active'
+        });
+        await session.save();
+
+
         // Формируем ответ (transactionId как number)
         const response: StartTransactionResponse = {
             transactionId: transId,  // Теперь соответствует типу number
@@ -34,7 +61,8 @@ export async function handleStartTransaction(req: StartTransactionRequest, charg
             }
         };
 
-        logger.info(`Start tx from ${chargePointId}: id ${transId}, connector ${req.connectorId}`);
+        logger.info(`[StartTransaction] Started session with limits: type=${limitType}, value=${limitValue}, tariff=${tariffPerKWh}`);
+        logger.info(`[StartTransaction] Start tx from ${chargePointId}: id ${transId}, connector ${req.connectorId}`);
 
         // Обновляем состояние коннектора (transId как number, но если ConnectorState.transactionId ожидает string, приведите: transId.toString())
         connectionManager.updateConnectorState(chargePointId, req.connectorId, 'Charging', transId.toString());

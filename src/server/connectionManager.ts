@@ -1,8 +1,7 @@
 import WebSocket from 'ws';
 import { logger } from '../logger';
 import { ChargePoint } from '../db/mongoose';
-import { INTERVAL } from './handlers/bootNotification';
-
+import { Transaction } from "../db/mongoose"
 
 
 export interface ConnectorState {
@@ -164,5 +163,11 @@ export class ConnectionManager {
                 }
             });
         });
+    }
+    getTotalKWh(chargePointId: string, fromDate: Date, toDate: Date): Promise<number> {
+        return Transaction.aggregate([
+            { $match: { chargePointId, stopTime: { $gte: fromDate, $lte: toDate } } },
+            { $group: { _id: null, total: { $sum: '$totalKWh' } } }
+        ]).then((results: any) => results[0]?.total || 0);
     }
 }

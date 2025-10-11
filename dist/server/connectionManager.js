@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ConnectionManager = void 0;
 const logger_1 = require("../logger");
 const mongoose_1 = require("../db/mongoose");
+const mongoose_2 = require("../db/mongoose");
 class ConnectionManager {
     constructor() {
         this.connections = new Map();
@@ -122,6 +123,12 @@ class ConnectionManager {
                 }
             });
         });
+    }
+    getTotalKWh(chargePointId, fromDate, toDate) {
+        return mongoose_2.Transaction.aggregate([
+            { $match: { chargePointId, stopTime: { $gte: fromDate, $lte: toDate } } },
+            { $group: { _id: null, total: { $sum: '$totalKWh' } } }
+        ]).then((results) => results[0]?.total || 0);
     }
 }
 exports.ConnectionManager = ConnectionManager;

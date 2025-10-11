@@ -59,3 +59,26 @@ export function sendCancelReservation(
     const payload = { reservationId };
     sendRemoteMessage(connectionManager, chargePointId, 'CancelReservation', payload);
 }
+
+
+// Тип для payload (из types/1.6/RemoteStartTransaction)
+export interface RemoteStartTransactionPayload {
+    idTag: string;  // ID-тег для авторизации
+    connectorId?: number;  // Конкретный коннектор (опционально; дефолт 1)
+    startValue?: number;  // meterStart (опционально; дефолт 0)
+}
+
+export function sendRemoteStartTransaction(
+    connectionManager: ConnectionManager,
+    chargePointId: string,
+    payload: RemoteStartTransactionPayload
+): void {
+    const fullPayload = {
+        idTag: payload.idTag,
+        connectorId: payload.connectorId || 1,  // Дефолт на первый коннектор
+        startValue: payload.startValue || 0  // meterStart
+    };
+
+    sendRemoteMessage(connectionManager, chargePointId, 'RemoteStartTransaction', fullPayload);
+    logger.info(`[RemoteStartTransaction] Sent to ${chargePointId}: idTag=${fullPayload.idTag}, connectorId=${fullPayload.connectorId}, startValue=${fullPayload.startValue}`);
+}

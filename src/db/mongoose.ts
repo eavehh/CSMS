@@ -39,6 +39,9 @@ export interface ITransaction extends Document {
     meterStart?: number;
     meterStop?: number;
     energy?: number;  // Общая энергия (Wh)
+    totalKWh?: number;  // Сохраняем вычисленное
+    efficiencyPercentage?: number;
+    tariffPerKWh?: number;
     cost?: number;    // Стоимость (опционально)
     idTag?: string;
     reason?: string;  // Причина остановки (опционально)
@@ -51,12 +54,26 @@ const TransactionSchema = new mongoose.Schema<ITransaction>({
     connectorId: { type: Number, required: true },  // ID коннектора
     startTime: { type: Date, required: true, index: true },  // Индекс по времени
     stopTime: { type: Date },
-    meterStart: { type: Number },
+    meterStart: { type: Number, default: 0 },
     meterStop: { type: Number },
-    cost: { type: Number, default: 0 },  // Сумма (kWh * тариф)
-    idTag: { type: String },
-    reason: { type: String, enum: ['Local', 'Remote', 'EVDisconnected', 'HardReset', 'PowerLoss', 'Reboot'] },  // Enum из OCPP
-    transactionData: [{ type: Schema.Types.Mixed }]  // Гибкий тип для MeterValue
+    totalKWh: { type: Number, default: 0 },  // Сохраняем вычисленное
+    cost: { type: Number, default: 0 },  // Сохраняем сумму
+    efficiencyPercentage: { type: Number, default: 0 },  // Сохраняем процент
+    tariffPerKWh: { type: Number, default: 0.1 }  // Тариф на момент транзакции
+});
+
+const chargingSessionSchema = new mongoose.Schema({
+    id: { type: String, required: true, unique: true },
+    chargePointId: { type: String, required: true },
+    connectorId: { type: Number, required: true },
+    transactionId: { type: String, required: true },  // Связь с Transaction
+    limitType: { type: String, enum: ['percentage', 'amount', 'full'], required: true },
+    limitValue: { type: Number, required: true },  // 80 для %, 10 для суммы, 100 для full
+    tariffPerKWh: { type: Number, default: 0.1 },  // Тариф для расчёта суммы
+    batteryCapacityKWh: { type: Number, default: 60 },  // Ёмкость батареи (из конфигурации)
+    currentKWh: { type: Number, default: 0 },  // Текущий счётчик (обновляется в MeterValues)
+    startTime: { type: Date, required: true },
+    status: { type: String, enum: ['active', 'stopped', 'completed'], default: 'active' }
 });
 
 // Config
@@ -143,3 +160,4 @@ export const ChargingProfile = mongoose.model('ChargingProfile', chargingProfile
 export const Diagnostics = mongoose.model('Diagnostics', diagnosticsSchema);
 export const Firmware = mongoose.model('Firmware', firmwareSchema);
 export const ConfigurationKey = mongoose.model('ConfigurationKey', configurationKeySchema);
+export const ChargingSession = mongoose.model('ChargingSession', chargingSessionSchema);
