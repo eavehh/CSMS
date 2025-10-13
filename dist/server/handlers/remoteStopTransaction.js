@@ -2,11 +2,17 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.handleRemoteStopTransaction = handleRemoteStopTransaction;
 const mongoose_1 = require("../../db/mongoose");
-const mongoose_2 = require("../../db/mongoose");
+const Transaction_1 = require("../../db/entities/Transaction");
 const logger_1 = require("../../logger");
 async function handleRemoteStopTransaction(req, chargePointId, ws) {
     try {
-        await mongoose_2.Transaction.findOneAndUpdate({ id: req.transactionId }, { stopTime: new Date(), remote: true }, { upsert: false });
+        const repo = require('../../db/postgres').AppDataSource.getRepository(Transaction_1.Transaction);
+        const tx = await repo.findOneBy({ id: req.transactionId });
+        if (tx) {
+            tx.stopTime = new Date();
+            tx.remote = true;
+            await repo.save(tx);
+        }
         await mongoose_1.Log.create({ action: 'RemoteStopTransaction', chargePointId, payload: req });
         logger_1.logger.info(`Remote stop for ${chargePointId}: tx ${req.transactionId}`);
         return { status: 'Accepted' };

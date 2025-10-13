@@ -1,26 +1,46 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.handleStartTransaction = handleStartTransaction;
+const Transaction_1 = require("../../db/entities/Transaction");
+const postgres_1 = require("../../db/postgres");
 const mongoose_1 = require("../../db/mongoose");
 const mongoose_2 = require("../../db/mongoose");
 const logger_1 = require("../../logger");
 const index_1 = require("../../server/index");
 async function handleStartTransaction(req, chargePointId, ws) {
-    const transId = Date.now(); // Генерация числового ID (миллисекунды с эпохи — уникально в пределах сессии)
+    const transId = Date.now().toString(); // Генерация строкового ID
     try {
-        // Проверка авторизации ID-тега (стандарт OCPP: если не авторизован, статус 'Blocked')
-        // Здесь можно добавить запрос в БД авторизаций (предполагаем, что ID-тег авторизован)
+        // postgres
         const idTagStatus = 'Accepted'; // Замените на реальную проверку
-        const newTx = new mongoose_1.Transaction({
-            id: transId.toString(), // Сохраняем как строку в БД, если модель ожидает string
+        const repo = postgres_1.AppDataSource.getRepository(Transaction_1.Transaction);
+        const newTx = repo.create({
+            id: transId,
             chargePointId,
+            connectorId: req.connectorId,
             startTime: new Date(req.timestamp),
             idTag: req.idTag,
-            connectorId: req.connectorId,
-            meterStart: req.meterStart
+            meterStart: req.meterStart,
         });
-        await newTx.save();
-        await mongoose_2.Log.create({ action: 'StartTransaction', chargePointId, payload: req });
+        await repo.save(newTx);
+        // postgres
+        await mongoose_1.Log.create({ action: 'StartTransaction', chargePointId, payload: req });
+        const limitType = req.limitType || 'full'; // 'percentage', 'amount', 'full'
+        const limitValue = req.limitValue || 100; // Из запроса
+        const tariffPerKWh = req.tariffPerKWh || 0.1;
+        const batteryCapacityKWh = 60; // Из конфигурации ChargePoint
+        const session = new mongoose_2.ChargingSession({
+            id: `session-${transId}`,
+            chargePointId,
+            connectorId: req.connectorId,
+            transactionId: transId.toString(),
+            limitType,
+            limitValue,
+            tariffPerKWh,
+            batteryCapacityKWh,
+            startTime: new Date(req.timestamp),
+            status: 'active'
+        });
+        await session.save();
         // Формируем ответ (transactionId как number)
         const response = {
             transactionId: transId, // Теперь соответствует типу number
@@ -28,8 +48,9 @@ async function handleStartTransaction(req, chargePointId, ws) {
                 status: idTagStatus // 'Accepted' или 'Blocked'
             }
         };
-        logger_1.logger.info(`Start tx from ${chargePointId}: id ${transId}, connector ${req.connectorId}`);
-        // Обновляем состояние коннектора (transId как number, но если ConnectorState.transactionId ожидает string, приведите: transId.toString())
+        logger_1.logger.info(`[StartTransaction] Started session with limits: type=${limitType}, value=${limitValue}, tariff=${tariffPerKWh}`);
+        logger_1.logger.info(`[StartTransaction] Start tx from ${chargePointId}: id ${transId}, connector ${req.connectorId}`);
+        // Обновляем состояние коннектора
         index_1.connectionManager.updateConnectorState(chargePointId, req.connectorId, 'Charging', transId.toString());
         return response;
     }

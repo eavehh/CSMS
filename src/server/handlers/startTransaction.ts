@@ -1,6 +1,7 @@
 import { StartTransactionRequest } from '../types/1.6/StartTransaction';
 import { StartTransactionResponse } from '../types/1.6/StartTransactionResponse';
-import { Transaction } from '../../db/mongoose';
+import { Transaction } from '../../db/entities/Transaction';
+import { AppDataSource } from '../../db/postgres'
 import { Log } from '../../db/mongoose';
 import { ChargingSession } from '../../db/mongoose';
 import { logger } from '../../logger';
@@ -15,22 +16,25 @@ export async function handleStartTransaction(req: StartTransactionRequest & {  /
 }, chargePointId: string, ws: WebSocket): Promise<StartTransactionResponse> {
 
 
-    const transId = Date.now();  // Генерация числового ID (миллисекунды с эпохи — уникально в пределах сессии)
+        const transId = Date.now().toString();  // Генерация строкового ID
 
     try {
-        // Проверка авторизации ID-тега (стандарт OCPP: если не авторизован, статус 'Blocked')
-        // Здесь можно добавить запрос в БД авторизаций (предполагаем, что ID-тег авторизован)
+        // postgres
         const idTagStatus = 'Accepted';  // Замените на реальную проверку
-
-        const newTx = new Transaction({
-            id: transId.toString(),  // Сохраняем как строку в БД, если модель ожидает string
+        const repo = AppDataSource.getRepository(Transaction);
+        
+        const newTx = repo.create({
+            id: transId,
             chargePointId,
+            connectorId: req.connectorId,
             startTime: new Date(req.timestamp),
             idTag: req.idTag,
-            connectorId: req.connectorId,
-            meterStart: req.meterStart
+            meterStart: req.meterStart,
         });
-        await newTx.save();
+        await repo.save(newTx)
+        // postgres
+
+
         await Log.create({ action: 'StartTransaction', chargePointId, payload: req });
 
         const limitType = req.limitType || 'full';  // 'percentage', 'amount', 'full'
@@ -64,7 +68,7 @@ export async function handleStartTransaction(req: StartTransactionRequest & {  /
         logger.info(`[StartTransaction] Started session with limits: type=${limitType}, value=${limitValue}, tariff=${tariffPerKWh}`);
         logger.info(`[StartTransaction] Start tx from ${chargePointId}: id ${transId}, connector ${req.connectorId}`);
 
-        // Обновляем состояние коннектора (transId как number, но если ConnectorState.transactionId ожидает string, приведите: transId.toString())
+        // Обновляем состояние коннектора
         connectionManager.updateConnectorState(chargePointId, req.connectorId, 'Charging', transId.toString());
 
         return response;

@@ -1,21 +1,34 @@
 import { MeterValuesRequest } from '../types/1.6/MeterValues';
 import { MeterValuesResponse } from '../types/1.6/MeterValuesResponse';
-import { Transaction } from '../../db/mongoose';
-import { Log } from '../../db/mongoose';
+import { AppDataSource } from '../../db/postgres'
+import { MeterValue } from '../../db/entities/MeterValue';
+import { Transaction } from '../../db/entities/Transaction';
 import { logger } from '../../logger';
 import WebSocket from 'ws';
 
 export async function handleMeterValues(req: MeterValuesRequest, chargePointId: string, ws: WebSocket): Promise<MeterValuesResponse> {
     try {
-        // Обнови tx energy, если txId
-        if (req.transactionId) {
-            await Transaction.findOneAndUpdate(
-                { id: req.transactionId },
-                { energy: req.meterValue[0]?.sampledValue[0]?.value },  // Пример
-                { upsert: true }
-            );
+        // Сохраняем MeterValue (отдельная таблица)
+        const repo = AppDataSource.getRepository(MeterValue);
+        for (const mv of req.meterValue) {
+            await repo.save(repo.create({
+                transactionId: (req.transactionId as any).toString(),
+                connectorId: req.connectorId,
+                timestamp: new Date(mv.timestamp),
+                sampledValue: mv.sampledValue
+            }));
         }
-        await Log.create({ action: 'MeterValues', chargePointId, payload: req });
+
+        // Можно обновить энергию в транзакции, если требуется
+        if (req.transactionId) {
+            const txRepo = AppDataSource.getRepository(Transaction);
+            const tx = await txRepo.findOneBy({ id: req.transactionId?.toString() });
+            if (tx && req.meterValue[0]?.sampledValue[0]?.value) {
+                tx.energy = Number(req.meterValue[0].sampledValue[0].value);
+                await txRepo.save(tx);
+            }
+        }
+
         logger.info(`Meter from ${chargePointId}: ${req.meterValue[0]?.sampledValue[0]?.value} kWh`);
         return {};
     } catch (err) {

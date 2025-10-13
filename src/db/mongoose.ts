@@ -48,19 +48,6 @@ export interface ITransaction extends Document {
     transactionData?: any[];  // Массив MeterValue (опционально)
 }
 
-const TransactionSchema = new mongoose.Schema<ITransaction>({
-    id: { type: String, required: true, unique: true },
-    chargePointId: { type: String, required: true, index: true },  // Индекс для поиска
-    connectorId: { type: Number, required: true },  // ID коннектора
-    startTime: { type: Date, required: true, index: true },  // Индекс по времени
-    stopTime: { type: Date },
-    meterStart: { type: Number, default: 0 },
-    meterStop: { type: Number },
-    totalKWh: { type: Number, default: 0 },  // Сохраняем вычисленное
-    cost: { type: Number, default: 0 },  // Сохраняем сумму
-    efficiencyPercentage: { type: Number, default: 0 },  // Сохраняем процент
-    tariffPerKWh: { type: Number, default: 0.1 }  // Тариф на момент транзакции
-});
 
 const chargingSessionSchema = new mongoose.Schema({
     id: { type: String, required: true, unique: true },
@@ -150,9 +137,7 @@ const configurationKeySchema = new mongoose.Schema({
 
 
 // Экспорт моделей (используем типизированные модели)
-export const ChargePoint = mongoose.model('ChargePoint', chargePointSchema);
-export const Transaction: Model<ITransaction> = mongoose.model<ITransaction>('Transaction', TransactionSchema);
-export const Config = mongoose.model('Config', configSchema);
+export const ChargePoint = mongoose.model('ChargePoint', chargePointSchema);export const Config = mongoose.model('Config', configSchema);
 export const LocalList = mongoose.model('LocalList', localListSchema);
 export const Log = mongoose.model('Log', logSchema);
 export const Reservation = mongoose.model('Reservation', reservationSchema);

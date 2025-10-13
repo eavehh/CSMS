@@ -1,7 +1,7 @@
 import WebSocket from 'ws';
 import { logger } from '../logger';
 import { ChargePoint } from '../db/mongoose';
-import { Transaction } from "../db/mongoose"
+import { Transaction } from "../db/entities/Transaction"
 
 
 export interface ConnectorState {
@@ -50,8 +50,16 @@ export class ConnectionManager {
             this.reverseConnections.delete(ws);
         }
         this.connections.delete(chargePointId);
-        // Новое: Очищаем состояния коннекторов
-        this.connectorStates.delete(chargePointId);
+        // Не удаляем состояния коннекторов, чтобы не терять сессии
+    }
+
+    // Отвязать только сокет, оставив состояние коннекторов нетронутым
+    detachSocketOnly(chargePointId: string) {
+        const ws = this.connections.get(chargePointId);
+        if (ws) {
+            this.reverseConnections.delete(ws);
+        }
+        this.connections.delete(chargePointId);
     }
 
     get(chargePointId: string): WebSocket | undefined {
@@ -164,10 +172,15 @@ export class ConnectionManager {
             });
         });
     }
-    getTotalKWh(chargePointId: string, fromDate: Date, toDate: Date): Promise<number> {
-        return Transaction.aggregate([
-            { $match: { chargePointId, stopTime: { $gte: fromDate, $lte: toDate } } },
-            { $group: { _id: null, total: { $sum: '$totalKWh' } } }
-        ]).then((results: any) => results[0]?.total || 0);
+    async getTotalKWh(chargePointId: string, fromDate: Date, toDate: Date): Promise<number> {
+        const repo = require('../db/postgres').AppDataSource.getRepository(Transaction);
+        const result = await repo
+            .createQueryBuilder('tx')
+            .select('SUM(tx.totalKWh)', 'total')
+            .where('tx.chargePointId = :chargePointId', { chargePointId })
+            .andWhere('tx.stopTime >= :fromDate', { fromDate })
+            .andWhere('tx.stopTime <= :toDate', { toDate })
+            .getRawOne();
+        return Number(result?.total) || 0;
     }
 }

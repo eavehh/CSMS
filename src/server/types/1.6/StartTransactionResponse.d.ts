@@ -6,5 +6,5 @@ export interface StartTransactionResponse {
     parentIdTag?: string;
     status: "Accepted" | "Blocked" | "Expired" | "Invalid" | "ConcurrentTx";
   };
-  transactionId: number;
+  transactionId: number | string;
 }

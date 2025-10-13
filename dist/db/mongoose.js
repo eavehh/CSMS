@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ConfigurationKey = exports.Firmware = exports.Diagnostics = exports.ChargingProfile = exports.Reservation = exports.Log = exports.LocalList = exports.Config = exports.Transaction = exports.ChargePoint = void 0;
+exports.ChargingSession = exports.ConfigurationKey = exports.Firmware = exports.Diagnostics = exports.ChargingProfile = exports.Reservation = exports.Log = exports.LocalList = exports.Config = exports.ChargePoint = void 0;
 exports.connectDB = connectDB;
 const mongoose_1 = __importDefault(require("mongoose"));
 const logger_1 = require("../logger");
@@ -33,18 +33,18 @@ const chargePointSchema = new mongoose_1.default.Schema({
     meterType: { type: String }, // Boot
     meterSerialNumber: { type: String }, // Boot
 });
-const TransactionSchema = new mongoose_1.default.Schema({
+const chargingSessionSchema = new mongoose_1.default.Schema({
     id: { type: String, required: true, unique: true },
-    chargePointId: { type: String, required: true, index: true }, // Индекс для поиска
-    connectorId: { type: Number, required: true }, // ID коннектора
-    startTime: { type: Date, required: true, index: true }, // Индекс по времени
-    stopTime: { type: Date },
-    meterStart: { type: Number, default: 0 },
-    meterStop: { type: Number },
-    totalKWh: { type: Number, default: 0 }, // Сохраняем вычисленное
-    cost: { type: Number, default: 0 }, // Сохраняем сумму
-    efficiencyPercentage: { type: Number, default: 0 }, // Сохраняем процент
-    tariffPerKWh: { type: Number, default: 0.1 } // Тариф на момент транзакции
+    chargePointId: { type: String, required: true },
+    connectorId: { type: Number, required: true },
+    transactionId: { type: String, required: true }, // Связь с Transaction
+    limitType: { type: String, enum: ['percentage', 'amount', 'full'], required: true },
+    limitValue: { type: Number, required: true }, // 80 для %, 10 для суммы, 100 для full
+    tariffPerKWh: { type: Number, default: 0.1 }, // Тариф для расчёта суммы
+    batteryCapacityKWh: { type: Number, default: 60 }, // Ёмкость батареи (из конфигурации)
+    currentKWh: { type: Number, default: 0 }, // Текущий счётчик (обновляется в MeterValues)
+    startTime: { type: Date, required: true },
+    status: { type: String, enum: ['active', 'stopped', 'completed'], default: 'active' }
 });
 // Config
 const configSchema = new mongoose_1.default.Schema({
@@ -112,7 +112,6 @@ const configurationKeySchema = new mongoose_1.default.Schema({
 });
 // Экспорт моделей (используем типизированные модели)
 exports.ChargePoint = mongoose_1.default.model('ChargePoint', chargePointSchema);
-exports.Transaction = mongoose_1.default.model('Transaction', TransactionSchema);
 exports.Config = mongoose_1.default.model('Config', configSchema);
 exports.LocalList = mongoose_1.default.model('LocalList', localListSchema);
 exports.Log = mongoose_1.default.model('Log', logSchema);
@@ -121,3 +120,4 @@ exports.ChargingProfile = mongoose_1.default.model('ChargingProfile', chargingPr
 exports.Diagnostics = mongoose_1.default.model('Diagnostics', diagnosticsSchema);
 exports.Firmware = mongoose_1.default.model('Firmware', firmwareSchema);
 exports.ConfigurationKey = mongoose_1.default.model('ConfigurationKey', configurationKeySchema);
+exports.ChargingSession = mongoose_1.default.model('ChargingSession', chargingSessionSchema);

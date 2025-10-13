@@ -1,64 +1,51 @@
 import { StopTransactionRequest } from '../types/1.6/StopTransaction';
 import { StopTransactionResponse } from '../types/1.6/StopTransactionResponse';
-import { Transaction } from '../../db/mongoose';
-import { ChargingSession } from '../../db/mongoose';
-import { Log } from '../../db/mongoose';
+import { AppDataSource } from '../../db/postgres'
+import { Transaction } from '../../db/entities/Transaction';
 import { logger } from '../../logger';
 import { connectionManager } from '../../server/index';
 import WebSocket from 'ws';
 
 export async function handleStopTransaction(req: StopTransactionRequest, chargePointId: string, ws: WebSocket): Promise<StopTransactionResponse> {
     try {
-        const idTagStatus = req.idTag ? 'Accepted' : 'Accepted';  // Замените на реальную проверку
+        logger.info(`[StopTransaction] Processing request: transactionId=${req.transactionId}, type=${typeof req.transactionId}`);
+        logger.info(`[StopTransaction] Full request object: ${JSON.stringify(req)}`);
+        const idTagStatus = req.idTag ? 'Accepted' : 'Accepted';  // Реальная проверка авторизации по idTag — опционально
+        const repo = AppDataSource.getRepository(Transaction);
 
-        const tx = await Transaction.findOneAndUpdate(
-            { id: req.transactionId.toString() },
-            {
-                stopTime: new Date(req.timestamp),
-                meterStop: req.meterStop,
-                reason: req.reason,
-                transactionData: req.transactionData || [],
-                idTag: req.idTag || null
-            },
-            { new: true }
-        );
-
+        // Ищем существующую транзакцию по ID
+        logger.info(`[StopTransaction] About to find transaction with id: ${req.transactionId}, type: ${typeof req.transactionId}`);
+        const tx = await repo.findOneBy({ id: req.transactionId.toString() });
         if (!tx) {
             logger.error(`[StopTransaction] Tx not found: ${req.transactionId}`);
             return { idTagInfo: { status: 'Invalid' } };
         }
 
-        await Log.create({ action: 'StopTransaction', chargePointId, payload: req });
-
-        // Единый расчёт метрик (один раз, после обновления tx)
-        const totalWh = (req.meterStop || 0) - (tx.meterStart || 0);  // В Wh (исправлено: вычитание meterStart)
+        // Расчёт метрик
+        const totalWh = (req.meterStop ?? 0) - (tx.meterStart ?? 0);
         const totalKWh = totalWh / 1000;
-        const tariff = tx.tariffPerKWh || 0.1;
+        const tariff = 0.1; // Тариф, можно взять из tx/tariff или конфига
         const cost = totalKWh * tariff;
         const sessionDurationMinutes = (new Date(req.timestamp).getTime() - tx.startTime.getTime()) / (1000 * 60);
-        const maxPossibleKWh = sessionDurationMinutes * 0.05;  // 3 kW = 0.05 kWh/min
-        const efficiencyPercentage = maxPossibleKWh > 0 ? (totalKWh / maxPossibleKWh) * 100 : 0;
+        const maxPossibleKWh = Math.max(sessionDurationMinutes * 0.05, 0);  // Пример: 3 kW = 0.05 kWh/min
+        let efficiencyPercentage = maxPossibleKWh > 0 ? (totalKWh / maxPossibleKWh) * 100 : 0;
+        if (!Number.isFinite(efficiencyPercentage)) efficiencyPercentage = 0;
+        efficiencyPercentage = Math.max(0, Math.min(100, efficiencyPercentage));
 
-        // Сохраняем метрики в tx (если поля в схеме)
+        // Обновляем транзакцию
+        tx.stopTime = new Date(req.timestamp);
+        tx.meterStop = req.meterStop;
+        tx.reason = req.reason;
+        tx.transactionData = req.transactionData || [];
+        tx.idTag = req.idTag || tx.idTag;
         tx.totalKWh = totalKWh;
         tx.cost = cost;
         tx.efficiencyPercentage = efficiencyPercentage;
-        await tx.save();
 
-        // Обновление сессии (если существует) — используем тот же расчёт
-        const session = await ChargingSession.findOne({ chargePointId, transactionId: req.transactionId.toString(), status: 'active' });
-        if (session) {
-            session.currentKWh = totalKWh;  // Финальный (исправлено: полный расчёт)
-            session.status = 'completed';
-            await session.save();
-            logger.info(`[StopTransaction] Session completed: totalKWh=${totalKWh.toFixed(2)}, cost=${cost.toFixed(2)}`);
-        }
+        logger.info(`[StopTransaction] About to save tx with values: totalKWh=${totalKWh}, cost=${cost}, efficiencyPercentage=${efficiencyPercentage}`);
+        await repo.save(tx);
 
-        await Log.create({
-            action: 'StopTransaction',
-            chargePointId,
-            payload: { ...req, metrics: { totalKWh, cost, efficiencyPercentage } }
-        });
+        logger.info(`[StopTransaction] Stop tx from ${chargePointId}: id ${req.transactionId}, totalKWh=${totalKWh.toFixed(2)}, cost=${cost.toFixed(2)} EUR, efficiency=${efficiencyPercentage.toFixed(1)}%, reason: ${req.reason || 'Local'}, connector: ${tx.connectorId}`);
 
         // Обновление состояния коннектора
         const connectorId = tx.connectorId;
@@ -74,13 +61,11 @@ export async function handleStopTransaction(req: StopTransactionRequest, chargeP
 
         connectionManager.updateConnectorState(chargePointId, connectorId, 'Finishing');
 
-        // Таймаут сброса только для этого коннектора
+        // Таймаут сброса коннектора
         setTimeout(() => {
             connectionManager.updateConnectorState(chargePointId, connectorId, 'Available');
             logger.info(`[StopTransaction] Connector ${connectorId} on ${chargePointId} reset to Available`);
         }, 2000);
-
-        logger.info(`[StopTransaction] Stop tx from ${chargePointId}: id ${req.transactionId}, totalKWh=${totalKWh.toFixed(2)}, cost=${cost.toFixed(2)} EUR, efficiency=${efficiencyPercentage.toFixed(1)}%, reason: ${req.reason || 'Local'}, connector: ${connectorId}`);
 
         return { idTagInfo: { status: idTagStatus } };
     } catch (err) {

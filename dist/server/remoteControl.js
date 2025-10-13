@@ -36,6 +36,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendRemoteMessage = sendRemoteMessage;
 exports.sendReserveNow = sendReserveNow;
 exports.sendCancelReservation = sendCancelReservation;
+exports.sendRemoteStartTransaction = sendRemoteStartTransaction;
 const uuid_1 = require("uuid");
 const logger_1 = require("../logger");
 const msgpack = __importStar(require("@msgpack/msgpack"));
@@ -77,4 +78,13 @@ function sendReserveNow(connectionManager, chargePointId, connectorId, idTag, ex
 function sendCancelReservation(connectionManager, chargePointId, reservationId) {
     const payload = { reservationId };
     sendRemoteMessage(connectionManager, chargePointId, 'CancelReservation', payload);
+}
+function sendRemoteStartTransaction(connectionManager, chargePointId, payload) {
+    const fullPayload = {
+        idTag: payload.idTag,
+        connectorId: payload.connectorId || 1, // Дефолт на первый коннектор
+        startValue: payload.startValue || 0 // meterStart
+    };
+    sendRemoteMessage(connectionManager, chargePointId, 'RemoteStartTransaction', fullPayload);
+    logger_1.logger.info(`[RemoteStartTransaction] Sent to ${chargePointId}: idTag=${fullPayload.idTag}, connectorId=${fullPayload.connectorId}, startValue=${fullPayload.startValue}`);
 }

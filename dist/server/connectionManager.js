@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ConnectionManager = void 0;
 const logger_1 = require("../logger");
 const mongoose_1 = require("../db/mongoose");
-const mongoose_2 = require("../db/mongoose");
+const Transaction_1 = require("../db/entities/Transaction");
 class ConnectionManager {
     constructor() {
         this.connections = new Map();
@@ -39,8 +39,15 @@ class ConnectionManager {
             this.reverseConnections.delete(ws);
         }
         this.connections.delete(chargePointId);
-        // Новое: Очищаем состояния коннекторов
-        this.connectorStates.delete(chargePointId);
+        // Не удаляем состояния коннекторов, чтобы не терять сессии
+    }
+    // Отвязать только сокет, оставив состояние коннекторов нетронутым
+    detachSocketOnly(chargePointId) {
+        const ws = this.connections.get(chargePointId);
+        if (ws) {
+            this.reverseConnections.delete(ws);
+        }
+        this.connections.delete(chargePointId);
     }
     get(chargePointId) {
         return this.connections.get(chargePointId);
@@ -124,11 +131,16 @@ class ConnectionManager {
             });
         });
     }
-    getTotalKWh(chargePointId, fromDate, toDate) {
-        return mongoose_2.Transaction.aggregate([
-            { $match: { chargePointId, stopTime: { $gte: fromDate, $lte: toDate } } },
-            { $group: { _id: null, total: { $sum: '$totalKWh' } } }
-        ]).then((results) => results[0]?.total || 0);
+    async getTotalKWh(chargePointId, fromDate, toDate) {
+        const repo = require('../db/postgres').AppDataSource.getRepository(Transaction_1.Transaction);
+        const result = await repo
+            .createQueryBuilder('tx')
+            .select('SUM(tx.totalKWh)', 'total')
+            .where('tx.chargePointId = :chargePointId', { chargePointId })
+            .andWhere('tx.stopTime >= :fromDate', { fromDate })
+            .andWhere('tx.stopTime <= :toDate', { toDate })
+            .getRawOne();
+        return Number(result?.total) || 0;
     }
 }
 exports.ConnectionManager = ConnectionManager;
