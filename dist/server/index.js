@@ -7,7 +7,7 @@ const connectionManager_1 = require("./connectionManager");
 const logger_1 = require("../logger");
 const postgres_1 = require("../db/postgres");
 const mongoose_1 = require("../db/mongoose");
-const httpHandlers_1 = require("./httpHandlers");
+const httpHandlers_1 = require("../api/httpHandlers");
 const PORT = 8081;
 // Создаём HTTP-сервер
 const httpServer = (0, http_1.createServer)((req, res) => {

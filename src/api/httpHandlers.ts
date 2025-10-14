@@ -1,16 +1,26 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { StartTransactionRequest } from './types/1.6/StartTransaction'
+import { StartTransactionRequest } from '../server/types/1.6/StartTransaction'
 import { URL, URLSearchParams } from 'url';
 import { logger } from '../logger';
-import { connectionManager } from './index';
-import { sendReserveNow, sendRemoteStartTransaction } from './remoteControl';
-import { handleStartTransaction } from './handlers/startTransaction';
-import { Transaction } from '../db/entities/Transaction';
-import { MeterValue } from '../db/entities/MeterValue';
-import { AppDataSource } from '../db/postgres';
-
+import { connectionManager } from '../server/index';
+import { sendReserveNow, sendRemoteStartTransaction } from '../server/remoteControl';
+import { handleStartTransaction } from '../server/handlers/startTransaction';
+import { formatConnector, formatStation } from './formatters'
 
 const PORT = 8081;  // Импорт из index, если нужно
+
+/**
+ * Универсальная функция для отправки JSON-ответа
+ */
+export function sendJson(
+    res: ServerResponse,
+    status: number,
+    payload: any
+) {
+    res.writeHead(status, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(payload));
+}
+
 
 export function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
     // CORS для фронтенда
@@ -36,22 +46,26 @@ export function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
     const pathname = parsedUrl.pathname;
     const query = parsedUrl.searchParams;
 
-    // GET /api/stations — список станций
     if (req.method === 'GET' && pathname === '/api/stations') {
         (async () => {
             try {
                 const stationsMap = await connectionManager.getAllChargePointsWithConnectors();
-                const data = Array.from(stationsMap.entries()).map(([stationId, connectors]) => ({
-                    id: stationId,
-                    connectors: Array.from(connectors.entries()).map(([id, state]) => ({ id, ...state }))
-                }));
-                res.writeHead(200, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ success: true, data }));
-                logger.info(`[httpHandlers] GET /api/stations; response: ${JSON.stringify(data).slice(0, 500)}...`)
+
+                // Преобразуем “сырые” данные в отформатированные
+                const data = Array.from(stationsMap.entries()).map(([stationId, connectors]) =>
+                    formatStation(stationId, connectors)
+                );
+
+                sendJson(res, 200, { success: true, data });
+
+                logger.info(`[httpHandlers] GET /api/stations response formatted`);
             } catch (err) {
                 logger.error(`[httpHandlers] Stations query error: ${err}`);
-                res.writeHead(500, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ success: false, error: 'Internal server error' }));
+                sendJson(res, 400, {
+                    success: false,
+                    error: 'Missing required fields'
+                });
+
             }
         })();
         return;
@@ -75,12 +89,11 @@ export function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
                     startValue: startValue || 0
                 });
                 logger.info(`[API] RemoteStartTransaction sent for ${chargePointId}, connector ${connectorId}`);
-                res.writeHead(200, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ success: true, message: 'RemoteStartTransaction sent' }));
+                sendJson(res, 200, { success: true, message: 'RemoteStartTransaction sent' });
+
             } catch (err) {
                 logger.error(`[API] remote-start-session Error: ${err}`);
-                res.writeHead(500, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ success: false, error: 'Remote start session error' }));
+                sendJson(res, 500, { success: false, error: 'Remote start session error' });
             }
         });
         return;
@@ -94,8 +107,7 @@ export function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
             try {
                 const { chargePointId, connectorId, transactionId } = JSON.parse(body);
                 if (!chargePointId || !connectorId || !transactionId) {
-                    res.writeHead(400, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ success: false, error: 'Missing required fields' }));
+                    sendJson(res, 200, { success: true, message: 'No action taken, missing required fields' });
                     return;
                 }
                 // Отправляем RemoteStopTransaction по WS к станции
@@ -105,12 +117,10 @@ export function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
                     transactionId
                 });
                 logger.info(`[API] RemoteStopTransaction sent for ${chargePointId}, connector ${connectorId}, tx ${transactionId}`);
-                res.writeHead(200, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ success: true, message: 'RemoteStopTransaction sent' }));
+                sendJson(res, 200, { success: true, message: 'RemoteStopTransaction sent' });
             } catch (err) {
                 logger.error(`[API] remote-stop-session Error: ${err}`);
-                res.writeHead(500, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ success: false, error: 'Remote stop session error' }));
+                sendJson(res, 500, { success: false, error: 'Remote stop session error' });
             }
         });
         return;
@@ -124,8 +134,7 @@ export function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
             try {
                 const { chargePointId, connectorId, idTag, limitType, limitValue, tariffPerKWh } = JSON.parse(body);
                 if (!chargePointId || !connectorId || !idTag) {
-                    res.writeHead(400, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ success: false, error: 'Missing required fields' }));
+                    sendJson(res, 400, { success: false, error: 'Missing required fields' });
                     return;
                 }
 
@@ -151,16 +160,13 @@ export function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
                         startValue: 0  // meterStart
                     });
                     logger.info(`[API] Start-session initiated for ${chargePointId}, connector ${connectorId}, limits: type=${limitType}, value=${limitValue}`);
-                    res.writeHead(200, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ success: true, message: 'Session started with limits', transactionId: response.transactionId }));
+                    sendJson(res, 200, { success: true, message: 'Session started', transactionId: response.transactionId });
                 } else {
-                    res.writeHead(400, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ success: false, error: 'Start rejected' }));
+                    sendJson(res, 400, { success: false, error: 'Start rejected' });
                 }
             } catch (err) {
                 logger.error(`[API] start-session Error: ${err}`);
-                res.writeHead(500, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ success: false, error: 'Start session error' }));
+                sendJson(res, 500, { success: false, error: 'Start session error' });
             }
         });
         return;
@@ -174,8 +180,7 @@ export function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
                 const { transactionId, chargePointId, connectorId, idTag, meterStop, timestamp, reason } = JSON.parse(body);
                 logger.info(`[API] stop-session received: transactionId=${transactionId}, type=${typeof transactionId}`);
                 if (!transactionId || !chargePointId || !connectorId || !idTag) {
-                    res.writeHead(400, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ success: false, error: 'Missing required fields' }));
+                    sendJson(res, 400, { success: false, error: 'Missing required fields' });
                     return;
                 }
                 // Формируем payload для StopTransaction
@@ -192,15 +197,12 @@ export function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
                 const response = await handleStopTransaction(stopPayload, chargePointId, null);
                 if (response.idTagInfo.status === 'Accepted') {
                     res.writeHead(200, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ success: true, message: 'Session stopped', transactionId }));
                 } else {
-                    res.writeHead(400, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ success: false, error: 'Stop rejected' }));
+                    sendJson(res, 400, { success: false, error: 'Stop rejected' });
                 }
             } catch (err) {
                 logger.error(`[API] stop-session Error: ${err}`);
-                res.writeHead(500, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ success: false, error: 'Stop session error' }));
+                sendJson(res, 500, { success: false, error: 'Stop session error' });
             }
         });
         return;

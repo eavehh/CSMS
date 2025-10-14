@@ -4,7 +4,7 @@ import { ConnectionManager } from './connectionManager';
 import { logger } from '../logger';
 import { AppDataSource } from '../db/postgres';
 import { connectDB } from '../db/mongoose';
-import { handleHttpRequest } from './httpHandlers'
+import { handleHttpRequest } from '../api/httpHandlers'
 
 
 const PORT = 8081;

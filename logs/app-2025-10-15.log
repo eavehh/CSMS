@@ -1,0 +1,480 @@
+2025-10-15 00:05:06 [INFO] o.s.s..main [Thread-1] [wsServer] Creating WebSocket server...
+2025-10-15 00:05:06 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server instance created
+2025-10-15 00:05:06 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server setup complete
+2025-10-15 00:05:06 [INFO] o.s.s..main [Thread-1] [mongo] MongoDB connected!
+2025-10-15 00:05:06 [INFO] o.s.s..main [Thread-1] [MONGO] MongoDB connected
+2025-10-15 00:05:06 [INFO] o.s.s..main [Thread-1] [POSTGRES] PostgreSQL connected
+2025-10-15 00:05:06 [INFO] o.s.s..main [Thread-1] [HTTP_SERVER] Starting HTTP server...
+2025-10-15 00:05:06 [INFO] o.s.s..main [Thread-1] [MAIN] CSMS Server fully initialized on port 8081
+2025-10-15 00:05:43 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:05:43 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:05:43 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:05:43 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:05:43 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:05:43 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:05:43 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:05:43 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:05:43 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:05:43 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:05:43 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:05:43 [INFO] o.s.s..main [Thread-1] [StartTransaction] Started session with limits: type=full, value=100, tariff=0.1
+2025-10-15 00:05:43 [INFO] o.s.s..main [Thread-1] [StartTransaction] Start tx from CP-001: id 1760475943460, connector 1
+2025-10-15 00:05:43 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP-001: Charging (transaction id: 1760475943460)
+2025-10-15 00:05:43 [ERROR] o.s.s..main [Thread-1] [RemoteControl] No WebSocket for CP-001 — cannot send RemoteStartTransaction
+2025-10-15 00:05:43 [INFO] o.s.s..main [Thread-1] [RemoteStartTransaction] Sent to CP-001: idTag=user-123, connectorId=1, startValue=0
+2025-10-15 00:05:43 [INFO] o.s.s..main [Thread-1] [API] Start-session initiated for CP-001, connector 1, limits: type=full, value=100
+2025-10-15 00:05:43 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:05:43 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:05:43 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:05:43 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:05:43 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:05:43 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:05:43 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:05:43 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:05:43 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:05:43 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:05:43 [INFO] o.s.s..main [Thread-1] [API] stop-session received: transactionId=1760475943460, type=string
+2025-10-15 00:05:43 [INFO] o.s.s..main [Thread-1] [API] stop-session using transactionId as string: 1760475943460, type=string
+2025-10-15 00:05:43 [ERROR] o.s.s..main [Thread-1] [API] stop-session Error: Error: Cannot find module './handlers/stopTransaction'
+Require stack:
+- /Users/ab/Documents/code/JavaScript/CSMS/dist/api/httpHandlers.js
+- /Users/ab/Documents/code/JavaScript/CSMS/dist/server/index.js
+2025-10-15 00:05:43 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:05:43 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:14:17 [INFO] o.s.s..main [Thread-1] [SHUTDOWN] Received SIGINT. Initiating graceful shutdown...
+2025-10-15 00:15:28 [INFO] o.s.s..main [Thread-1] [wsServer] Creating WebSocket server...
+2025-10-15 00:15:28 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server instance created
+2025-10-15 00:15:28 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server setup complete
+2025-10-15 00:15:28 [INFO] o.s.s..main [Thread-1] [mongo] MongoDB connected!
+2025-10-15 00:15:28 [INFO] o.s.s..main [Thread-1] [MONGO] MongoDB connected
+2025-10-15 00:15:28 [INFO] o.s.s..main [Thread-1] [POSTGRES] PostgreSQL connected
+2025-10-15 00:15:28 [INFO] o.s.s..main [Thread-1] [HTTP_SERVER] Starting HTTP server...
+2025-10-15 00:15:28 [INFO] o.s.s..main [Thread-1] [MAIN] CSMS Server fully initialized on port 8081
+2025-10-15 00:15:31 [INFO] o.s.s..main [Thread-1] [CONNECTION] New connection: /?chargeBoxIdentity=CP_TEST
+2025-10-15 00:15:31 [INFO] o.s.s..main [Thread-1] [CONNECTION] Headers: {"sec-websocket-version":"13","sec-websocket-key":"8n9lsR5JgoB0EZCw/uuKTA==","connection":"Upgrade","upgrade":"websocket","sec-websocket-extensions":"permessage-deflate; client_max_window_bits","host":"localhost:8081"}
+2025-10-15 00:15:31 [INFO] o.s.s..main [Thread-1] [CONNECTION] ChargePoint ID: CP_TEST
+2025-10-15 00:15:31 [INFO] o.s.s..main [Thread-1] [AddConnection] Initialized default connector states for CP_TEST
+2025-10-15 00:15:31 [INFO] o.s.s..main [Thread-1] [wsServer] CS added to the connection manager - CP_TEST
+2025-10-15 00:15:31 [INFO] o.s.s..main [Thread-1] [CONNECTION] Successfully setup connection for CP_TEST
+2025-10-15 00:15:31 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST
+2025-10-15 00:15:31 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST Received request: BootNotification
+2025-10-15 00:15:31 [INFO] o.s.s..main [Thread-1] [connectorManager] cinitializeConnectors: 1 connectors for CP_TEST
+2025-10-15 00:15:31 [INFO] o.s.s..main [Thread-1] Boot from CP_TEST:
+      Vendor: VendorTest
+      Model: ModelTest 
+      Point serial number: string
+      Box serial number: 503 
+      Firmware: 1.0 
+      iccid: testiccid 
+      imsi: testimsi 
+      Meter type: neteryest 
+      Meter serial number: string 
+      saved to MongoDB
+2025-10-15 00:15:31 [INFO] o.s.s..main [Thread-1] [BootNotification Handled] response={"currentTime":"2025-10-14T21:15:31.874Z","interval":60,"status":"Accepted"}
+2025-10-15 00:15:31 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST: {"currentTime":"2025-10-14T21:15:31.874Z","interval":60,"status":"Accepted"}
+2025-10-15 00:15:33 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST
+2025-10-15 00:15:33 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST Received request: Authorize
+2025-10-15 00:15:33 [INFO] o.s.s..main [Thread-1] Authorize from CP_TEST: USER_123
+2025-10-15 00:15:33 [INFO] o.s.s..main [Thread-1] [Authorize Handled] response={"idTagInfo":{"status":"Accepted"}}
+2025-10-15 00:15:33 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST: {"idTagInfo":{"status":"Accepted"}}
+2025-10-15 00:15:33 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST
+2025-10-15 00:15:33 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST Received request: StatusNotification
+2025-10-15 00:15:33 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_TEST: Preparing
+2025-10-15 00:15:33 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_TEST connector 1 - Preparing
+2025-10-15 00:15:33 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-15 00:15:33 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST: {}
+2025-10-15 00:15:34 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST
+2025-10-15 00:15:34 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST Received request: StatusNotification
+2025-10-15 00:15:34 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 2 for CP_TEST: Preparing
+2025-10-15 00:15:34 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_TEST connector 2 - Preparing
+2025-10-15 00:15:34 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-15 00:15:34 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST: {}
+2025-10-15 00:15:35 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST
+2025-10-15 00:15:35 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST Received request: StartTransaction
+2025-10-15 00:15:35 [INFO] o.s.s..main [Thread-1] [StartTransaction] Started session with limits: type=full, value=100, tariff=0.1
+2025-10-15 00:15:35 [INFO] o.s.s..main [Thread-1] [StartTransaction] Start tx from CP_TEST: id 1760476535901, connector 1
+2025-10-15 00:15:35 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_TEST: Charging (transaction id: 1760476535901)
+2025-10-15 00:15:35 [INFO] o.s.s..main [Thread-1] [StartTransaction Handled] response={"transactionId":"1760476535901","idTagInfo":{"status":"Accepted"}}
+2025-10-15 00:15:35 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST: {"transactionId":"1760476535901","idTagInfo":{"status":"Accepted"}}
+2025-10-15 00:15:35 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST
+2025-10-15 00:15:35 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST Received request: MeterValues
+2025-10-15 00:15:35 [INFO] o.s.s..main [Thread-1] Meter from CP_TEST: 1500 kWh
+2025-10-15 00:15:35 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-15 00:15:35 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST: {}
+2025-10-15 00:15:37 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST
+2025-10-15 00:15:37 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST Received request: MeterValues
+2025-10-15 00:15:37 [INFO] o.s.s..main [Thread-1] Meter from CP_TEST: 2000 kWh
+2025-10-15 00:15:37 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-15 00:15:37 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST: {}
+2025-10-15 00:15:39 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST
+2025-10-15 00:15:39 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST Received request: MeterValues
+2025-10-15 00:15:39 [INFO] o.s.s..main [Thread-1] Meter from CP_TEST: 2500 kWh
+2025-10-15 00:15:39 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-15 00:15:39 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST: {}
+2025-10-15 00:15:41 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST
+2025-10-15 00:15:41 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST Received request: StatusNotification
+2025-10-15 00:15:41 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_TEST: Available
+2025-10-15 00:15:41 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_TEST connector 1 - Available
+2025-10-15 00:15:41 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-15 00:15:41 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST: {}
+2025-10-15 00:15:42 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST
+2025-10-15 00:15:42 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST Received request: StatusNotification
+2025-10-15 00:15:42 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 2 for CP_TEST: Available
+2025-10-15 00:15:42 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_TEST connector 2 - Available
+2025-10-15 00:15:42 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-15 00:15:42 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST: {}
+2025-10-15 00:15:44 [INFO] o.s.s..main [Thread-1] [CLOSE] Disconnected: CP_TEST, code: 1005, reason: 
+2025-10-15 00:15:44 [INFO] o.s.s..main [Thread-1] [Heartbeat] Set lastOffline for CP_TEST: Wed Oct 15 2025 00:15:44 GMT+0300 (Москва, стандартное время)
+2025-10-15 00:16:44 [WARN] o.s.s..main [Thread-1] [RECONNECT] 60000ms passed since disconnect of CP_TEST. If the station supports outbound, attempt reconnect from station. Server will accept.
+2025-10-15 00:23:29 [INFO] o.s.s..main [Thread-1] [SHUTDOWN] Received SIGINT. Initiating graceful shutdown...
+2025-10-15 00:29:55 [INFO] o.s.s..main [Thread-1] [wsServer] Creating WebSocket server...
+2025-10-15 00:29:55 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server instance created
+2025-10-15 00:29:55 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server setup complete
+2025-10-15 00:29:55 [INFO] o.s.s..main [Thread-1] [mongo] MongoDB connected!
+2025-10-15 00:29:55 [INFO] o.s.s..main [Thread-1] [MONGO] MongoDB connected
+2025-10-15 00:29:55 [INFO] o.s.s..main [Thread-1] [POSTGRES] PostgreSQL connected
+2025-10-15 00:29:55 [INFO] o.s.s..main [Thread-1] [HTTP_SERVER] Starting HTTP server...
+2025-10-15 00:29:55 [INFO] o.s.s..main [Thread-1] [MAIN] CSMS Server fully initialized on port 8081
+2025-10-15 00:29:59 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:29:59 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:29:59 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:29:59 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:29:59 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:29:59 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:29:59 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:29:59 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:29:59 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:31:11 [INFO] o.s.s..main [Thread-1] [CONNECTION] New connection: /?chargeBoxIdentity=CP_TEST
+2025-10-15 00:31:11 [INFO] o.s.s..main [Thread-1] [CONNECTION] Headers: {"sec-websocket-version":"13","sec-websocket-key":"HR8pgBan3vKM4cJLQsg2Hw==","connection":"Upgrade","upgrade":"websocket","sec-websocket-extensions":"permessage-deflate; client_max_window_bits","host":"localhost:8081"}
+2025-10-15 00:31:11 [INFO] o.s.s..main [Thread-1] [CONNECTION] ChargePoint ID: CP_TEST
+2025-10-15 00:31:11 [INFO] o.s.s..main [Thread-1] [AddConnection] Initialized default connector states for CP_TEST
+2025-10-15 00:31:11 [INFO] o.s.s..main [Thread-1] [wsServer] CS added to the connection manager - CP_TEST
+2025-10-15 00:31:11 [INFO] o.s.s..main [Thread-1] [CONNECTION] Successfully setup connection for CP_TEST
+2025-10-15 00:31:11 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST
+2025-10-15 00:31:11 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST Received request: BootNotification
+2025-10-15 00:31:11 [INFO] o.s.s..main [Thread-1] [connectorManager] cinitializeConnectors: 1 connectors for CP_TEST
+2025-10-15 00:31:11 [INFO] o.s.s..main [Thread-1] Boot from CP_TEST:
+      Vendor: VendorTest
+      Model: ModelTest 
+      Point serial number: string
+      Box serial number: 503 
+      Firmware: 1.0 
+      iccid: testiccid 
+      imsi: testimsi 
+      Meter type: neteryest 
+      Meter serial number: string 
+      saved to MongoDB
+2025-10-15 00:31:11 [INFO] o.s.s..main [Thread-1] [BootNotification Handled] response={"currentTime":"2025-10-14T21:31:11.552Z","interval":60,"status":"Accepted"}
+2025-10-15 00:31:11 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST: {"currentTime":"2025-10-14T21:31:11.552Z","interval":60,"status":"Accepted"}
+2025-10-15 00:31:13 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST
+2025-10-15 00:31:13 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST Received request: Authorize
+2025-10-15 00:31:13 [INFO] o.s.s..main [Thread-1] Authorize from CP_TEST: USER_123
+2025-10-15 00:31:13 [INFO] o.s.s..main [Thread-1] [Authorize Handled] response={"idTagInfo":{"status":"Accepted"}}
+2025-10-15 00:31:13 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST: {"idTagInfo":{"status":"Accepted"}}
+2025-10-15 00:31:13 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST
+2025-10-15 00:31:13 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST Received request: StatusNotification
+2025-10-15 00:31:13 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_TEST: Preparing
+2025-10-15 00:31:13 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_TEST connector 1 - Preparing
+2025-10-15 00:31:13 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-15 00:31:13 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST: {}
+2025-10-15 00:31:14 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST
+2025-10-15 00:31:14 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST Received request: StatusNotification
+2025-10-15 00:31:14 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 2 for CP_TEST: Preparing
+2025-10-15 00:31:14 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_TEST connector 2 - Preparing
+2025-10-15 00:31:14 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-15 00:31:14 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST: {}
+2025-10-15 00:31:15 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST
+2025-10-15 00:31:15 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST Received request: StartTransaction
+2025-10-15 00:31:15 [INFO] o.s.s..main [Thread-1] [StartTransaction] Started session with limits: type=full, value=100, tariff=0.1
+2025-10-15 00:31:15 [INFO] o.s.s..main [Thread-1] [StartTransaction] Start tx from CP_TEST: id 1760477475566, connector 1
+2025-10-15 00:31:15 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_TEST: Charging (transaction id: 1760477475566)
+2025-10-15 00:31:15 [INFO] o.s.s..main [Thread-1] [StartTransaction Handled] response={"transactionId":"1760477475566","idTagInfo":{"status":"Accepted"}}
+2025-10-15 00:31:15 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST: {"transactionId":"1760477475566","idTagInfo":{"status":"Accepted"}}
+2025-10-15 00:31:15 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST
+2025-10-15 00:31:15 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST Received request: MeterValues
+2025-10-15 00:31:15 [INFO] o.s.s..main [Thread-1] Meter from CP_TEST: 1500 kWh
+2025-10-15 00:31:15 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-15 00:31:15 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST: {}
+2025-10-15 00:31:17 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:31:17 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:31:17 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:31:17 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST
+2025-10-15 00:31:17 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST Received request: MeterValues
+2025-10-15 00:31:17 [INFO] o.s.s..main [Thread-1] Meter from CP_TEST: 2000 kWh
+2025-10-15 00:31:17 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-15 00:31:17 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST: {}
+2025-10-15 00:31:19 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST
+2025-10-15 00:31:19 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST Received request: MeterValues
+2025-10-15 00:31:19 [INFO] o.s.s..main [Thread-1] Meter from CP_TEST: 2500 kWh
+2025-10-15 00:31:19 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-15 00:31:19 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST: {}
+2025-10-15 00:31:21 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST
+2025-10-15 00:31:21 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST Received request: StatusNotification
+2025-10-15 00:31:21 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_TEST: Available
+2025-10-15 00:31:21 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_TEST connector 1 - Available
+2025-10-15 00:31:21 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-15 00:31:21 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST: {}
+2025-10-15 00:31:22 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST
+2025-10-15 00:31:22 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST Received request: StatusNotification
+2025-10-15 00:31:22 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 2 for CP_TEST: Available
+2025-10-15 00:31:22 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_TEST connector 2 - Available
+2025-10-15 00:31:22 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-15 00:31:22 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST: {}
+2025-10-15 00:31:23 [INFO] o.s.s..main [Thread-1] [CLOSE] Disconnected: CP_TEST, code: 1005, reason: 
+2025-10-15 00:31:23 [INFO] o.s.s..main [Thread-1] [Heartbeat] Set lastOffline for CP_TEST: Wed Oct 15 2025 00:31:23 GMT+0300 (Москва, стандартное время)
+2025-10-15 00:31:28 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:31:28 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:31:28 [INFO] o.s.s..main [Thread-1] [httpHandlers], request method OPTIONS
+2025-10-15 00:31:28 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:31:28 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:31:28 [ERROR] o.s.s..main [Thread-1] [RemoteControl] No WebSocket for CP_TEST — cannot send RemoteStartTransaction
+2025-10-15 00:31:28 [INFO] o.s.s..main [Thread-1] [RemoteStartTransaction] Sent to CP_TEST: idTag=ADMIN, connectorId=1, startValue=0
+2025-10-15 00:31:28 [INFO] o.s.s..main [Thread-1] [API] RemoteStartTransaction sent for CP_TEST, connector 1
+2025-10-15 00:31:29 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:31:29 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:31:29 [ERROR] o.s.s..main [Thread-1] [RemoteControl] No WebSocket for CP_TEST — cannot send RemoteStartTransaction
+2025-10-15 00:31:29 [INFO] o.s.s..main [Thread-1] [RemoteStartTransaction] Sent to CP_TEST: idTag=ADMIN, connectorId=1, startValue=0
+2025-10-15 00:31:29 [INFO] o.s.s..main [Thread-1] [API] RemoteStartTransaction sent for CP_TEST, connector 1
+2025-10-15 00:31:31 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:31:31 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:31:31 [INFO] o.s.s..main [Thread-1] [httpHandlers], request method OPTIONS
+2025-10-15 00:31:31 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:31:31 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:31:33 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:31:33 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:31:33 [INFO] o.s.s..main [Thread-1] [httpHandlers], request method OPTIONS
+2025-10-15 00:31:33 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:31:33 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:31:33 [ERROR] o.s.s..main [Thread-1] [RemoteControl] No WebSocket for CP_TEST — cannot send RemoteStartTransaction
+2025-10-15 00:31:33 [INFO] o.s.s..main [Thread-1] [RemoteStartTransaction] Sent to CP_TEST: idTag=ADMIN, connectorId=2, startValue=0
+2025-10-15 00:31:33 [INFO] o.s.s..main [Thread-1] [API] RemoteStartTransaction sent for CP_TEST, connector 2
+2025-10-15 00:31:34 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:31:34 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:31:45 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:31:45 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:31:45 [INFO] o.s.s..main [Thread-1] [httpHandlers], request method OPTIONS
+2025-10-15 00:31:45 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:31:45 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:31:45 [ERROR] o.s.s..main [Thread-1] [RemoteControl] No WebSocket for CP_TEST — cannot send RemoteStartTransaction
+2025-10-15 00:31:45 [INFO] o.s.s..main [Thread-1] [RemoteStartTransaction] Sent to CP_TEST: idTag=ADMIN, connectorId=1, startValue=0
+2025-10-15 00:31:45 [INFO] o.s.s..main [Thread-1] [API] RemoteStartTransaction sent for CP_TEST, connector 1
+2025-10-15 00:31:45 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:31:45 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:31:45 [ERROR] o.s.s..main [Thread-1] [RemoteControl] No WebSocket for CP_TEST — cannot send RemoteStartTransaction
+2025-10-15 00:31:45 [INFO] o.s.s..main [Thread-1] [RemoteStartTransaction] Sent to CP_TEST: idTag=ADMIN, connectorId=1, startValue=0
+2025-10-15 00:31:45 [INFO] o.s.s..main [Thread-1] [API] RemoteStartTransaction sent for CP_TEST, connector 1
+2025-10-15 00:31:45 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:31:45 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:31:45 [ERROR] o.s.s..main [Thread-1] [RemoteControl] No WebSocket for CP_TEST — cannot send RemoteStartTransaction
+2025-10-15 00:31:45 [INFO] o.s.s..main [Thread-1] [RemoteStartTransaction] Sent to CP_TEST: idTag=ADMIN, connectorId=1, startValue=0
+2025-10-15 00:31:45 [INFO] o.s.s..main [Thread-1] [API] RemoteStartTransaction sent for CP_TEST, connector 1
+2025-10-15 00:31:50 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:31:50 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:31:50 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:31:51 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:31:51 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:31:51 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:31:51 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:31:51 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:31:51 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:31:52 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:31:52 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:31:52 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:31:52 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:31:52 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:31:52 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:31:53 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:31:53 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:31:53 [INFO] o.s.s..main [Thread-1] [httpHandlers], request method OPTIONS
+2025-10-15 00:31:53 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:31:53 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:31:53 [ERROR] o.s.s..main [Thread-1] [RemoteControl] No WebSocket for CP_TEST — cannot send RemoteStartTransaction
+2025-10-15 00:31:53 [INFO] o.s.s..main [Thread-1] [RemoteStartTransaction] Sent to CP_TEST: idTag=ADMIN, connectorId=1, startValue=0
+2025-10-15 00:31:53 [INFO] o.s.s..main [Thread-1] [API] RemoteStartTransaction sent for CP_TEST, connector 1
+2025-10-15 00:31:55 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:31:55 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:31:55 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:31:55 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:31:55 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:31:55 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:31:56 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:31:56 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:31:56 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:31:57 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:31:57 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:31:57 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:31:57 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:31:57 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:31:57 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:31:57 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:31:57 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:31:57 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:32:08 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:32:08 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:32:08 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:32:08 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:32:08 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:32:08 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:32:08 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:32:08 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:32:08 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:32:08 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:32:08 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:32:08 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:32:08 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:32:08 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:32:08 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:32:08 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:32:08 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:32:08 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:32:09 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:32:09 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:32:09 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:32:09 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:32:09 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:32:09 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:32:09 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:32:09 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:32:09 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:32:23 [WARN] o.s.s..main [Thread-1] [RECONNECT] 60000ms passed since disconnect of CP_TEST. If the station supports outbound, attempt reconnect from station. Server will accept.
+2025-10-15 00:32:41 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:32:41 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:32:41 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:32:41 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:32:41 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:32:41 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:32:44 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:32:44 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:32:44 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:32:44 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:32:44 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:32:44 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:35:32 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:35:32 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:35:32 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:35:32 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:35:32 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:35:32 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:35:34 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:35:34 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:35:34 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:35:34 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:35:34 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:35:34 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:35:37 [INFO] o.s.s..main [Thread-1] [SHUTDOWN] Received SIGINT. Initiating graceful shutdown...
+2025-10-15 00:36:16 [INFO] o.s.s..main [Thread-1] [wsServer] Creating WebSocket server...
+2025-10-15 00:36:16 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server instance created
+2025-10-15 00:36:16 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server setup complete
+2025-10-15 00:36:16 [INFO] o.s.s..main [Thread-1] [mongo] MongoDB connected!
+2025-10-15 00:36:16 [INFO] o.s.s..main [Thread-1] [MONGO] MongoDB connected
+2025-10-15 00:36:16 [INFO] o.s.s..main [Thread-1] [POSTGRES] PostgreSQL connected
+2025-10-15 00:36:16 [INFO] o.s.s..main [Thread-1] [HTTP_SERVER] Starting HTTP server...
+2025-10-15 00:36:16 [INFO] o.s.s..main [Thread-1] [MAIN] CSMS Server fully initialized on port 8081
+2025-10-15 00:36:19 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:36:19 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:36:19 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:36:19 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:36:19 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:36:19 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:36:19 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:36:19 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:36:19 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:36:26 [INFO] o.s.s..main [Thread-1] [CONNECTION] New connection: /?chargeBoxIdentity=CP_TEST
+2025-10-15 00:36:26 [INFO] o.s.s..main [Thread-1] [CONNECTION] Headers: {"sec-websocket-version":"13","sec-websocket-key":"9Gq6hQj6segm2W17g1K39A==","connection":"Upgrade","upgrade":"websocket","sec-websocket-extensions":"permessage-deflate; client_max_window_bits","host":"localhost:8081"}
+2025-10-15 00:36:26 [INFO] o.s.s..main [Thread-1] [CONNECTION] ChargePoint ID: CP_TEST
+2025-10-15 00:36:26 [INFO] o.s.s..main [Thread-1] [AddConnection] Initialized default connector states for CP_TEST
+2025-10-15 00:36:26 [INFO] o.s.s..main [Thread-1] [wsServer] CS added to the connection manager - CP_TEST
+2025-10-15 00:36:26 [INFO] o.s.s..main [Thread-1] [CONNECTION] Successfully setup connection for CP_TEST
+2025-10-15 00:36:26 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST
+2025-10-15 00:36:26 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST Received request: BootNotification
+2025-10-15 00:36:26 [INFO] o.s.s..main [Thread-1] [connectorManager] cinitializeConnectors: 1 connectors for CP_TEST
+2025-10-15 00:36:26 [INFO] o.s.s..main [Thread-1] Boot from CP_TEST:
+      Vendor: VendorTest
+      Model: ModelTest 
+      Point serial number: string
+      Box serial number: 503 
+      Firmware: 1.0 
+      iccid: testiccid 
+      imsi: testimsi 
+      Meter type: neteryest 
+      Meter serial number: string 
+      saved to MongoDB
+2025-10-15 00:36:26 [INFO] o.s.s..main [Thread-1] [BootNotification Handled] response={"currentTime":"2025-10-14T21:36:26.360Z","interval":60,"status":"Accepted"}
+2025-10-15 00:36:26 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST: {"currentTime":"2025-10-14T21:36:26.360Z","interval":60,"status":"Accepted"}
+2025-10-15 00:36:28 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST
+2025-10-15 00:36:28 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST Received request: Authorize
+2025-10-15 00:36:28 [INFO] o.s.s..main [Thread-1] Authorize from CP_TEST: USER_123
+2025-10-15 00:36:28 [INFO] o.s.s..main [Thread-1] [Authorize Handled] response={"idTagInfo":{"status":"Accepted"}}
+2025-10-15 00:36:28 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST: {"idTagInfo":{"status":"Accepted"}}
+2025-10-15 00:36:28 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST
+2025-10-15 00:36:28 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST Received request: StatusNotification
+2025-10-15 00:36:28 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_TEST: Preparing
+2025-10-15 00:36:28 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_TEST connector 1 - Preparing
+2025-10-15 00:36:28 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-15 00:36:28 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST: {}
+2025-10-15 00:36:29 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:36:29 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:36:29 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:36:29 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST
+2025-10-15 00:36:29 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST Received request: StatusNotification
+2025-10-15 00:36:29 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 2 for CP_TEST: Preparing
+2025-10-15 00:36:29 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_TEST connector 2 - Preparing
+2025-10-15 00:36:29 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-15 00:36:29 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST: {}
+2025-10-15 00:36:30 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST
+2025-10-15 00:36:30 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST Received request: StartTransaction
+2025-10-15 00:36:30 [INFO] o.s.s..main [Thread-1] [StartTransaction] Started session with limits: type=full, value=100, tariff=0.1
+2025-10-15 00:36:30 [INFO] o.s.s..main [Thread-1] [StartTransaction] Start tx from CP_TEST: id 1760477790374, connector 1
+2025-10-15 00:36:30 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_TEST: Charging (transaction id: 1760477790374)
+2025-10-15 00:36:30 [INFO] o.s.s..main [Thread-1] [StartTransaction Handled] response={"transactionId":"1760477790374","idTagInfo":{"status":"Accepted"}}
+2025-10-15 00:36:30 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST: {"transactionId":"1760477790374","idTagInfo":{"status":"Accepted"}}
+2025-10-15 00:36:30 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST
+2025-10-15 00:36:30 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST Received request: MeterValues
+2025-10-15 00:36:30 [INFO] o.s.s..main [Thread-1] Meter from CP_TEST: 1500 kWh
+2025-10-15 00:36:30 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-15 00:36:30 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST: {}
+2025-10-15 00:36:32 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST
+2025-10-15 00:36:32 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST Received request: MeterValues
+2025-10-15 00:36:32 [INFO] o.s.s..main [Thread-1] Meter from CP_TEST: 2000 kWh
+2025-10-15 00:36:32 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-15 00:36:32 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST: {}
+2025-10-15 00:36:34 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST
+2025-10-15 00:36:34 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST Received request: MeterValues
+2025-10-15 00:36:34 [INFO] o.s.s..main [Thread-1] Meter from CP_TEST: 2500 kWh
+2025-10-15 00:36:34 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-15 00:36:34 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST: {}
+2025-10-15 00:36:36 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST
+2025-10-15 00:36:36 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST Received request: StatusNotification
+2025-10-15 00:36:36 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_TEST: Available
+2025-10-15 00:36:36 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_TEST connector 1 - Available
+2025-10-15 00:36:36 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-15 00:36:36 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST: {}
+2025-10-15 00:36:37 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST
+2025-10-15 00:36:37 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST Received request: StatusNotification
+2025-10-15 00:36:37 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 2 for CP_TEST: Available
+2025-10-15 00:36:37 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_TEST connector 2 - Available
+2025-10-15 00:36:37 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-15 00:36:37 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST: {}
+2025-10-15 00:36:37 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:36:37 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:36:37 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:36:37 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:36:37 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:36:37 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 00:36:38 [INFO] o.s.s..main [Thread-1] [CLOSE] Disconnected: CP_TEST, code: 1005, reason: 
+2025-10-15 00:36:38 [INFO] o.s.s..main [Thread-1] [Heartbeat] Set lastOffline for CP_TEST: Wed Oct 15 2025 00:36:38 GMT+0300 (Москва, стандартное время)
+2025-10-15 00:36:52 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:36:52 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:36:52 [INFO] o.s.s..main [Thread-1] [httpHandlers], request method OPTIONS
+2025-10-15 00:36:52 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:36:52 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:36:52 [ERROR] o.s.s..main [Thread-1] [RemoteControl] No WebSocket for CP_TEST — cannot send RemoteStartTransaction
+2025-10-15 00:36:52 [INFO] o.s.s..main [Thread-1] [RemoteStartTransaction] Sent to CP_TEST: idTag=ADMIN, connectorId=1, startValue=0
+2025-10-15 00:36:52 [INFO] o.s.s..main [Thread-1] [API] RemoteStartTransaction sent for CP_TEST, connector 1
+2025-10-15 00:37:02 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:37:02 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:37:02 [INFO] o.s.s..main [Thread-1] [httpHandlers], request method OPTIONS
+2025-10-15 00:37:02 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 00:37:02 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 00:37:38 [WARN] o.s.s..main [Thread-1] [RECONNECT] 60000ms passed since disconnect of CP_TEST. If the station supports outbound, attempt reconnect from station. Server will accept.
+2025-10-15 00:37:39 [INFO] o.s.s..main [Thread-1] [SHUTDOWN] Received SIGINT. Initiating graceful shutdown...
