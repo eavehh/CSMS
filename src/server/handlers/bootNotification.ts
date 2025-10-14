@@ -1,6 +1,6 @@
 import { BootNotificationRequest } from '../types/1.6/BootNotification';
 import { BootNotificationResponse } from '../types/1.6/BootNotificationResponse';
-import { sendRemoteMessage } from '../../utils/remoteControl'
+import { sendRemoteMessage } from '../remoteControl'
 import { ChargePoint } from "../../db/mongoose"
 import { logger } from '../../logger'
 import { LocalList } from "../../db/mongoose"
