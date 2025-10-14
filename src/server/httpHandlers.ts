@@ -48,7 +48,7 @@ export function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
                 }));
                 res.writeHead(200, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ success: true, data }));
-                logger.info(`[httpHandlers] GET /api/stations; response: ${JSON.stringify(data).slice(0,500)}...`)
+                logger.info(`[httpHandlers] GET /api/stations; response: ${JSON.stringify(data).slice(0, 500)}...`)
             } catch (err) {
                 logger.error(`[httpHandlers] Stations query error: ${err}`);
                 res.writeHead(500, { 'Content-Type': 'application/json' });
@@ -239,4 +239,36 @@ export function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
     // Дефолтный обработчик
     res.writeHead(200, { 'Content-Type': 'text/plain' });
     res.end(`CSMS WebSocket endpoint: ws://localhost:${PORT}/ocpp\n`);
+
+
+
+
+    // =============================
+    // 🔹 GET /api/admin/stations
+    // Возвращает список всех подключенных станций
+    // =============================
+    if (req.method === 'GET' && pathname === '/api/admin/stations') {
+        (async () => {
+            try {
+                const stationsMap = await connectionManager.getAllChargePointsWithConnectors();
+                const data = Array.from(stationsMap.entries()).map(([stationId, connectors]) => ({
+                    id: stationId,
+                    connectors: Array.from(connectors.entries()).map(([id, state]) => ({
+                        id,
+                        status: state.status || 'Unknown',
+                    })),
+                }));
+
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: true, data }));
+                logger.info(`[ADMIN_API] GET /api/admin/stations; ${data.length} stations returned`);
+            } catch (err) {
+                logger.error(`[ADMIN_API] /api/admin/stations error: ${err}`);
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: false, error: 'Internal error' }));
+            }
+        })();
+        return;
+    }
+
 }

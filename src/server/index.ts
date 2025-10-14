@@ -72,10 +72,9 @@ httpServer.on('error', (error) => {
         await connectDB();
         logger.info('[MONGO] MongoDB connected');
         
-        // Инициализируем PostgreSQL
         await AppDataSource.initialize();
         logger.info('[POSTGRES] PostgreSQL connected');
-        
+
         // Запускаем HTTP сервер только после инициализации всех БД
         logger.info('[HTTP_SERVER] Starting HTTP server...');
         httpServer.listen(PORT, () => {

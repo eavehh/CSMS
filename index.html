@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CSMS API Manager</title>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 20px;
+        }
+
+        button {
+            padding: 10px;
+            margin: 5px;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        input,
+        select {
+            padding: 5px;
+            margin: 5px;
+        }
+
+        #output {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            max-height: 300px;
+            overflow-y: scroll;
+            white-space: pre-wrap;
+        }
+
+        h3 {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>CSMS API Manager</h1>
+
+    <!-- GET /api/stations -->
+    <h3>Список станций</h3>
+    <button onclick="fetchStations()">Получить станции</button>
+
+    <!-- GET /api/transactions -->
+    <h3>Список транзакций</h3>
+    <input id="txChargeId" placeholder="ChargePoint ID (optional)" value="">
+    <input id="txFrom" placeholder="From (YYYY-MM-DD)" value="">
+    <input id="txTo" placeholder="To (YYYY-MM-DD)" value="">
+    <button onclick="fetchTransactions()">Получить транзакции</button>
+
+    <!-- GET /api/metrics/:id -->
+    <h3>Метрики</h3>
+    <input id="metricsId" placeholder="ChargePoint ID" value="CP_001">
+    <input id="metricsFrom" placeholder="From (YYYY-MM-DD)" value="">
+    <input id="metricsTo" placeholder="To (YYYY-MM-DD)" value="">
+    <button onclick="fetchMetrics()">Получить метрики</button>
+
+    <!-- POST /api/start-session -->
+    <h3>Start Session</h3>
+    <input id="startChargeId" placeholder="ChargePoint ID" value="CP_001">
+    <input id="startConnector" placeholder="Connector ID" value="1">
+    <input id="startIdTag" placeholder="ID Tag" value="USER_123">
+    <select id="startLimitType">
+        <option value="full">Full</option>
+        <option value="Energy">Energy</option>
+        <option value="Power">Power</option>
+    </select>
+    <input id="startLimitValue" placeholder="Limit Value" value="10">
+    <input id="startTariff" placeholder="Tariff per kWh" value="0.1">
+    <button onclick="startSession()">Start Session</button>
+
+    <!-- POST /api/stop-session -->
+    <h3>Stop Session</h3>
+    <input id="stopTxId" placeholder="Transaction ID" value="">
+    <input id="stopChargeId" placeholder="ChargePoint ID" value="CP_001">
+    <input id="stopConnector" placeholder="Connector ID" value="1">
+    <input id="stopIdTag" placeholder="ID Tag" value="USER_123">
+    <input id="stopMeterStop" placeholder="Meter Stop" value="5">
+    <input id="stopTimestamp" placeholder="Timestamp (optional)" value="">
+    <select id="stopReason">
+        <option value="Local">Local</option>
+        <option value="Remote">Remote</option>
+    </select>
+    <button onclick="stopSession()">Stop Session</button>
+
+    <!-- POST /api/reserve -->
+    <h3>Reserve</h3>
+    <input id="reserveChargeId" placeholder="ChargePoint ID" value="CP_001">
+    <input id="reserveConnector" placeholder="Connector ID" value="1">
+    <input id="reserveIdTag" placeholder="ID Tag" value="USER_123">
+    <input id="reserveExpiry" placeholder="Expiry Minutes" value="30">
+    <button onclick="reserve()">Reserve</button>
+
+    <!-- POST /api/admin/connect (включить коннектор) -->
+    <h3>Admin Connect (включить коннектор)</h3>
+    <input id="adminStationId" placeholder="Station ID" value="CP_001">
+    <input id="adminConnectorId" placeholder="Connector ID" value="1">
+    <button onclick="adminConnect()">Connect Connector</button>
+
+    <!-- GET /api/admin/stations -->
+    <h3>Admin Stations</h3>
+    <button onclick="fetchAdminStations()">Список станций (Admin)</button>
+
+    <div id="output"></div>
+
+    <script>
+        const BASE_URL = 'http://localhost:8081';
+
+        function log(text) {
+            document.getElementById('output').innerHTML += text + '<br>';
+            document.getElementById('output').scrollTop = document.getElementById('output').scrollHeight;
+        }
+
+        async function fetchStations() {
+            try {
+                const res = await fetch(`${BASE_URL}/api/stations`);
+                const data = await res.json();
+                log('Stations: ' + JSON.stringify(data, null, 2));
+            } catch (err) {
+                log('Error: ' + err);
+            }
+        }
+
+        async function fetchTransactions() {
+            const chargePointId = document.getElementById('txChargeId').value;
+            const from = document.getElementById('txFrom').value;
+            const to = document.getElementById('txTo').value;
+            const params = new URLSearchParams();
+            if (chargePointId) params.append('chargePointId', chargePointId);
+            if (from) params.append('from', from);
+            if (to) params.append('to', to);
+            try {
+                const res = await fetch(`${BASE_URL}/api/transactions?${params}`);
+                const data = await res.json();
+                log('Transactions: ' + JSON.stringify(data, null, 2));
+            } catch (err) {
+                log('Error: ' + err);
+            }
+        }
+
+        async function fetchMetrics() {
+            const id = document.getElementById('metricsId').value;
+            const from = document.getElementById('metricsFrom').value;
+            const to = document.getElementById('metricsTo').value;
+            const params = new URLSearchParams();
+            if (from) params.append('from', from);
+            if (to) params.append('to', to);
+            try {
+                const res = await fetch(`${BASE_URL}/api/metrics/${id}?${params}`);
+                const data = await res.json();
+                log('Metrics: ' + JSON.stringify(data, null, 2));
+            } catch (err) {
+                log('Error: ' + err);
+            }
+        }
+
+        async function startSession() {
+            const body = {
+                chargePointId: document.getElementById('startChargeId').value,
+                connectorId: document.getElementById('startConnector').value,
+                idTag: document.getElementById('startIdTag').value,
+                limitType: document.getElementById('startLimitType').value,
+                limitValue: document.getElementById('startLimitValue').value,
+                tariffPerKWh: document.getElementById('startTariff').value
+            };
+            try {
+                const res = await fetch(`${BASE_URL}/api/start-session`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+                const data = await res.json();
+                log('Start Session: ' + JSON.stringify(data, null, 2));
+            } catch (err) {
+                log('Error: ' + err);
+            }
+        }
+
+        async function stopSession() {
+            const body = {
+                transactionId: document.getElementById('stopTxId').value,
+                chargePointId: document.getElementById('stopChargeId').value,
+                connectorId: document.getElementById('stopConnector').value,
+                idTag: document.getElementById('stopIdTag').value,
+                meterStop: document.getElementById('stopMeterStop').value,
+                timestamp: document.getElementById('stopTimestamp').value || new Date().toISOString(),
+                reason: document.getElementById('stopReason').value
+            };
+            try {
+                const res = await fetch(`${BASE_URL}/api/stop-session`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+                const data = await res.json();
+                log('Stop Session: ' + JSON.stringify(data, null, 2));
+            } catch (err) {
+                log('Error: ' + err);
+            }
+        }
+
+        async function reserve() {
+            const body = {
+                chargePointId: document.getElementById('reserveChargeId').value,
+                connectorId: document.getElementById('reserveConnector').value,
+                idTag: document.getElementById('reserveIdTag').value,
+                expiryMinutes: document.getElementById('reserveExpiry').value
+            };
+            try {
+                const res = await fetch(`${BASE_URL}/api/reserve`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+                const data = await res.json();
+                log('Reserve: ' + JSON.stringify(data, null, 2));
+            } catch (err) {
+                log('Error: ' + err);
+            }
+        }
+
+        async function adminConnect() {
+            const body = {
+                stationId: document.getElementById('adminStationId').value,
+                connectorId: document.getElementById('adminConnectorId').value
+            };
+            try {
+                const res = await fetch(`${BASE_URL}/api/admin/connect`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+                const data = await res.json();
+                log('Admin Connect: ' + JSON.stringify(data, null, 2));
+            } catch (err) {
+                log('Error: ' + err);
+            }
+        }
+
+        async function fetchAdminStations() {
+            try {
+                const res = await fetch(`${BASE_URL}/api/admin/stations`);
+                const data = await res.json();
+                log('Admin Stations: ' + JSON.stringify(data, null, 2));
+            } catch (err) {
+                log('Error: ' + err);
+            }
+        }
+    </script>
+</body>
+
+</html>

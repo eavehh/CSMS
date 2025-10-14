@@ -62,7 +62,6 @@ httpServer.on('error', (error) => {
         // Инициализируем MongoDB
         await (0, mongoose_1.connectDB)();
         logger_1.logger.info('[MONGO] MongoDB connected');
-        // Инициализируем PostgreSQL
         await postgres_1.AppDataSource.initialize();
         logger_1.logger.info('[POSTGRES] PostgreSQL connected');
         // Запускаем HTTP сервер только после инициализации всех БД

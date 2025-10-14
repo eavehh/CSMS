@@ -229,4 +229,66 @@ function handleHttpRequest(req, res) {
     // Дефолтный обработчик
     res.writeHead(200, { 'Content-Type': 'text/plain' });
     res.end(`CSMS WebSocket endpoint: ws://localhost:${PORT}/ocpp\n`);
+    // =============================
+    // 🔹 GET /api/admin/stations
+    // Возвращает список всех подключенных станций
+    // =============================
+    if (req.method === 'GET' && pathname === '/api/admin/stations') {
+        (async () => {
+            try {
+                const stationsMap = await index_1.connectionManager.getAllChargePointsWithConnectors();
+                const data = Array.from(stationsMap.entries()).map(([stationId, connectors]) => ({
+                    id: stationId,
+                    connectors: Array.from(connectors.entries()).map(([id, state]) => ({
+                        id,
+                        status: state.status || 'Unknown',
+                    })),
+                }));
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: true, data }));
+                logger_1.logger.info(`[ADMIN_API] GET /api/admin/stations; ${data.length} stations returned`);
+            }
+            catch (err) {
+                logger_1.logger.error(`[ADMIN_API] /api/admin/stations error: ${err}`);
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: false, error: 'Internal error' }));
+            }
+        })();
+        return;
+    }
+    // =============================
+    // 🔹 POST /api/admin/connect
+    // Включает коннектор у станции (1–4)
+    // Body: { stationId: string, connectorId: number }
+    // =============================
+    if (req.method === 'POST' && pathname === '/api/admin/connect') {
+        let body = '';
+        req.on('data', chunk => body += chunk);
+        req.on('end', async () => {
+            try {
+                const { stationId, connectorId } = JSON.parse(body);
+                if (!stationId || !connectorId) {
+                    res.writeHead(400, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ success: false, error: 'Missing stationId or connectorId' }));
+                    return;
+                }
+                // Команда RemoteStartTransaction через WS
+                const idTag = 'ADMIN'; // можно сделать динамически
+                (0, remoteControl_1.sendRemoteStartTransaction)(index_1.connectionManager, stationId, {
+                    idTag,
+                    connectorId,
+                    startValue: 0,
+                });
+                logger_1.logger.info(`[ADMIN_API] POST /api/admin/connect — station=${stationId}, connector=${connectorId}`);
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: true, message: `Connector ${connectorId} started at ${stationId}` }));
+            }
+            catch (err) {
+                logger_1.logger.error(`[ADMIN_API] /api/admin/connect error: ${err}`);
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: false, error: 'Internal error' }));
+            }
+        });
+        return;
+    }
 }
