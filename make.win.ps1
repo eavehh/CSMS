@@ -1,3 +1,6 @@
+$function:Has-Docker = {
+    try { Get-Command docker -ErrorAction Stop | Out-Null; return $true } catch { return $false }
+}
 Param(
     [Parameter(Position=0)] [string]$Task = 'help'
 )
@@ -25,6 +28,7 @@ function Exec([string]$cmd) {
 }
 
 function Up-Db {
+    if (-not (Has-Docker)) { Write-Host "[DB] Docker not found. Skipping DB startup." -ForegroundColor Yellow; return }
     Write-Host "[DB] Starting PostgreSQL ($POSTGRES_IMAGE) on port $PG_PORT"
     docker inspect $PG_CONTAINER *> $null
     if ($LASTEXITCODE -ne 0) {
@@ -41,6 +45,7 @@ function Up-Db {
 }
 
 function Wait-Postgres {
+    if (-not (Has-Docker)) { return }
     Write-Host "[DB] Waiting for PostgreSQL to be ready..."
     for ($i=1; $i -le 10; $i++) {
         docker exec -u postgres $PG_CONTAINER pg_isready -U postgres *> $null
@@ -52,42 +57,49 @@ function Wait-Postgres {
 }
 
 function Init-Db {
+    if (-not (Has-Docker)) { return }
     Wait-Postgres
     Write-Host "[DB] Creating role $PG_USER and database $PG_DB if not exists..."
     $roleCheck = docker exec -u postgres $PG_CONTAINER psql -U postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='$PG_USER'" | Out-String
     if (-not ($roleCheck.Trim() -eq '1')) {
-        Exec "docker exec -u postgres $PG_CONTAINER psql -U postgres -c \"CREATE USER $PG_USER WITH PASSWORD '$PG_PASSWORD';\""
+        Exec "docker exec -u postgres $PG_CONTAINER psql -U postgres -c `"CREATE USER $PG_USER WITH PASSWORD '$PG_PASSWORD';`""
     }
     $dbCheck = docker exec -u postgres $PG_CONTAINER psql -U postgres -tAc "SELECT 1 FROM pg_database WHERE datname='$PG_DB'" | Out-String
     if (-not ($dbCheck.Trim() -eq '1')) {
-        Exec "docker exec -u postgres $PG_CONTAINER psql -U postgres -c \"CREATE DATABASE $PG_DB;\""
+        Exec "docker exec -u postgres $PG_CONTAINER psql -U postgres -c `"CREATE DATABASE $PG_DB;`""
     }
-    Exec "docker exec -u postgres $PG_CONTAINER psql -U postgres -c \"GRANT ALL PRIVILEGES ON DATABASE $PG_DB TO $PG_USER;\""
+    Exec "docker exec -u postgres $PG_CONTAINER psql -U postgres -c `"GRANT ALL PRIVILEGES ON DATABASE $PG_DB TO $PG_USER;`""
 }
 
 function Db-Start {
+    if (-not (Has-Docker)) { Write-Host "[DB] Docker not found. Install Docker Desktop or configure external DBs." -ForegroundColor Yellow; return }
     Up-Db
     Init-Db
     Write-Host "[DB] PostgreSQL and MongoDB are up. DB=$PG_DB USER=$PG_USER"
 }
 
 function Status {
-    Exec "docker ps -a --filter \"name=$PG_CONTAINER|$MONGO_CONTAINER\""
+    if (-not (Has-Docker)) { Write-Host "[DB] Docker not found." -ForegroundColor Yellow; return }
+    Write-Host "[DB] Containers matching: $PG_CONTAINER, $MONGO_CONTAINER"
+    docker ps -a | Select-String -Pattern $PG_CONTAINER, $MONGO_CONTAINER | ForEach-Object { $_ }
 }
 
 function Stop-Db {
+    if (-not (Has-Docker)) { return }
     docker stop $PG_CONTAINER *> $null | Out-Null
     docker stop $MONGO_CONTAINER *> $null | Out-Null
     Write-Host "[DB] Containers stopped."
 }
 
 function Down-Db {
+    if (-not (Has-Docker)) { return }
     docker rm -f $PG_CONTAINER *> $null | Out-Null
     docker rm -f $MONGO_CONTAINER *> $null | Out-Null
     Write-Host "[DB] Containers removed. Volumes preserved."
 }
 
 function Clean-Db {
+    if (-not (Has-Docker)) { return }
     Down-Db
     docker volume rm $PG_VOLUME *> $null | Out-Null
     docker volume rm $MONGO_VOLUME *> $null | Out-Null
