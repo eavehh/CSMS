@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.handleSendLocalList = handleSendLocalList;
 const mongoose_1 = require("../../db/mongoose");
 const mongoose_2 = require("../../db/mongoose");
-const remoteControl_1 = require("../../utils/remoteControl");
+const remoteControl_1 = require("../remoteControl");
 const logger_1 = require("../../logger");
 const server_1 = require("../../server"); // Или передай param
 async function handleSendLocalList(req, chargePointId, ws) {

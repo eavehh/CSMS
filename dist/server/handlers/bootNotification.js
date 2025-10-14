@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.INTERVAL = void 0;
 exports.handleBootNotification = handleBootNotification;
-const remoteControl_1 = require("../../utils/remoteControl");
+const remoteControl_1 = require("../remoteControl");
 const mongoose_1 = require("../../db/mongoose");
 const logger_1 = require("../../logger");
 const mongoose_2 = require("../../db/mongoose");

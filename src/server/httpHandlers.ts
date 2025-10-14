@@ -32,7 +32,6 @@ export function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
         return;  // Делегируем WsServer
     }
 
-    // Новый REST API
     const parsedUrl = new URL(req.url || '/', `http://localhost:${PORT}`);
     const pathname = parsedUrl.pathname;
     const query = parsedUrl.searchParams;
@@ -58,64 +57,62 @@ export function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
         return;
     }
 
-    // GET /api/transactions — список транзакций (опционально с фильтрами)
-    if (req.method === 'GET' && pathname === '/api/transactions') {
-        const chargePointId = query.get('chargePointId');
-        const from = query.get('from');
-        const to = query.get('to');
-        (async () => {
+    if (req.method === 'POST' && pathname === '/api/remote-start-session') {
+        let body = '';
+        req.on('data', chunk => body += chunk);
+        req.on('end', async () => {
             try {
-                let filter: any = {};
-                if (chargePointId) filter.chargePointId = chargePointId;
-                if (from) filter.startTime = { $gte: new Date(from) };
-                if (to) filter.startTime = { ...filter.startTime, $lte: new Date(to) };
-
-                const repo = AppDataSource.getRepository(Transaction);
-                const transactions = await repo.find({
-                    where: filter,
-                    order: { startTime: 'DESC' },
-                    take: 100
-                }); logger.info(`[httpHandlers] GET /api/transactions; response size=${transactions.length}`)
-
+                const { chargePointId, connectorId, idTag, startValue } = JSON.parse(body);
+                if (!chargePointId || !connectorId || !idTag) {
+                    res.writeHead(400, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ success: false, error: 'Missing required fields' }));
+                    return;
+                }
+                // Отправляем RemoteStartTransaction по WS к станции
+                sendRemoteStartTransaction(connectionManager, chargePointId, {
+                    idTag,
+                    connectorId,
+                    startValue: startValue || 0
+                });
+                logger.info(`[API] RemoteStartTransaction sent for ${chargePointId}, connector ${connectorId}`);
                 res.writeHead(200, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ success: true, data: transactions }));
+                res.end(JSON.stringify({ success: true, message: 'RemoteStartTransaction sent' }));
             } catch (err) {
-                logger.error(`[httpHandlers] Transactions query error: ${err}`);
+                logger.error(`[API] remote-start-session Error: ${err}`);
                 res.writeHead(500, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ success: false, error: 'Internal server error' }));
+                res.end(JSON.stringify({ success: false, error: 'Remote start session error' }));
             }
-        })();
+        });
         return;
     }
 
-    // GET /api/metrics/:chargePointId — метрики (ваш существующий)
-    if (req.method === 'GET' && pathname.startsWith('/api/metrics/')) {
-        const chargePointId = pathname.split('/')[3];
-        if (!chargePointId) {
-            res.writeHead(400, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ success: false, error: 'Missing chargePointId' }));
-            return;
-        }
-
-        const from = query.get('from');
-        const to = query.get('to');
-        let fromDate = from ? new Date(from) : new Date('1970-01-01');
-        let toDate = to ? new Date(to) : new Date();
-
-        (async () => {
+    // REMOTE STOP TRANSACTION (для фронта)
+    if (req.method === 'POST' && pathname === '/api/remote-stop-session') {
+        let body = '';
+        req.on('data', chunk => body += chunk);
+        req.on('end', async () => {
             try {
-                const totalKWh = await connectionManager.getTotalKWh(chargePointId, fromDate, toDate);
-                const cost = totalKWh * 0.1;
-                logger.info(`[httpHandlers] GET /api/metrics/${chargePointId}; response: ${JSON.stringify({ totalKWh, cost: Number(cost.toFixed(2)) })}`)
-
+                const { chargePointId, connectorId, transactionId } = JSON.parse(body);
+                if (!chargePointId || !connectorId || !transactionId) {
+                    res.writeHead(400, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ success: false, error: 'Missing required fields' }));
+                    return;
+                }
+                // Отправляем RemoteStopTransaction по WS к станции
+                const { sendRemoteStopTransaction } = require('./remoteControl');
+                sendRemoteStopTransaction(connectionManager, chargePointId, {
+                    connectorId,
+                    transactionId
+                });
+                logger.info(`[API] RemoteStopTransaction sent for ${chargePointId}, connector ${connectorId}, tx ${transactionId}`);
                 res.writeHead(200, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ success: true, data: { totalKWh, cost: cost.toFixed(2) } }));
+                res.end(JSON.stringify({ success: true, message: 'RemoteStopTransaction sent' }));
             } catch (err) {
-                logger.error(`[httpHandlers] Metrics error for ${chargePointId}: ${err}`);
+                logger.error(`[API] remote-stop-session Error: ${err}`);
                 res.writeHead(500, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ success: false, error: 'Calculation error' }));
+                res.end(JSON.stringify({ success: false, error: 'Remote stop session error' }));
             }
-        })();
+        });
         return;
     }
 
@@ -209,66 +206,10 @@ export function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
         return;
     }
 
-    // POST /api/reserve — резервирование (пример)
-    if (req.method === 'POST' && pathname === '/api/reserve') {
-        let body = '';
-        req.on('data', chunk => body += chunk);
-        req.on('end', async () => {
-            try {
-                const { chargePointId, connectorId, idTag, expiryMinutes } = JSON.parse(body);
-                if (!chargePointId || !connectorId || !idTag) {
-                    logger.warn(`[httpHandlers] POST /api/reserve missing required fields`)
-                    res.writeHead(400, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ success: false, error: 'Missing required fields' }));
-                    return;
-                }
-                sendReserveNow(connectionManager, chargePointId, connectorId, idTag, new Date(Date.now() + expiryMinutes * 60000));
-
-                logger.info(`[httpHandlers] POST /api/reserve; reserved: ${chargePointId} ${connectorId} ${idTag}`)
-                res.writeHead(200, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ success: true, message: 'Reservation sent' }));
-            } catch (err) {
-                logger.error(`[httpHandlers] Reserve error: ${err}`);
-                res.writeHead(500, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ success: false, error: 'Internal server error' }));
-            }
-        });
-        return;
-    }
 
     // Дефолтный обработчик
     res.writeHead(200, { 'Content-Type': 'text/plain' });
     res.end(`CSMS WebSocket endpoint: ws://localhost:${PORT}/ocpp\n`);
 
-
-
-
-    // =============================
-    // 🔹 GET /api/admin/stations
-    // Возвращает список всех подключенных станций
-    // =============================
-    if (req.method === 'GET' && pathname === '/api/admin/stations') {
-        (async () => {
-            try {
-                const stationsMap = await connectionManager.getAllChargePointsWithConnectors();
-                const data = Array.from(stationsMap.entries()).map(([stationId, connectors]) => ({
-                    id: stationId,
-                    connectors: Array.from(connectors.entries()).map(([id, state]) => ({
-                        id,
-                        status: state.status || 'Unknown',
-                    })),
-                }));
-
-                res.writeHead(200, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ success: true, data }));
-                logger.info(`[ADMIN_API] GET /api/admin/stations; ${data.length} stations returned`);
-            } catch (err) {
-                logger.error(`[ADMIN_API] /api/admin/stations error: ${err}`);
-                res.writeHead(500, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ success: false, error: 'Internal error' }));
-            }
-        })();
-        return;
-    }
 
 }
