@@ -2002,3 +2002,224 @@ Require stack:
 2025-10-15 15:57:16 [INFO] o.s.s..main [Thread-1] [Heartbeat] Set lastOffline for CP_TEST_3: Wed Oct 15 2025 15:57:16 GMT+0300 (Москва, стандартное время)
 2025-10-15 15:57:16 [INFO] o.s.s..main [Thread-1] [Heartbeat] Set lastOffline for CP_TEST_1: Wed Oct 15 2025 15:57:16 GMT+0300 (Москва, стандартное время)
 2025-10-15 15:57:17 [INFO] o.s.s..main [Thread-1] [SHUTDOWN] All connections closed. Shutting down.
+2025-10-15 16:01:08 [INFO] o.s.s..main [Thread-1] [wsServer] Creating WebSocket server...
+2025-10-15 16:01:08 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server instance created
+2025-10-15 16:01:08 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server setup complete
+2025-10-15 16:01:08 [INFO] o.s.s..main [Thread-1] [mongo] MongoDB connected!
+2025-10-15 16:01:08 [INFO] o.s.s..main [Thread-1] [MONGO] MongoDB connected
+2025-10-15 16:01:08 [INFO] o.s.s..main [Thread-1] [POSTGRES] PostgreSQL connected
+2025-10-15 16:01:08 [INFO] o.s.s..main [Thread-1] [HTTP_SERVER] Starting HTTP server...
+2025-10-15 16:01:08 [INFO] o.s.s..main [Thread-1] [MAIN] CSMS Server fully initialized on port 8081
+2025-10-15 16:01:10 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 16:01:10 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 16:01:10 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 16:01:10 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 16:01:10 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 16:21:24 [INFO] o.s.s..main [Thread-1] [SHUTDOWN] Received SIGINT. Initiating graceful shutdown...
+2025-10-15 16:25:15 [INFO] o.s.s..main [Thread-1] [wsServer] Creating WebSocket server...
+2025-10-15 16:25:15 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server instance created
+2025-10-15 16:25:15 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server setup complete
+2025-10-15 16:25:15 [INFO] o.s.s..main [Thread-1] [mongo] MongoDB connected!
+2025-10-15 16:25:15 [INFO] o.s.s..main [Thread-1] [MONGO] MongoDB connected
+2025-10-15 16:25:15 [INFO] o.s.s..main [Thread-1] [POSTGRES] PostgreSQL connected
+2025-10-15 16:25:15 [INFO] o.s.s..main [Thread-1] [HTTP_SERVER] Starting HTTP server...
+2025-10-15 16:25:15 [INFO] o.s.s..main [Thread-1] [MAIN] CSMS Server fully initialized on port 8081
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [CONNECTION] New connection: /ocpp/CP_TEST_1
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [CONNECTION] Headers: {"sec-websocket-version":"13","sec-websocket-key":"ZtW3k8JY31irDWP34GuIxw==","connection":"Upgrade","upgrade":"websocket","sec-websocket-extensions":"permessage-deflate; client_max_window_bits","host":"localhost:8081"}
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [CONNECTION] ChargePoint ID: CP_TEST_1
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [AddConnection] Initialized default connector states for CP_TEST_1
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [wsServer] CS added to the connection manager - CP_TEST_1
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [CONNECTION] Successfully setup connection for CP_TEST_1
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [CONNECTION] New connection: /ocpp/CP_TEST_2
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [CONNECTION] Headers: {"sec-websocket-version":"13","sec-websocket-key":"vjY12K6Z1Anc5XQXCPH9vQ==","connection":"Upgrade","upgrade":"websocket","sec-websocket-extensions":"permessage-deflate; client_max_window_bits","host":"localhost:8081"}
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [CONNECTION] ChargePoint ID: CP_TEST_2
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [AddConnection] Initialized default connector states for CP_TEST_2
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [wsServer] CS added to the connection manager - CP_TEST_2
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [CONNECTION] Successfully setup connection for CP_TEST_2
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST_1
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST_1 Received request: BootNotification
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [CONNECTION] New connection: /ocpp/CP_TEST_3
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [CONNECTION] Headers: {"sec-websocket-version":"13","sec-websocket-key":"n8/7Fzt8CjsEWLJO0/XN7g==","connection":"Upgrade","upgrade":"websocket","sec-websocket-extensions":"permessage-deflate; client_max_window_bits","host":"localhost:8081"}
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [CONNECTION] ChargePoint ID: CP_TEST_3
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [AddConnection] Initialized default connector states for CP_TEST_3
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [wsServer] CS added to the connection manager - CP_TEST_3
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [CONNECTION] Successfully setup connection for CP_TEST_3
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST_3
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST_3 Received request: BootNotification
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST_2
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST_2 Received request: BootNotification
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [connectorManager] cinitializeConnectors: 1 connectors for CP_TEST_2
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] Boot from CP_TEST_2:
+      Vendor: Demo
+      Model: DemoModel 
+      Point serial number: undefined
+      Box serial number: undefined 
+      Firmware: undefined 
+      iccid: undefined 
+      imsi: undefined 
+      Meter type: undefined 
+      Meter serial number: undefined 
+      saved to MongoDB
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [BootNotification Handled] response={"currentTime":"2025-10-15T13:25:19.984Z","interval":60,"status":"Accepted"}
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST_2: {"currentTime":"2025-10-15T13:25:19.984Z","interval":60,"status":"Accepted"}
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [connectorManager] cinitializeConnectors: 1 connectors for CP_TEST_3
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] Boot from CP_TEST_3:
+      Vendor: Demo
+      Model: DemoModel 
+      Point serial number: undefined
+      Box serial number: undefined 
+      Firmware: undefined 
+      iccid: undefined 
+      imsi: undefined 
+      Meter type: undefined 
+      Meter serial number: undefined 
+      saved to MongoDB
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [BootNotification Handled] response={"currentTime":"2025-10-15T13:25:19.987Z","interval":60,"status":"Accepted"}
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST_3: {"currentTime":"2025-10-15T13:25:19.987Z","interval":60,"status":"Accepted"}
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [connectorManager] cinitializeConnectors: 1 connectors for CP_TEST_1
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] Boot from CP_TEST_1:
+      Vendor: Demo
+      Model: DemoModel 
+      Point serial number: undefined
+      Box serial number: undefined 
+      Firmware: undefined 
+      iccid: undefined 
+      imsi: undefined 
+      Meter type: undefined 
+      Meter serial number: undefined 
+      saved to MongoDB
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [BootNotification Handled] response={"currentTime":"2025-10-15T13:25:19.987Z","interval":60,"status":"Accepted"}
+2025-10-15 16:25:19 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST_1: {"currentTime":"2025-10-15T13:25:19.987Z","interval":60,"status":"Accepted"}
+2025-10-15 16:25:22 [INFO] o.s.s..main [Thread-1] [CLOSE] Disconnected: CP_TEST_3, code: 1006, reason: 
+2025-10-15 16:25:22 [INFO] o.s.s..main [Thread-1] [CLOSE] Disconnected: CP_TEST_1, code: 1006, reason: 
+2025-10-15 16:25:22 [INFO] o.s.s..main [Thread-1] [CLOSE] Disconnected: CP_TEST_2, code: 1006, reason: 
+2025-10-15 16:25:22 [INFO] o.s.s..main [Thread-1] [Heartbeat] Set lastOffline for CP_TEST_3: Wed Oct 15 2025 16:25:22 GMT+0300 (Москва, стандартное время)
+2025-10-15 16:25:22 [INFO] o.s.s..main [Thread-1] [Heartbeat] Set lastOffline for CP_TEST_1: Wed Oct 15 2025 16:25:22 GMT+0300 (Москва, стандартное время)
+2025-10-15 16:25:22 [INFO] o.s.s..main [Thread-1] [Heartbeat] Set lastOffline for CP_TEST_2: Wed Oct 15 2025 16:25:22 GMT+0300 (Москва, стандартное время)
+2025-10-15 16:25:26 [INFO] o.s.s..main [Thread-1] [SHUTDOWN] Received SIGINT. Initiating graceful shutdown...
+2025-10-15 16:29:03 [INFO] o.s.s..main [Thread-1] [wsServer] Creating WebSocket server...
+2025-10-15 16:29:03 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server instance created
+2025-10-15 16:29:03 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server setup complete
+2025-10-15 16:29:03 [INFO] o.s.s..main [Thread-1] [mongo] MongoDB connected!
+2025-10-15 16:29:03 [INFO] o.s.s..main [Thread-1] [MONGO] MongoDB connected
+2025-10-15 16:29:03 [INFO] o.s.s..main [Thread-1] [POSTGRES] PostgreSQL connected
+2025-10-15 16:29:03 [INFO] o.s.s..main [Thread-1] [HTTP_SERVER] Starting HTTP server...
+2025-10-15 16:29:03 [INFO] o.s.s..main [Thread-1] [MAIN] CSMS Server fully initialized on port 8081
+2025-10-15 16:33:33 [INFO] o.s.s..main [Thread-1] [SHUTDOWN] Received SIGINT. Initiating graceful shutdown...
+2025-10-15 16:34:46 [INFO] o.s.s..main [Thread-1] [wsServer] Creating WebSocket server...
+2025-10-15 16:34:46 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server instance created
+2025-10-15 16:34:46 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server setup complete
+2025-10-15 16:34:46 [INFO] o.s.s..main [Thread-1] [mongo] MongoDB connected!
+2025-10-15 16:34:46 [INFO] o.s.s..main [Thread-1] [MONGO] MongoDB connected
+2025-10-15 16:34:46 [INFO] o.s.s..main [Thread-1] [POSTGRES] PostgreSQL connected
+2025-10-15 16:34:46 [INFO] o.s.s..main [Thread-1] [HTTP_SERVER] Starting HTTP server...
+2025-10-15 16:34:46 [INFO] o.s.s..main [Thread-1] [MAIN] CSMS Server fully initialized on port 8081
+2025-10-15 16:34:47 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 16:34:47 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 16:34:47 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [CONNECTION] New connection: /ocpp/CP_TEST_1
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [CONNECTION] Headers: {"sec-websocket-version":"13","sec-websocket-key":"X7FDPWTrDvE+LITdHpWb/w==","connection":"Upgrade","upgrade":"websocket","sec-websocket-extensions":"permessage-deflate; client_max_window_bits","host":"localhost:8081"}
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [CONNECTION] ChargePoint ID: CP_TEST_1
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [AddConnection] Initialized default connector states for CP_TEST_1
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [wsServer] CS added to the connection manager - CP_TEST_1
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [CONNECTION] Successfully setup connection for CP_TEST_1
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [CONNECTION] New connection: /ocpp/CP_TEST_2
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [CONNECTION] Headers: {"sec-websocket-version":"13","sec-websocket-key":"xcjju7jjk2cOXGOkGQ1u/A==","connection":"Upgrade","upgrade":"websocket","sec-websocket-extensions":"permessage-deflate; client_max_window_bits","host":"localhost:8081"}
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [CONNECTION] ChargePoint ID: CP_TEST_2
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [AddConnection] Initialized default connector states for CP_TEST_2
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [wsServer] CS added to the connection manager - CP_TEST_2
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [CONNECTION] Successfully setup connection for CP_TEST_2
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [CONNECTION] New connection: /ocpp/CP_TEST_3
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [CONNECTION] Headers: {"sec-websocket-version":"13","sec-websocket-key":"3ilnp5rJbO/U5Uj6AvzsWw==","connection":"Upgrade","upgrade":"websocket","sec-websocket-extensions":"permessage-deflate; client_max_window_bits","host":"localhost:8081"}
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [CONNECTION] ChargePoint ID: CP_TEST_3
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [AddConnection] Initialized default connector states for CP_TEST_3
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [wsServer] CS added to the connection manager - CP_TEST_3
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [CONNECTION] Successfully setup connection for CP_TEST_3
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST_1
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST_1 Received request: BootNotification
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST_2
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST_2 Received request: BootNotification
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST_3
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST_3 Received request: BootNotification
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [connectorManager] cinitializeConnectors: 1 connectors for CP_TEST_2
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] Boot from CP_TEST_2:
+      Vendor: Demo
+      Model: DemoModel 
+      Point serial number: undefined
+      Box serial number: undefined 
+      Firmware: undefined 
+      iccid: undefined 
+      imsi: undefined 
+      Meter type: undefined 
+      Meter serial number: undefined 
+      saved to MongoDB
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [BootNotification Handled] response={"currentTime":"2025-10-15T13:35:04.189Z","interval":60,"status":"Accepted"}
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST_2: {"currentTime":"2025-10-15T13:35:04.189Z","interval":60,"status":"Accepted"}
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [connectorManager] cinitializeConnectors: 1 connectors for CP_TEST_1
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] Boot from CP_TEST_1:
+      Vendor: Demo
+      Model: DemoModel 
+      Point serial number: undefined
+      Box serial number: undefined 
+      Firmware: undefined 
+      iccid: undefined 
+      imsi: undefined 
+      Meter type: undefined 
+      Meter serial number: undefined 
+      saved to MongoDB
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [BootNotification Handled] response={"currentTime":"2025-10-15T13:35:04.190Z","interval":60,"status":"Accepted"}
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST_1: {"currentTime":"2025-10-15T13:35:04.190Z","interval":60,"status":"Accepted"}
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [connectorManager] cinitializeConnectors: 1 connectors for CP_TEST_3
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] Boot from CP_TEST_3:
+      Vendor: Demo
+      Model: DemoModel 
+      Point serial number: undefined
+      Box serial number: undefined 
+      Firmware: undefined 
+      iccid: undefined 
+      imsi: undefined 
+      Meter type: undefined 
+      Meter serial number: undefined 
+      saved to MongoDB
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [BootNotification Handled] response={"currentTime":"2025-10-15T13:35:04.190Z","interval":60,"status":"Accepted"}
+2025-10-15 16:35:04 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST_3: {"currentTime":"2025-10-15T13:35:04.190Z","interval":60,"status":"Accepted"}
+2025-10-15 16:35:06 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-15 16:35:06 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-15 16:35:06 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted
+2025-10-15 16:35:34 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST_1
+2025-10-15 16:35:34 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST_1 Received request: Heartbeat
+2025-10-15 16:35:34 [INFO] o.s.s..main [Thread-1] heartbeat from CP_TEST_1
+2025-10-15 16:35:34 [INFO] o.s.s..main [Thread-1] [Heartbeat Handled] response={"currentTime":"2025-10-15T13:35:34.140Z"}
+2025-10-15 16:35:34 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST_1: {"currentTime":"2025-10-15T13:35:34.140Z"}
+2025-10-15 16:35:34 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST_2
+2025-10-15 16:35:34 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST_2 Received request: Heartbeat
+2025-10-15 16:35:34 [INFO] o.s.s..main [Thread-1] heartbeat from CP_TEST_2
+2025-10-15 16:35:34 [INFO] o.s.s..main [Thread-1] [Heartbeat Handled] response={"currentTime":"2025-10-15T13:35:34.142Z"}
+2025-10-15 16:35:34 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST_2: {"currentTime":"2025-10-15T13:35:34.142Z"}
+2025-10-15 16:35:34 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST_3
+2025-10-15 16:35:34 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST_3 Received request: Heartbeat
+2025-10-15 16:35:34 [INFO] o.s.s..main [Thread-1] heartbeat from CP_TEST_3
+2025-10-15 16:35:34 [INFO] o.s.s..main [Thread-1] [Heartbeat Handled] response={"currentTime":"2025-10-15T13:35:34.143Z"}
+2025-10-15 16:35:34 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST_3: {"currentTime":"2025-10-15T13:35:34.143Z"}
+2025-10-15 16:36:04 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST_1
+2025-10-15 16:36:04 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST_1 Received request: Heartbeat
+2025-10-15 16:36:04 [INFO] o.s.s..main [Thread-1] heartbeat from CP_TEST_1
+2025-10-15 16:36:04 [INFO] o.s.s..main [Thread-1] [Heartbeat Handled] response={"currentTime":"2025-10-15T13:36:04.140Z"}
+2025-10-15 16:36:04 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST_1: {"currentTime":"2025-10-15T13:36:04.140Z"}
+2025-10-15 16:36:04 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST_2
+2025-10-15 16:36:04 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST_2 Received request: Heartbeat
+2025-10-15 16:36:04 [INFO] o.s.s..main [Thread-1] heartbeat from CP_TEST_2
+2025-10-15 16:36:04 [INFO] o.s.s..main [Thread-1] [Heartbeat Handled] response={"currentTime":"2025-10-15T13:36:04.141Z"}
+2025-10-15 16:36:04 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST_2: {"currentTime":"2025-10-15T13:36:04.141Z"}
+2025-10-15 16:36:04 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_TEST_3
+2025-10-15 16:36:04 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_TEST_3 Received request: Heartbeat
+2025-10-15 16:36:04 [INFO] o.s.s..main [Thread-1] heartbeat from CP_TEST_3
+2025-10-15 16:36:04 [INFO] o.s.s..main [Thread-1] [Heartbeat Handled] response={"currentTime":"2025-10-15T13:36:04.141Z"}
+2025-10-15 16:36:04 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_TEST_3: {"currentTime":"2025-10-15T13:36:04.141Z"}
+2025-10-15 16:36:16 [INFO] o.s.s..main [Thread-1] [CLOSE] Disconnected: CP_TEST_1, code: 1006, reason: 
+2025-10-15 16:36:16 [INFO] o.s.s..main [Thread-1] [CLOSE] Disconnected: CP_TEST_2, code: 1006, reason: 
+2025-10-15 16:36:16 [INFO] o.s.s..main [Thread-1] [CLOSE] Disconnected: CP_TEST_3, code: 1006, reason: 
+2025-10-15 16:36:16 [INFO] o.s.s..main [Thread-1] [Heartbeat] Set lastOffline for CP_TEST_1: Wed Oct 15 2025 16:36:16 GMT+0300 (Москва, стандартное время)
+2025-10-15 16:36:16 [INFO] o.s.s..main [Thread-1] [Heartbeat] Set lastOffline for CP_TEST_2: Wed Oct 15 2025 16:36:16 GMT+0300 (Москва, стандартное время)
+2025-10-15 16:36:16 [INFO] o.s.s..main [Thread-1] [Heartbeat] Set lastOffline for CP_TEST_3: Wed Oct 15 2025 16:36:16 GMT+0300 (Москва, стандартное время)
+2025-10-15 16:36:18 [INFO] o.s.s..main [Thread-1] [SHUTDOWN] Received SIGINT. Initiating graceful shutdown...
