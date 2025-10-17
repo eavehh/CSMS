@@ -6,12 +6,18 @@ import { connectionManager } from '../server/index';
 import { sendReserveNow, sendRemoteStartTransaction } from '../server/remoteControl';
 import { handleStartTransaction } from '../server/handlers/startTransaction';
 import { formatConnector, formatStation } from './formatters'
+import fetch from 'node-fetch'; // npm install node-fetch
+import { AppDataSource } from '../db/postgres';
+import { Transaction } from '../db/entities/Transaction';
+
+const STATION_URL = 'http://localhost:3000'; // адрес вашей станции
 
 const PORT = 8081;  // Импорт из index, если нужно
 
-/**
+/*
  * Универсальная функция для отправки JSON-ответа
  */
+
 export function sendJson(
     res: ServerResponse,
     status: number,
@@ -36,6 +42,7 @@ export function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
         return;
     }
 
+
     // WS-эндпоинт (ваш существующий)
     if (req.method === 'GET' && req.url?.startsWith('/ocpp')) {
         logger.info(`[httpHandlers], request method GET on "/ocpp", delegated to [WsServer]`)
@@ -45,6 +52,66 @@ export function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
     const parsedUrl = new URL(req.url || '/', `http://localhost:${PORT}`);
     const pathname = parsedUrl.pathname;
     const query = parsedUrl.searchParams;
+
+
+    if (req.method === 'GET' && req.url?.startsWith('/api/transactions')) {
+        (async () => {
+            try {
+                const repo = AppDataSource.getRepository(Transaction);
+                // Можно добавить фильтры по query-параметрам, если нужно
+                const transactions = await repo.find({
+                    order: { startTime: 'DESC' },
+                    take: 100 // лимит на выдачу, если нужно
+                });
+                sendJson(res, 200, { success: true, data: transactions });
+            } catch (err) {
+                logger.error(`[API] /api/transactions error: ${err}`);
+                sendJson(res, 500, { success: false, error: 'Internal server error' });
+            }
+        })();
+        return;
+    }
+
+    if (req.method === 'POST' && pathname === '/api/start-station') {
+        let body = '';
+        req.on('data', chunk => body += chunk);
+        req.on('end', async () => {
+            try {
+                const { chargePointId } = JSON.parse(body);
+                const response = await fetch(`${STATION_URL}/start-station`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chargePointId })
+                });
+                const data = await response.json();
+                sendJson(res, 200, { success: true, message: (data as any).message });
+            } catch (err) {
+                logger.error(`[API] start-station Error: ${err}`);
+                sendJson(res, 500, { success: false, error: 'Station start error' });
+            }
+        });
+        return;
+    }
+
+    if (req.method === 'POST' && pathname === '/api/stop-station') {
+        let body = '';
+        req.on('data', chunk => body += chunk);
+        req.on('end', async () => {
+            try {
+                const response = await fetch(`${STATION_URL}/stop-station`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const data = await response.json();
+                sendJson(res, 200, { success: true, message: (data as any).message });
+            } catch (err) {
+                logger.error(`[API] stop-station Error: ${err}`);
+                sendJson(res, 500, { success: false, error: 'Station stop error' });
+            }
+        });
+    }
+
+
 
     if (req.method === 'GET' && pathname === '/api/stations') {
         (async () => {
@@ -207,6 +274,12 @@ export function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
         });
         return;
     }
+
+    sendJson(res, 404, {
+        success: false,
+        error: 'API endpoint not found',
+        info: 'CSMS WebSocket endpoint: ws://localhost:8081/ocpp'
+    });
 
 
     // Дефолтный обработчик
