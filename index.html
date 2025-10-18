@@ -1,262 +1,380 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CSMS API Manager</title>
     <style>
+        * { box-sizing: border-box; }
         body {
-            font-family: Arial;
-            margin: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
         }
-
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 10px;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 6px;
+            border-left: 4px solid #007bff;
+        }
+        .section h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        input, select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            min-width: 150px;
+        }
         button {
-            padding: 10px;
-            margin: 5px;
+            padding: 10px 20px;
             background: #007bff;
             color: white;
             border: none;
+            border-radius: 4px;
             cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
         }
-
         button:hover {
             background: #0056b3;
         }
-
-        input,
-        select {
-            padding: 5px;
-            margin: 5px;
+        button.secondary {
+            background: #6c757d;
         }
-
+        button.secondary:hover {
+            background: #5a6268;
+        }
+        button.danger {
+            background: #dc3545;
+        }
+        button.danger:hover {
+            background: #c82333;
+        }
         #output {
             margin-top: 20px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            max-height: 300px;
-            overflow-y: scroll;
+            border: 1px solid #ddd;
+            padding: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+            background: #fff;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
             white-space: pre-wrap;
+            word-wrap: break-word;
         }
-
-        h3 {
-            margin-top: 20px;
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-left: 5px;
         }
+        .badge.admin { background: #ffc107; color: #000; }
+        .badge.user { background: #28a745; color: #fff; }
+        .badge.status { background: #17a2b8; color: #fff; }
     </style>
 </head>
-
 <body>
-    <h1>CSMS API Manager</h1>
+    <div class="container">
+        <h1>🔌 CSMS API Manager</h1>
 
-    <!-- GET /api/stations -->
-    <h3>Список станций</h3>
-    <button onclick="fetchStations()">Получить станции</button>
+        <!-- ========== ADMIN API ========== -->
+        <div class="section">
+            <h3>Админ-панель <span class="badge admin">ADMIN</span></h3>
+            
+            <div class="controls">
+                <button onclick="fetchAdminStations()">Получить все станции</button>
+                <button onclick="fetchTransactions()">Получить транзакции</button>
+            </div>
 
-    <!-- GET /api/transactions -->
-    <h3>Список транзакций</h3>
-    <input id="txChargeId" placeholder="ChargePoint ID (optional)" value="">
-    <input id="txFrom" placeholder="From (YYYY-MM-DD)" value="">
-    <input id="txTo" placeholder="To (YYYY-MM-DD)" value="">
-    <button onclick="fetchTransactions()">Получить транзакции</button>
+            <div class="controls">
+                <input id="adminStationId" placeholder="Station ID" value="CP_001">
+                <input id="adminConnectorId" placeholder="Connector ID" value="1">
+                <button onclick="adminStartStation()">Запустить станцию</button>
+                <button onclick="adminStopStation()" class="danger">Остановить станцию</button>
+            </div>
 
-    <!-- GET /api/metrics/:id -->
-    <h3>Метрики</h3>
-    <input id="metricsId" placeholder="ChargePoint ID" value="CP_001">
-    <input id="metricsFrom" placeholder="From (YYYY-MM-DD)" value="">
-    <input id="metricsTo" placeholder="To (YYYY-MM-DD)" value="">
-    <button onclick="fetchMetrics()">Получить метрики</button>
+            <div class="controls">
+                <input id="adminRemoteStationId" placeholder="Station ID" value="CP_001">
+                <input id="adminRemoteConnectorId" placeholder="Connector ID" value="1">
+                <input id="adminRemoteIdTag" placeholder="ID Tag" value="USER_123">
+                <button onclick="adminRemoteStart()">Remote Start Session</button>
+            </div>
 
-    <!-- POST /api/start-session -->
-    <h3>Start Session</h3>
-    <input id="startChargeId" placeholder="ChargePoint ID" value="CP_001">
-    <input id="startConnector" placeholder="Connector ID" value="1">
-    <input id="startIdTag" placeholder="ID Tag" value="USER_123">
-    <select id="startLimitType">
-        <option value="full">Full</option>
-        <option value="Energy">Energy</option>
-        <option value="Power">Power</option>
-    </select>
-    <input id="startLimitValue" placeholder="Limit Value" value="10">
-    <input id="startTariff" placeholder="Tariff per kWh" value="0.1">
-    <button onclick="startSession()">Start Session</button>
+            <div class="controls">
+                <input id="adminStopRemoteStationId" placeholder="Station ID" value="CP_001">
+                <input id="adminStopRemoteConnectorId" placeholder="Connector ID" value="1">
+                <input id="adminStopRemoteTxId" placeholder="Transaction ID" value="">
+                <button onclick="adminRemoteStop()" class="danger">Remote Stop Session</button>
+            </div>
+        </div>
 
-    <!-- POST /api/stop-session -->
-    <h3>Stop Session</h3>
-    <input id="stopTxId" placeholder="Transaction ID" value="">
-    <input id="stopChargeId" placeholder="ChargePoint ID" value="CP_001">
-    <input id="stopConnector" placeholder="Connector ID" value="1">
-    <input id="stopIdTag" placeholder="ID Tag" value="USER_123">
-    <input id="stopMeterStop" placeholder="Meter Stop" value="5">
-    <input id="stopTimestamp" placeholder="Timestamp (optional)" value="">
-    <select id="stopReason">
-        <option value="Local">Local</option>
-        <option value="Remote">Remote</option>
-    </select>
-    <button onclick="stopSession()">Stop Session</button>
+        <!-- ========== USER API ========== -->
+        <div class="section">
+            <h3>Пользовательское приложение <span class="badge user">USER</span></h3>
+            
+            <div class="controls">
+                <button onclick="fetchUserStations()">Доступные станции</button>
+                <button onclick="fetchMySessions()">Мои сессии</button>
+            </div>
 
-    <!-- POST /api/reserve -->
-    <h3>Reserve</h3>
-    <input id="reserveChargeId" placeholder="ChargePoint ID" value="CP_001">
-    <input id="reserveConnector" placeholder="Connector ID" value="1">
-    <input id="reserveIdTag" placeholder="ID Tag" value="USER_123">
-    <input id="reserveExpiry" placeholder="Expiry Minutes" value="30">
-    <button onclick="reserve()">Reserve</button>
+            <div class="controls">
+                <input id="userStationId" placeholder="Station ID" value="CP_001">
+                <input id="userConnectorId" placeholder="Connector ID" value="1">
+                <button onclick="checkConnectorStatus()">Проверить статус</button>
+            </div>
 
-    <!-- POST /api/admin/connect (включить коннектор) -->
-    <h3>Admin Connect (включить коннектор)</h3>
-    <input id="adminStationId" placeholder="Station ID" value="CP_001">
-    <input id="adminConnectorId" placeholder="Connector ID" value="1">
-    <button onclick="adminConnect()">Connect Connector</button>
+            <div class="controls">
+                <input id="userStartStationId" placeholder="Station ID" value="CP_001">
+                <input id="userStartConnectorId" placeholder="Connector ID" value="1">
+                <input id="userStartUserId" placeholder="User ID" value="user123">
+                <button onclick="userStartCharging()">Начать зарядку</button>
+            </div>
 
-    <!-- GET /api/admin/stations -->
-    <h3>Admin Stations</h3>
-    <button onclick="fetchAdminStations()">Список станций (Admin)</button>
+            <div class="controls">
+                <input id="userStopStationId" placeholder="Station ID" value="CP_001">
+                <input id="userStopConnectorId" placeholder="Connector ID" value="1">
+                <input id="userStopUserId" placeholder="User ID" value="user123">
+                <input id="userStopTxId" placeholder="Transaction ID" value="">
+                <button onclick="userStopCharging()" class="danger">Остановить зарядку</button>
+            </div>
+        </div>
 
-    <div id="output"></div>
+        <!-- ========== STATUS API ========== -->
+        <div class="section">
+            <h3>Статус коннектора <span class="badge status">STATUS</span></h3>
+            
+            <div class="controls">
+                <input id="statusStationId" placeholder="Station ID" value="CP_001">
+                <input id="statusConnectorId" placeholder="Connector ID" value="1">
+                <button onclick="fetchStatus()">Получить статус</button>
+            </div>
+        </div>
+
+        <div id="output"></div>
+    </div>
 
     <script>
         const BASE_URL = 'http://localhost:8081';
 
         function log(text) {
-            document.getElementById('output').innerHTML += text + '<br>';
-            document.getElementById('output').scrollTop = document.getElementById('output').scrollHeight;
+            const output = document.getElementById('output');
+            const time = new Date().toLocaleTimeString();
+            output.textContent += `[${time}] ${text}\n`;
+            output.scrollTop = output.scrollHeight;
         }
 
-        async function fetchStations() {
-            try {
-                const res = await fetch(`${BASE_URL}/api/stations`);
-                const data = await res.json();
-                log('Stations: ' + JSON.stringify(data, null, 2));
-            } catch (err) {
-                log('Error: ' + err);
-            }
+        function clearLog() {
+            document.getElementById('output').textContent = '';
         }
 
-        async function fetchTransactions() {
-            const chargePointId = document.getElementById('txChargeId').value;
-            const from = document.getElementById('txFrom').value;
-            const to = document.getElementById('txTo').value;
-            const params = new URLSearchParams();
-            if (chargePointId) params.append('chargePointId', chargePointId);
-            if (from) params.append('from', from);
-            if (to) params.append('to', to);
-            try {
-                const res = await fetch(`${BASE_URL}/api/transactions?${params}`);
-                const data = await res.json();
-                log('Transactions: ' + JSON.stringify(data, null, 2));
-            } catch (err) {
-                log('Error: ' + err);
-            }
-        }
-
-        async function fetchMetrics() {
-            const id = document.getElementById('metricsId').value;
-            const from = document.getElementById('metricsFrom').value;
-            const to = document.getElementById('metricsTo').value;
-            const params = new URLSearchParams();
-            if (from) params.append('from', from);
-            if (to) params.append('to', to);
-            try {
-                const res = await fetch(`${BASE_URL}/api/metrics/${id}?${params}`);
-                const data = await res.json();
-                log('Metrics: ' + JSON.stringify(data, null, 2));
-            } catch (err) {
-                log('Error: ' + err);
-            }
-        }
-
-        async function startSession() {
-            const body = {
-                chargePointId: document.getElementById('startChargeId').value,
-                connectorId: document.getElementById('startConnector').value,
-                idTag: document.getElementById('startIdTag').value,
-                limitType: document.getElementById('startLimitType').value,
-                limitValue: document.getElementById('startLimitValue').value,
-                tariffPerKWh: document.getElementById('startTariff').value
-            };
-            try {
-                const res = await fetch(`${BASE_URL}/api/start-session`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(body)
-                });
-                const data = await res.json();
-                log('Start Session: ' + JSON.stringify(data, null, 2));
-            } catch (err) {
-                log('Error: ' + err);
-            }
-        }
-
-        async function stopSession() {
-            const body = {
-                transactionId: document.getElementById('stopTxId').value,
-                chargePointId: document.getElementById('stopChargeId').value,
-                connectorId: document.getElementById('stopConnector').value,
-                idTag: document.getElementById('stopIdTag').value,
-                meterStop: document.getElementById('stopMeterStop').value,
-                timestamp: document.getElementById('stopTimestamp').value || new Date().toISOString(),
-                reason: document.getElementById('stopReason').value
-            };
-            try {
-                const res = await fetch(`${BASE_URL}/api/stop-session`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(body)
-                });
-                const data = await res.json();
-                log('Stop Session: ' + JSON.stringify(data, null, 2));
-            } catch (err) {
-                log('Error: ' + err);
-            }
-        }
-
-        async function reserve() {
-            const body = {
-                chargePointId: document.getElementById('reserveChargeId').value,
-                connectorId: document.getElementById('reserveConnector').value,
-                idTag: document.getElementById('reserveIdTag').value,
-                expiryMinutes: document.getElementById('reserveExpiry').value
-            };
-            try {
-                const res = await fetch(`${BASE_URL}/api/reserve`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(body)
-                });
-                const data = await res.json();
-                log('Reserve: ' + JSON.stringify(data, null, 2));
-            } catch (err) {
-                log('Error: ' + err);
-            }
-        }
-
-        async function adminConnect() {
-            const body = {
-                stationId: document.getElementById('adminStationId').value,
-                connectorId: document.getElementById('adminConnectorId').value
-            };
-            try {
-                const res = await fetch(`${BASE_URL}/api/admin/connect`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(body)
-                });
-                const data = await res.json();
-                log('Admin Connect: ' + JSON.stringify(data, null, 2));
-            } catch (err) {
-                log('Error: ' + err);
-            }
-        }
-
+        // ========== ADMIN API ==========
         async function fetchAdminStations() {
             try {
                 const res = await fetch(`${BASE_URL}/api/admin/stations`);
                 const data = await res.json();
-                log('Admin Stations: ' + JSON.stringify(data, null, 2));
+                log('📊 ADMIN STATIONS:\n' + JSON.stringify(data, null, 2));
             } catch (err) {
-                log('Error: ' + err);
+                log('❌ Error: ' + err);
             }
         }
+
+        async function fetchTransactions() {
+            try {
+                const res = await fetch(`${BASE_URL}/api/transactions`);
+                const data = await res.json();
+                log('📋 TRANSACTIONS:\n' + JSON.stringify(data, null, 2));
+            } catch (err) {
+                log('❌ Error: ' + err);
+            }
+        }
+
+        async function adminStartStation() {
+            const stationId = document.getElementById('adminStationId').value;
+            try {
+                const res = await fetch(`${BASE_URL}/api/admin/start-station`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chargePointId: stationId })
+                });
+                const data = await res.json();
+                log('🚀 START STATION:\n' + JSON.stringify(data, null, 2));
+            } catch (err) {
+                log('❌ Error: ' + err);
+            }
+        }
+
+        async function adminStopStation() {
+            const stationId = document.getElementById('adminStationId').value;
+            try {
+                const res = await fetch(`${BASE_URL}/api/admin/stop-station`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chargePointId: stationId })
+                });
+                const data = await res.json();
+                log('🛑 STOP STATION:\n' + JSON.stringify(data, null, 2));
+            } catch (err) {
+                log('❌ Error: ' + err);
+            }
+        }
+
+        async function adminRemoteStart() {
+            const body = {
+                chargePointId: document.getElementById('adminRemoteStationId').value,
+                connectorId: parseInt(document.getElementById('adminRemoteConnectorId').value),
+                idTag: document.getElementById('adminRemoteIdTag').value
+            };
+            try {
+                const res = await fetch(`${BASE_URL}/api/admin/remote-start-session`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+                const data = await res.json();
+                log('⚡ REMOTE START:\n' + JSON.stringify(data, null, 2));
+            } catch (err) {
+                log('❌ Error: ' + err);
+            }
+        }
+
+        async function adminRemoteStop() {
+            const body = {
+                chargePointId: document.getElementById('adminStopRemoteStationId').value,
+                connectorId: parseInt(document.getElementById('adminStopRemoteConnectorId').value),
+                transactionId: document.getElementById('adminStopRemoteTxId').value
+            };
+            try {
+                const res = await fetch(`${BASE_URL}/api/admin/remote-stop-session`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+                const data = await res.json();
+                log('⏹️ REMOTE STOP:\n' + JSON.stringify(data, null, 2));
+            } catch (err) {
+                log('❌ Error: ' + err);
+            }
+        }
+
+        // ========== USER API ==========
+        async function fetchUserStations() {
+            try {
+                const res = await fetch(`${BASE_URL}/api/user/stations`);
+                const data = await res.json();
+                log('🔌 AVAILABLE STATIONS:\n' + JSON.stringify(data, null, 2));
+            } catch (err) {
+                log('❌ Error: ' + err);
+            }
+        }
+
+        async function checkConnectorStatus() {
+            const stationId = document.getElementById('userStationId').value;
+            const connectorId = document.getElementById('userConnectorId').value;
+            try {
+                const res = await fetch(`${BASE_URL}/api/user/connector-status/${stationId}/${connectorId}`);
+                const data = await res.json();
+                log('📊 CONNECTOR STATUS:\n' + JSON.stringify(data, null, 2));
+            } catch (err) {
+                log('❌ Error: ' + err);
+            }
+        }
+
+        async function userStartCharging() {
+            const body = {
+                stationId: document.getElementById('userStartStationId').value,
+                connectorId: parseInt(document.getElementById('userStartConnectorId').value),
+                userId: document.getElementById('userStartUserId').value
+            };
+            try {
+                const res = await fetch(`${BASE_URL}/api/user/start-charging`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+                const data = await res.json();
+                log('⚡ START CHARGING:\n' + JSON.stringify(data, null, 2));
+            } catch (err) {
+                log('❌ Error: ' + err);
+            }
+        }
+
+        async function userStopCharging() {
+            const body = {
+                stationId: document.getElementById('userStopStationId').value,
+                connectorId: parseInt(document.getElementById('userStopConnectorId').value),
+                userId: document.getElementById('userStopUserId').value,
+                transactionId: document.getElementById('userStopTxId').value
+            };
+            try {
+                const res = await fetch(`${BASE_URL}/api/user/stop-charging`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+                const data = await res.json();
+                log('⏹️ STOP CHARGING:\n' + JSON.stringify(data, null, 2));
+            } catch (err) {
+                log('❌ Error: ' + err);
+            }
+        }
+
+        async function fetchMySessions() {
+            const userId = prompt('Enter User ID:', 'user123');
+            if (!userId) return;
+            try {
+                const res = await fetch(`${BASE_URL}/api/user/my-sessions?userId=${userId}`);
+                const data = await res.json();
+                log('📋 MY SESSIONS:\n' + JSON.stringify(data, null, 2));
+            } catch (err) {
+                log('❌ Error: ' + err);
+            }
+        }
+
+        // ========== STATUS API ==========
+        async function fetchStatus() {
+            const stationId = document.getElementById('statusStationId').value;
+            const connectorId = document.getElementById('statusConnectorId').value;
+            try {
+                const res = await fetch(`${BASE_URL}/api/status/${stationId}/${connectorId}`);
+                const data = await res.json();
+                log('📊 STATUS:\n' + JSON.stringify(data, null, 2));
+            } catch (err) {
+                log('❌ Error: ' + err);
+            }
+        }
+
+        // Auto-clear log on load
+        window.onload = () => {
+            log('🚀 CSMS API Manager ready!');
+            log('Click buttons to test API endpoints\n');
+        };
     </script>
 </body>
-
 </html>

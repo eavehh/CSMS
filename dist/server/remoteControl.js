@@ -37,6 +37,7 @@ exports.sendRemoteMessage = sendRemoteMessage;
 exports.sendReserveNow = sendReserveNow;
 exports.sendCancelReservation = sendCancelReservation;
 exports.sendRemoteStartTransaction = sendRemoteStartTransaction;
+exports.sendRemoteStopTransaction = sendRemoteStopTransaction;
 const uuid_1 = require("uuid");
 const logger_1 = require("../logger");
 const msgpack = __importStar(require("@msgpack/msgpack"));
@@ -87,4 +88,13 @@ function sendRemoteStartTransaction(connectionManager, chargePointId, payload) {
     };
     sendRemoteMessage(connectionManager, chargePointId, 'RemoteStartTransaction', fullPayload);
     logger_1.logger.info(`[RemoteStartTransaction] Sent to ${chargePointId}: idTag=${fullPayload.idTag}, connectorId=${fullPayload.connectorId}, startValue=${fullPayload.startValue}`);
+}
+function sendRemoteStopTransaction(connectionManager, chargePointId, payload) {
+    const fullPayload = {
+        transactionId: typeof payload.transactionId === 'string' ? parseInt(payload.transactionId, 10) : payload.transactionId,
+        connectorId: payload.connectorId || 1, // default to connector 1 if not provided
+        reason: payload.reason || 'Remote'
+    };
+    sendRemoteMessage(connectionManager, chargePointId, 'RemoteStopTransaction', fullPayload);
+    logger_1.logger.info(`[RemoteStopTransaction] Sent to ${chargePointId}: transactionId=${fullPayload.transactionId}, connectorId=${fullPayload.connectorId}, reason=${fullPayload.reason}`);
 }

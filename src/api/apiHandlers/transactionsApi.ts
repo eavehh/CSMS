@@ -22,33 +22,64 @@ function readBody(req: IncomingMessage): Promise<any> {
 
 /**
  * GET /api/transactions
- * Возвращает последние (до 30) транзакций из connectionManager
+ * Возвращает транзакции из PostgreSQL
  */
 export function transactionsApiHandler(req: IncomingMessage, res: ServerResponse) {
-    try {
-        const data = connectionManager.getRecentTransactions ? connectionManager.getRecentTransactions() : [];
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ success: true, data }));
-        logger.info('[API] /api/transactions returned recent transactions');
-    } catch (err) {
-        logger.error(`[API] /api/transactions error: ${err}`);
-        res.writeHead(500, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ success: false, error: 'Internal server error' }));
-    }
+    (async () => {
+        try {
+            const { AppDataSource } = require('../../db/postgres');
+            const { Transaction } = require('../../db/entities/Transaction');
+            const url = new URL(req.url || '', 'http://localhost:8081');
+            const chargePointId = url.searchParams.get('chargePointId');
+            
+            const repo = AppDataSource.getRepository(Transaction);
+            const where: any = {};
+            if (chargePointId) where.chargePointId = chargePointId;
+            
+            const transactions = await repo.find({
+                where,
+                order: { startTime: 'DESC' },
+                take: 100
+            });
+            
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ success: true, data: transactions, count: transactions.length }));
+            logger.info(`[API] /api/transactions returned ${transactions.length} transactions`);
+        } catch (err) {
+            logger.error(`[API] /api/transactions error: ${err}`);
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ success: false, error: 'Internal server error' }));
+        }
+    })();
 }
 
 /**
  * POST /api/transactions/clear
- * Очищает буфер последних транзакций
+ * Очищает старые транзакции из БД (опционально, для админов)
  */
 export async function clearRecentTransactionsHandler(req: IncomingMessage, res: ServerResponse) {
     try {
-        if (typeof connectionManager.clearRecentTransactions === 'function') {
-            connectionManager.clearRecentTransactions();
-        }
+        const body = await readBody(req);
+        const { olderThanDays = 30 } = body;
+        
+        const { AppDataSource } = require('../../db/postgres');
+        const { Transaction } = require('../../db/entities/Transaction');
+        
+        const repo = AppDataSource.getRepository(Transaction);
+        const cutoffDate = new Date();
+        cutoffDate.setDate(cutoffDate.getDate() - olderThanDays);
+        
+        const result = await repo.delete({
+            stopTime: { $lt: cutoffDate }
+        });
+        
         res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ success: true, message: 'Recent transactions cleared' }));
-        logger.info('[API] /api/transactions/clear cleared recent transactions');
+        res.end(JSON.stringify({ 
+            success: true, 
+            message: `Deleted transactions older than ${olderThanDays} days`,
+            deleted: result.affected || 0
+        }));
+        logger.info(`[API] /api/transactions/clear deleted ${result.affected || 0} old transactions`);
     } catch (err) {
         logger.error(`[API] clear /api/transactions error: ${err}`);
         res.writeHead(500, { 'Content-Type': 'application/json' });

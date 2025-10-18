@@ -29,6 +29,11 @@ class ConnectionManager {
     getRecentTransactions() {
         return [...this.recentTransactions];
     }
+    removeRecentTransaction(transactionId) {
+        const before = this.recentTransactions.length;
+        this.recentTransactions = this.recentTransactions.filter(t => String(t.transactionId) !== String(transactionId));
+        return this.recentTransactions.length < before;
+    }
     clearRecentTransactions() {
         this.recentTransactions = [];
     }
