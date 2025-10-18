@@ -639,3 +639,19 @@ Require stack:
 2025-10-18 16:55:41 [INFO] o.s.s..main [Thread-1] [HTTP_SERVER] Starting HTTP server...
 2025-10-18 16:55:41 [INFO] o.s.s..main [Thread-1] [MAIN] CSMS Server fully initialized on port 8081
 2025-10-18 16:55:42 [INFO] o.s.s..main [Thread-1] [SHUTDOWN] Received SIGINT. Initiating graceful shutdown...
+2025-10-18 17:13:31 [INFO] o.s.s..main [Thread-1] [wsServer] Creating WebSocket server...
+2025-10-18 17:13:31 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server instance created
+2025-10-18 17:13:31 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server setup complete
+2025-10-18 17:13:31 [INFO] o.s.s..main [Thread-1] [mongo] MongoDB connected!
+2025-10-18 17:13:31 [INFO] o.s.s..main [Thread-1] [MONGO] MongoDB connected
+2025-10-18 17:13:31 [INFO] o.s.s..main [Thread-1] [POSTGRES] PostgreSQL connected
+2025-10-18 17:13:31 [INFO] o.s.s..main [Thread-1] [HTTP_SERVER] Starting HTTP server...
+2025-10-18 17:13:31 [INFO] o.s.s..main [Thread-1] [MAIN] CSMS Server fully initialized on port 8081
+2025-10-18 17:14:11 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 17:14:11 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 17:14:11 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-18 17:14:11 [INFO] o.s.s..main [Thread-1] [index API] httpServer Faild: Error [ERR_HTTP_HEADERS_SENT]: Cannot write headers after they are sent to the client
+2025-10-18 17:14:12 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 17:14:12 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 17:14:12 [INFO] o.s.s..main [Thread-1] [index API] httpServer Faild: Error [ERR_HTTP_HEADERS_SENT]: Cannot write headers after they are sent to the client
+2025-10-18 17:31:08 [INFO] o.s.s..main [Thread-1] [SHUTDOWN] Received SIGINT. Initiating graceful shutdown...

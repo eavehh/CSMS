@@ -38,6 +38,12 @@ export class ConnectionManager {
         return [...this.recentTransactions];
     }
 
+    removeRecentTransaction(transactionId: string): boolean {
+        const before = this.recentTransactions.length;
+        this.recentTransactions = this.recentTransactions.filter(t => String(t.transactionId) !== String(transactionId));
+        return this.recentTransactions.length < before;
+    }
+
     clearRecentTransactions() {
         this.recentTransactions = [];
     }

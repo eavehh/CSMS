@@ -6,7 +6,7 @@ import { connectionManager } from '../server/index';
 import { handleStartTransaction } from '../server/handlers/startTransaction';
 import { sendRemoteStartTransaction } from '../server/remoteControl';
 import { getStations, startStationsApiHandler, stopStationsApiHandler } from './apiHandlers/stationsApi'
-import { transactionsApiHandler, startRemoteTrx, stopRemoteTrx } from "./apiHandlers/transactionsApi";
+import { transactionsApiHandler, startRemoteTrx, stopRemoteTrx, clearRecentTransactionsHandler } from "./apiHandlers/transactionsApi";
 
 
 export const STATION_URL = 'http://localhost:3000'; // адрес вашей станции
@@ -54,6 +54,12 @@ export function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
 
     if (req.method === 'GET' && req.url?.startsWith('/api/transactions')) {
         transactionsApiHandler(req, res);
+    }
+    
+    // POST /api/transactions/clear
+    if (req.method === 'POST' && pathname === '/api/transactions/clear') {
+        clearRecentTransactionsHandler(req, res);
+        return;
     }
 
     if (req.method === 'GET' && pathname === '/api/stations') {

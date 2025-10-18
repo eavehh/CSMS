@@ -82,3 +82,23 @@ export function sendRemoteStartTransaction(
     sendRemoteMessage(connectionManager, chargePointId, 'RemoteStartTransaction', fullPayload);
     logger.info(`[RemoteStartTransaction] Sent to ${chargePointId}: idTag=${fullPayload.idTag}, connectorId=${fullPayload.connectorId}, startValue=${fullPayload.startValue}`);
 }
+export interface RemoteStopTransactionPayload {
+    transactionId: number | string;
+    connectorId?: number;
+    reason?: string;
+}
+
+export function sendRemoteStopTransaction(
+    connectionManager: ConnectionManager,
+    chargePointId: string,
+    payload: RemoteStopTransactionPayload
+): void {
+    const fullPayload = {
+        transactionId: typeof payload.transactionId === 'string' ? parseInt(payload.transactionId, 10) : payload.transactionId,
+        connectorId: payload.connectorId || 1, // default to connector 1 if not provided
+        reason: payload.reason || 'Remote'
+    };
+
+    sendRemoteMessage(connectionManager, chargePointId, 'RemoteStopTransaction', fullPayload);
+    logger.info(`[RemoteStopTransaction] Sent to ${chargePointId}: transactionId=${fullPayload.transactionId}, connectorId=${fullPayload.connectorId}, reason=${fullPayload.reason}`);
+}
