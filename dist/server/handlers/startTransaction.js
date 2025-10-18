@@ -52,6 +52,15 @@ async function handleStartTransaction(req, chargePointId, ws) {
         logger_1.logger.info(`[StartTransaction] Start tx from ${chargePointId}: id ${transId}, connector ${req.connectorId}`);
         // Обновляем состояние коннектора
         index_1.connectionManager.updateConnectorState(chargePointId, req.connectorId, 'Charging', transId.toString());
+        // Добавляем в недавние транзакции для того чтобы на фронте отобразить 30 последних транзакций
+        index_1.connectionManager.addRecentTransaction({
+            transactionId: response.transactionId,
+            chargePointId,
+            connectorId: req.connectorId, // исправлено!
+            idTag: req.idTag, // исправлено!
+            startTime: new Date(),
+            status: 'Started'
+        });
         return response;
     }
     catch (err) {

@@ -13,6 +13,24 @@ class ConnectionManager {
         this.connectorStates = new Map();
         this.lastActivity = new Map();
         this.reservationCleanupInterval = null;
+        this.recentTransactions = [];
+    }
+    addRecentTransaction(trx) {
+        try {
+            this.recentTransactions.unshift(trx); // добавляем в начало
+            if (this.recentTransactions.length > 30) {
+                this.recentTransactions.length = 30; // обрезаем до 30
+            }
+        }
+        catch (err) {
+            logger_1.logger.error(`[ConnectionManager] Error in addRecentTransaction: ${err}`);
+        }
+    }
+    getRecentTransactions() {
+        return [...this.recentTransactions];
+    }
+    clearRecentTransactions() {
+        this.recentTransactions = [];
     }
     updateLastActivity(chargePointId) {
         this.lastActivity.set(chargePointId, Date.now());

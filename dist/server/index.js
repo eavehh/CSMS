@@ -20,6 +20,8 @@ const httpServer = (0, http_1.createServer)((req, res) => {
     }
 });
 exports.connectionManager = new connectionManager_1.ConnectionManager();
+// Очистим буфер последних транзакций при (пере)запуске сервера
+exports.connectionManager.clearRecentTransactions();
 // Создаём WS-сервер
 const wsServer = new wsServer_1.WsServer(httpServer, exports.connectionManager);
 // Graceful shutdown
