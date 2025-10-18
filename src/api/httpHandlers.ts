@@ -4,9 +4,9 @@ import { URL, URLSearchParams } from 'url';
 import { logger } from '../logger';
 import { connectionManager } from '../server/index';
 import { handleStartTransaction } from '../server/handlers/startTransaction';
-import { transactionsApiHandler, startRemoteTrx } from "./httpHandlers/transactionsApi";
-import { getStations, startStationsApiHandler, stopStationsApiHandler } from './httpHandlers/stationsApi'
 import { sendRemoteStartTransaction } from '../server/remoteControl';
+import { getStations, startStationsApiHandler, stopStationsApiHandler } from './httpHandlers/stationsApi'
+import { transactionsApiHandler, startRemoteTrx, stopRemoteTrx } from "./httpHandlers/transactionsApi";
 
 
 export const STATION_URL = 'http://localhost:3000'; // адрес вашей станции
@@ -74,29 +74,7 @@ export function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
 
     // REMOTE STOP TRANSACTION (для фронта)
     if (req.method === 'POST' && pathname === '/api/remote-stop-session') {
-        let body = '';
-        req.on('data', chunk => body += chunk);
-        req.on('end', async () => {
-            try {
-                const { chargePointId, connectorId, transactionId } = JSON.parse(body);
-                if (!chargePointId || !connectorId || !transactionId) {
-                    sendJson(res, 200, { success: true, message: 'No action taken, missing required fields' });
-                    return;
-                }
-                // Отправляем RemoteStopTransaction по WS к станции
-                const { sendRemoteStopTransaction } = require('./remoteControl');
-                sendRemoteStopTransaction(connectionManager, chargePointId, {
-                    connectorId,
-                    transactionId
-                });
-                logger.info(`[API] RemoteStopTransaction sent for ${chargePointId}, connector ${connectorId}, tx ${transactionId}`);
-                sendJson(res, 200, { success: true, message: 'RemoteStopTransaction sent' });
-            } catch (err) {
-                logger.error(`[API] remote-stop-session Error: ${err}`);
-                sendJson(res, 500, { success: false, error: 'Remote stop session error' });
-            }
-        });
-        return;
+        stopRemoteTrx(req, res);
     }
 
     // В createServer callback

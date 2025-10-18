@@ -48,6 +48,7 @@ export async function handleStopTransaction(req: StopTransactionRequest, chargeP
         logger.info(`[StopTransaction] Stop tx from ${chargePointId}: id ${req.transactionId}, totalKWh=${totalKWh.toFixed(2)}, cost=${cost.toFixed(2)} EUR, efficiency=${efficiencyPercentage.toFixed(1)}%, reason: ${req.reason || 'Local'}, connector: ${tx.connectorId}`);
 
         // Обновление состояния коннектора
+        // После сохранения транзакции:
         const connectorId = tx.connectorId;
         if (!connectorId) {
             logger.error(`[StopTransaction] No connectorId found for tx ${req.transactionId}`);
@@ -60,7 +61,14 @@ export async function handleStopTransaction(req: StopTransactionRequest, chargeP
         }
 
         connectionManager.updateConnectorState(chargePointId, connectorId, 'Finishing');
-
+        connectionManager.addRecentTransaction({
+            transactionId: req.transactionId,
+            chargePointId,
+            connectorId, // берем из tx, а не из req!
+            idTag: req.idTag,
+            stopTime: new Date(req.timestamp),
+            status: 'Stopped'
+        });
         // Таймаут сброса коннектора
         setTimeout(() => {
             connectionManager.updateConnectorState(chargePointId, connectorId, 'Available');

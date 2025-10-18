@@ -21,6 +21,17 @@ export class ConnectionManager {
     private connectorStates: Map<string, Map<number, ConnectorState>> = new Map();
     lastActivity: Map<string, number> = new Map();
     reservationCleanupInterval: NodeJS.Timeout | null = null;
+    private recentTransactions: Array<any> = [];
+
+    addRecentTransaction(trx: any) {
+        this.recentTransactions.unshift(trx); // добавляем в начало
+        if (this.recentTransactions.length > 30) {
+            this.recentTransactions.length = 30; // обрезаем до 30
+        }
+    }
+    getRecentTransactions(): Array<any> {
+        return this.recentTransactions;
+    }
 
     updateLastActivity(chargePointId: string) {
         this.lastActivity.set(chargePointId, Date.now());

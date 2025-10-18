@@ -10,13 +10,9 @@ import { connectionManager } from '../../server/index';
 export function transactionsApiHandler(req: IncomingMessage, res: ServerResponse) {
     (async () => {
         try {
-            const repo = AppDataSource.getRepository(Transaction);
-            // Можно добавить фильтры по query-параметрам, если нужно
-            const transactions = await repo.find({
-                order: { startTime: 'DESC' },
-                take: 100 // лимит на выдачу, если нужно
-            });
-            sendJson(res, 200, { success: true, data: transactions });
+            const data = connectionManager.getRecentTransactions();
+            sendJson(res, 200, { success: true, data });
+            return;
         } catch (err) {
             logger.error(`[API] /api/transactions error: ${err}`);
             sendJson(res, 500, { success: false, error: 'Internal server error' });
@@ -48,6 +44,32 @@ export function startRemoteTrx(req: IncomingMessage, res: ServerResponse) {
         } catch (err) {
             logger.error(`[API] remote-start-session Error: ${err}`);
             sendJson(res, 500, { success: false, error: 'Remote start session error' });
+        }
+    });
+    return;
+}
+
+export async function stopRemoteTrx(req: IncomingMessage, res: ServerResponse) {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+        try {
+            const { chargePointId, connectorId, transactionId } = JSON.parse(body);
+            if (!chargePointId || !connectorId || !transactionId) {
+                sendJson(res, 200, { success: true, message: 'No action taken, missing required fields' });
+                return;
+            }
+            // Отправляем RemoteStopTransaction по WS к станции
+            const { sendRemoteStopTransaction } = require('./remoteControl');
+            sendRemoteStopTransaction(connectionManager, chargePointId, {
+                connectorId,
+                transactionId
+            });
+            logger.info(`[API] RemoteStopTransaction sent for ${chargePointId}, connector ${connectorId}, tx ${transactionId}`);
+            sendJson(res, 200, { success: true, message: 'RemoteStopTransaction sent' });
+        } catch (err) {
+            logger.error(`[API] remote-stop-session Error: ${err}`);
+            sendJson(res, 500, { success: false, error: 'Remote stop session error' });
         }
     });
     return;

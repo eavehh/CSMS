@@ -16,13 +16,12 @@ export async function handleStartTransaction(req: StartTransactionRequest & {  /
 }, chargePointId: string, ws: WebSocket): Promise<StartTransactionResponse> {
 
 
-        const transId = Date.now().toString();  // Генерация строкового ID
+    const transId = Date.now().toString();  // Генерация строкового ID
 
     try {
         // postgres
         const idTagStatus = 'Accepted';  // Замените на реальную проверку
         const repo = AppDataSource.getRepository(Transaction);
-        
         const newTx = repo.create({
             id: transId,
             chargePointId,
@@ -70,6 +69,16 @@ export async function handleStartTransaction(req: StartTransactionRequest & {  /
 
         // Обновляем состояние коннектора
         connectionManager.updateConnectorState(chargePointId, req.connectorId, 'Charging', transId.toString());
+        
+        // Добавляем в недавние транзакции для того чтобы на фронте отобразить 30 последних транзакций
+        connectionManager.addRecentTransaction({
+            transactionId: response.transactionId,
+            chargePointId,
+            connectorId: req.connectorId, // исправлено!
+            idTag: req.idTag,             // исправлено!
+            startTime: new Date(),
+            status: 'Started'
+        });
 
         return response;
     } catch (err) {
