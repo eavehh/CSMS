@@ -615,3 +615,18 @@ Require stack:
 2025-10-18 13:44:32 [INFO] o.s.s..main [Thread-1] [Heartbeat] Set lastOffline for CP_MANUAL_1: Sat Oct 18 2025 13:44:32 GMT+0300 (Москва, стандартное время)
 2025-10-18 13:44:32 [INFO] o.s.s..main [Thread-1] [Heartbeat] Set lastOffline for CP_MANUAL_2: Sat Oct 18 2025 13:44:32 GMT+0300 (Москва, стандартное время)
 2025-10-18 13:44:38 [INFO] o.s.s..main [Thread-1] [SHUTDOWN] Received SIGINT. Initiating graceful shutdown...
+2025-10-18 16:34:19 [INFO] o.s.s..main [Thread-1] [wsServer] Creating WebSocket server...
+2025-10-18 16:34:19 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server instance created
+2025-10-18 16:34:19 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server setup complete
+2025-10-18 16:34:19 [INFO] o.s.s..main [Thread-1] [mongo] MongoDB connected!
+2025-10-18 16:34:19 [INFO] o.s.s..main [Thread-1] [MONGO] MongoDB connected
+2025-10-18 16:34:19 [ERROR] o.s.s..main [Thread-1] [MAIN] Failed to initialize server: AggregateError
+2025-10-18 16:34:32 [INFO] o.s.s..main [Thread-1] [wsServer] Creating WebSocket server...
+2025-10-18 16:34:32 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server instance created
+2025-10-18 16:34:32 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server setup complete
+2025-10-18 16:34:32 [INFO] o.s.s..main [Thread-1] [mongo] MongoDB connected!
+2025-10-18 16:34:32 [INFO] o.s.s..main [Thread-1] [MONGO] MongoDB connected
+2025-10-18 16:34:32 [INFO] o.s.s..main [Thread-1] [POSTGRES] PostgreSQL connected
+2025-10-18 16:34:32 [INFO] o.s.s..main [Thread-1] [HTTP_SERVER] Starting HTTP server...
+2025-10-18 16:34:32 [INFO] o.s.s..main [Thread-1] [MAIN] CSMS Server fully initialized on port 8081
+2025-10-18 16:34:36 [INFO] o.s.s..main [Thread-1] [SHUTDOWN] Received SIGINT. Initiating graceful shutdown...

@@ -1,6 +1,6 @@
+import fetch from 'node-fetch'; // npm install node-fetch
 import { IncomingMessage, ServerResponse } from 'http';
 import { logger } from '../../logger';
-import fetch from 'node-fetch'; // npm install node-fetch
 import { sendJson } from '../httpHandlers'
 import { connectionManager } from '../../server/index';
 import { formatStation } from '../formatters';

@@ -5,8 +5,8 @@ import { logger } from '../logger';
 import { connectionManager } from '../server/index';
 import { handleStartTransaction } from '../server/handlers/startTransaction';
 import { sendRemoteStartTransaction } from '../server/remoteControl';
-import { getStations, startStationsApiHandler, stopStationsApiHandler } from './httpHandlers/stationsApi'
-import { transactionsApiHandler, startRemoteTrx, stopRemoteTrx } from "./httpHandlers/transactionsApi";
+import { getStations, startStationsApiHandler, stopStationsApiHandler } from './apiHandlers/stationsApi'
+import { transactionsApiHandler, startRemoteTrx, stopRemoteTrx } from "./apiHandlers/transactionsApi";
 
 
 export const STATION_URL = 'http://localhost:3000'; // адрес вашей станции
