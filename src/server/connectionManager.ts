@@ -24,13 +24,22 @@ export class ConnectionManager {
     private recentTransactions: Array<any> = [];
 
     addRecentTransaction(trx: any) {
-        this.recentTransactions.unshift(trx); // добавляем в начало
-        if (this.recentTransactions.length > 30) {
-            this.recentTransactions.length = 30; // обрезаем до 30
+        try {
+            this.recentTransactions.unshift(trx); // добавляем в начало
+            if (this.recentTransactions.length > 30) {
+                this.recentTransactions.length = 30; // обрезаем до 30
+            }
+        } catch (err) {
+            logger.error(`[ConnectionManager] Error in addRecentTransaction: ${err}`);
         }
     }
+
     getRecentTransactions(): Array<any> {
-        return this.recentTransactions;
+        return [...this.recentTransactions];
+    }
+
+    clearRecentTransactions() {
+        this.recentTransactions = [];
     }
 
     updateLastActivity(chargePointId: string) {

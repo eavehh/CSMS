@@ -8,17 +8,16 @@ import { connectionManager } from '../../server/index';
 
 
 export function transactionsApiHandler(req: IncomingMessage, res: ServerResponse) {
-    (async () => {
-        try {
-            const data = connectionManager.getRecentTransactions();
-            sendJson(res, 200, { success: true, data });
-            return;
-        } catch (err) {
-            logger.error(`[API] /api/transactions error: ${err}`);
-            sendJson(res, 500, { success: false, error: 'Internal server error' });
-        }
-    })();
-    return;
+    try {
+        const data = connectionManager.getRecentTransactions();
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, data }));
+        logger.info('[API] /api/transactions returned recent transactions');
+    } catch (err) {
+        logger.error(`[API] /api/transactions error: ${err}`);
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: 'Internal server error' }));
+    }
 }
 
 export function startRemoteTrx(req: IncomingMessage, res: ServerResponse) {

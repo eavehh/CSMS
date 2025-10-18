@@ -13,14 +13,16 @@ const PORT = 8081;
 // Создаём HTTP-сервер
 const httpServer = createServer((req: IncomingMessage, res: ServerResponse) => {
     logger.info(`[index API] httpServer is created`)
-    try{
-        handleHttpRequest(req, res) 
-    }catch(err){
+    try {
+        handleHttpRequest(req, res)
+    } catch (err) {
         logger.info(`[index API] httpServer Faild: ${err}`)
     }
 });
 
 export let connectionManager = new ConnectionManager();
+// Очистим буфер последних транзакций при (пере)запуске сервера
+connectionManager.clearRecentTransactions();
 
 // Создаём WS-сервер
 const wsServer = new WsServer(httpServer, connectionManager);
@@ -72,7 +74,7 @@ httpServer.on('error', (error) => {
         // Инициализируем MongoDB
         await connectDB();
         logger.info('[MONGO] MongoDB connected');
-        
+
         await AppDataSource.initialize();
         logger.info('[POSTGRES] PostgreSQL connected');
 
