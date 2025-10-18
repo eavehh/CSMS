@@ -1,16 +1,15 @@
-import { IncomingMessage, ServerResponse } from 'http';
+import { get, IncomingMessage, ServerResponse } from 'http';
 import { StartTransactionRequest } from '../server/types/1.6/StartTransaction'
 import { URL, URLSearchParams } from 'url';
 import { logger } from '../logger';
 import { connectionManager } from '../server/index';
-import { sendReserveNow, sendRemoteStartTransaction } from '../server/remoteControl';
 import { handleStartTransaction } from '../server/handlers/startTransaction';
-import { formatConnector, formatStation } from './formatters'
-import fetch from 'node-fetch'; // npm install node-fetch
-import { AppDataSource } from '../db/postgres';
-import { Transaction } from '../db/entities/Transaction';
+import { transactionsApiHandler, startRemoteTrx } from "./httpHandlers/transactionsApi";
+import { getStations, startStationsApiHandler, stopStationsApiHandler } from './httpHandlers/stationsApi'
+import { sendRemoteStartTransaction } from '../server/remoteControl';
 
-const STATION_URL = 'http://localhost:3000'; // адрес вашей станции
+
+export const STATION_URL = 'http://localhost:3000'; // адрес вашей станции
 
 const PORT = 8081;  // Импорт из index, если нужно
 
@@ -53,117 +52,24 @@ export function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
     const pathname = parsedUrl.pathname;
     const query = parsedUrl.searchParams;
 
-
     if (req.method === 'GET' && req.url?.startsWith('/api/transactions')) {
-        (async () => {
-            try {
-                const repo = AppDataSource.getRepository(Transaction);
-                // Можно добавить фильтры по query-параметрам, если нужно
-                const transactions = await repo.find({
-                    order: { startTime: 'DESC' },
-                    take: 100 // лимит на выдачу, если нужно
-                });
-                sendJson(res, 200, { success: true, data: transactions });
-            } catch (err) {
-                logger.error(`[API] /api/transactions error: ${err}`);
-                sendJson(res, 500, { success: false, error: 'Internal server error' });
-            }
-        })();
-        return;
+        transactionsApiHandler(req, res);
+    }
+
+    if (req.method === 'GET' && pathname === '/api/stations') {
+        getStations(req, res);
     }
 
     if (req.method === 'POST' && pathname === '/api/start-station') {
-        let body = '';
-        req.on('data', chunk => body += chunk);
-        req.on('end', async () => {
-            try {
-                const { chargePointId } = JSON.parse(body);
-                const response = await fetch(`${STATION_URL}/start-station`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ chargePointId })
-                });
-                const data = await response.json();
-                sendJson(res, 200, { success: true, message: (data as any).message });
-            } catch (err) {
-                logger.error(`[API] start-station Error: ${err}`);
-                sendJson(res, 500, { success: false, error: 'Station start error' });
-            }
-        });
-        return;
+        startStationsApiHandler(req, res);
     }
 
     if (req.method === 'POST' && pathname === '/api/stop-station') {
-        let body = '';
-        req.on('data', chunk => body += chunk);
-        req.on('end', async () => {
-            try {
-                const response = await fetch(`${STATION_URL}/stop-station`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' }
-                });
-                const data = await response.json();
-                sendJson(res, 200, { success: true, message: (data as any).message });
-            } catch (err) {
-                logger.error(`[API] stop-station Error: ${err}`);
-                sendJson(res, 500, { success: false, error: 'Station stop error' });
-            }
-        });
-    }
-
-
-
-    if (req.method === 'GET' && pathname === '/api/stations') {
-        (async () => {
-            try {
-                const stationsMap = await connectionManager.getAllChargePointsWithConnectors();
-
-                // Преобразуем “сырые” данные в отформатированные
-                const data = Array.from(stationsMap.entries()).map(([stationId, connectors]) =>
-                    formatStation(stationId, connectors)
-                );
-
-                sendJson(res, 200, { success: true, data });
-
-                logger.info(`[httpHandlers] GET /api/stations response formatted`);
-            } catch (err) {
-                logger.error(`[httpHandlers] Stations query error: ${err}`);
-                sendJson(res, 400, {
-                    success: false,
-                    error: 'Missing required fields'
-                });
-
-            }
-        })();
-        return;
+        stopStationsApiHandler(req, res);
     }
 
     if (req.method === 'POST' && pathname === '/api/remote-start-session') {
-        let body = '';
-        req.on('data', chunk => body += chunk);
-        req.on('end', async () => {
-            try {
-                const { chargePointId, connectorId, idTag, startValue } = JSON.parse(body);
-                if (!chargePointId || !connectorId || !idTag) {
-                    res.writeHead(400, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ success: false, error: 'Missing required fields' }));
-                    return;
-                }
-                // Отправляем RemoteStartTransaction по WS к станции
-                sendRemoteStartTransaction(connectionManager, chargePointId, {
-                    idTag,
-                    connectorId,
-                    startValue: startValue || 0
-                });
-                logger.info(`[API] RemoteStartTransaction sent for ${chargePointId}, connector ${connectorId}`);
-                sendJson(res, 200, { success: true, message: 'RemoteStartTransaction sent' });
-
-            } catch (err) {
-                logger.error(`[API] remote-start-session Error: ${err}`);
-                sendJson(res, 500, { success: false, error: 'Remote start session error' });
-            }
-        });
-        return;
+        startRemoteTrx(req, res);
     }
 
     // REMOTE STOP TRANSACTION (для фронта)

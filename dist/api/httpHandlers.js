@@ -103,11 +103,15 @@ function handleHttpRequest(req, res) {
     if (req.method === 'GET' && pathname === '/api/stations') {
         (async () => {
             try {
-                const stationsMap = await index_1.connectionManager.getAllChargePointsWithConnectors();
-                // Преобразуем “сырые” данные в отформатированные
-                const data = Array.from(stationsMap.entries()).map(([stationId, connectors]) => (0, formatters_1.formatStation)(stationId, connectors));
+                // Получаем только активные станции
+                const activeStations = Array.from(index_1.connectionManager.getAllConnections()?.keys() || []);
+                const stationsMap = index_1.connectionManager.getAllChargePointsWithConnectors();
+                // Формируем только онлайн станции
+                const data = Array.from(stationsMap.entries())
+                    .filter(([stationId]) => activeStations.includes(stationId))
+                    .map(([stationId, connectors]) => (0, formatters_1.formatStation)(stationId, connectors));
                 sendJson(res, 200, { success: true, data });
-                logger_1.logger.info(`[httpHandlers] GET /api/stations response formatted`);
+                logger_1.logger.info(`[httpHandlers] GET /api/stations response formatted (only active stations)`);
             }
             catch (err) {
                 logger_1.logger.error(`[httpHandlers] Stations query error: ${err}`);

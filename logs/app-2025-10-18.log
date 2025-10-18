@@ -1,0 +1,617 @@
+2025-10-18 13:41:47 [INFO] o.s.s..main [Thread-1] [wsServer] Creating WebSocket server...
+2025-10-18 13:41:47 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server instance created
+2025-10-18 13:41:47 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server setup complete
+2025-10-18 13:41:47 [INFO] o.s.s..main [Thread-1] [mongo] MongoDB connected!
+2025-10-18 13:41:47 [INFO] o.s.s..main [Thread-1] [MONGO] MongoDB connected
+2025-10-18 13:41:47 [ERROR] o.s.s..main [Thread-1] [MAIN] Failed to initialize server: AggregateError
+2025-10-18 13:41:57 [INFO] o.s.s..main [Thread-1] [wsServer] Creating WebSocket server...
+2025-10-18 13:41:57 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server instance created
+2025-10-18 13:41:57 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server setup complete
+2025-10-18 13:41:57 [INFO] o.s.s..main [Thread-1] [mongo] MongoDB connected!
+2025-10-18 13:41:57 [INFO] o.s.s..main [Thread-1] [MONGO] MongoDB connected
+2025-10-18 13:41:57 [ERROR] o.s.s..main [Thread-1] [MAIN] Failed to initialize server: AggregateError
+2025-10-18 13:42:30 [INFO] o.s.s..main [Thread-1] [wsServer] Creating WebSocket server...
+2025-10-18 13:42:30 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server instance created
+2025-10-18 13:42:30 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server setup complete
+2025-10-18 13:42:30 [INFO] o.s.s..main [Thread-1] [mongo] MongoDB connected!
+2025-10-18 13:42:30 [INFO] o.s.s..main [Thread-1] [MONGO] MongoDB connected
+2025-10-18 13:42:30 [ERROR] o.s.s..main [Thread-1] [MAIN] Failed to initialize server: AggregateError
+2025-10-18 13:42:42 [INFO] o.s.s..main [Thread-1] [wsServer] Creating WebSocket server...
+2025-10-18 13:42:42 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server instance created
+2025-10-18 13:42:42 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server setup complete
+2025-10-18 13:42:42 [INFO] o.s.s..main [Thread-1] [mongo] MongoDB connected!
+2025-10-18 13:42:42 [INFO] o.s.s..main [Thread-1] [MONGO] MongoDB connected
+2025-10-18 13:42:42 [INFO] o.s.s..main [Thread-1] [POSTGRES] PostgreSQL connected
+2025-10-18 13:42:42 [INFO] o.s.s..main [Thread-1] [HTTP_SERVER] Starting HTTP server...
+2025-10-18 13:42:42 [INFO] o.s.s..main [Thread-1] [MAIN] CSMS Server fully initialized on port 8081
+2025-10-18 13:42:45 [INFO] o.s.s..main [Thread-1] [SHUTDOWN] Received SIGINT. Initiating graceful shutdown...
+2025-10-18 13:42:51 [INFO] o.s.s..main [Thread-1] [wsServer] Creating WebSocket server...
+2025-10-18 13:42:51 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server instance created
+2025-10-18 13:42:51 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server setup complete
+2025-10-18 13:42:51 [INFO] o.s.s..main [Thread-1] [mongo] MongoDB connected!
+2025-10-18 13:42:51 [INFO] o.s.s..main [Thread-1] [MONGO] MongoDB connected
+2025-10-18 13:42:51 [INFO] o.s.s..main [Thread-1] [POSTGRES] PostgreSQL connected
+2025-10-18 13:42:51 [INFO] o.s.s..main [Thread-1] [HTTP_SERVER] Starting HTTP server...
+2025-10-18 13:42:51 [INFO] o.s.s..main [Thread-1] [MAIN] CSMS Server fully initialized on port 8081
+2025-10-18 13:43:13 [INFO] o.s.s..main [Thread-1] [CONNECTION] New connection: /ocpp/CP_MANUAL_1
+2025-10-18 13:43:13 [INFO] o.s.s..main [Thread-1] [CONNECTION] Headers: {"sec-websocket-version":"13","sec-websocket-key":"cmBY9RpbwwPrO0wBShIIjA==","connection":"Upgrade","upgrade":"websocket","sec-websocket-extensions":"permessage-deflate; client_max_window_bits","host":"localhost:8081"}
+2025-10-18 13:43:13 [INFO] o.s.s..main [Thread-1] [CONNECTION] ChargePoint ID: CP_MANUAL_1
+2025-10-18 13:43:13 [INFO] o.s.s..main [Thread-1] [AddConnection] Initialized default connector states for CP_MANUAL_1
+2025-10-18 13:43:13 [INFO] o.s.s..main [Thread-1] [wsServer] CS added to the connection manager - CP_MANUAL_1
+2025-10-18 13:43:13 [INFO] o.s.s..main [Thread-1] [CONNECTION] Successfully setup connection for CP_MANUAL_1
+2025-10-18 13:43:13 [INFO] o.s.s..main [Thread-1] [CONNECTION] New connection: /ocpp/CP_MANUAL_2
+2025-10-18 13:43:13 [INFO] o.s.s..main [Thread-1] [CONNECTION] Headers: {"sec-websocket-version":"13","sec-websocket-key":"OXKxZ/E90NeYk5JNHUyV+A==","connection":"Upgrade","upgrade":"websocket","sec-websocket-extensions":"permessage-deflate; client_max_window_bits","host":"localhost:8081"}
+2025-10-18 13:43:13 [INFO] o.s.s..main [Thread-1] [CONNECTION] ChargePoint ID: CP_MANUAL_2
+2025-10-18 13:43:13 [INFO] o.s.s..main [Thread-1] [AddConnection] Initialized default connector states for CP_MANUAL_2
+2025-10-18 13:43:13 [INFO] o.s.s..main [Thread-1] [wsServer] CS added to the connection manager - CP_MANUAL_2
+2025-10-18 13:43:13 [INFO] o.s.s..main [Thread-1] [CONNECTION] Successfully setup connection for CP_MANUAL_2
+2025-10-18 13:43:13 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-18 13:43:13 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: BootNotification
+2025-10-18 13:43:13 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-18 13:43:13 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: BootNotification
+2025-10-18 13:43:13 [INFO] o.s.s..main [Thread-1] [connectorManager] cinitializeConnectors: 1 connectors for CP_MANUAL_1
+2025-10-18 13:43:13 [INFO] o.s.s..main [Thread-1] Boot from CP_MANUAL_1:
+      Vendor: Demo
+      Model: DemoModel 
+      Point serial number: undefined
+      Box serial number: undefined 
+      Firmware: undefined 
+      iccid: undefined 
+      imsi: undefined 
+      Meter type: undefined 
+      Meter serial number: undefined 
+      saved to MongoDB
+2025-10-18 13:43:13 [INFO] o.s.s..main [Thread-1] [BootNotification Handled] response={"currentTime":"2025-10-18T10:43:13.624Z","interval":60,"status":"Accepted"}
+2025-10-18 13:43:13 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {"currentTime":"2025-10-18T10:43:13.624Z","interval":60,"status":"Accepted"}
+2025-10-18 13:43:13 [INFO] o.s.s..main [Thread-1] [connectorManager] cinitializeConnectors: 1 connectors for CP_MANUAL_2
+2025-10-18 13:43:13 [INFO] o.s.s..main [Thread-1] Boot from CP_MANUAL_2:
+      Vendor: Demo
+      Model: DemoModel 
+      Point serial number: undefined
+      Box serial number: undefined 
+      Firmware: undefined 
+      iccid: undefined 
+      imsi: undefined 
+      Meter type: undefined 
+      Meter serial number: undefined 
+      saved to MongoDB
+2025-10-18 13:43:13 [INFO] o.s.s..main [Thread-1] [BootNotification Handled] response={"currentTime":"2025-10-18T10:43:13.628Z","interval":60,"status":"Accepted"}
+2025-10-18 13:43:13 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {"currentTime":"2025-10-18T10:43:13.628Z","interval":60,"status":"Accepted"}
+2025-10-18 13:43:28 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-18 13:43:28 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: Heartbeat
+2025-10-18 13:43:28 [INFO] o.s.s..main [Thread-1] heartbeat from CP_MANUAL_1
+2025-10-18 13:43:28 [INFO] o.s.s..main [Thread-1] [Heartbeat Handled] response={"currentTime":"2025-10-18T10:43:28.591Z"}
+2025-10-18 13:43:28 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {"currentTime":"2025-10-18T10:43:28.591Z"}
+2025-10-18 13:43:28 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-18 13:43:28 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: Heartbeat
+2025-10-18 13:43:28 [INFO] o.s.s..main [Thread-1] heartbeat from CP_MANUAL_2
+2025-10-18 13:43:28 [INFO] o.s.s..main [Thread-1] [Heartbeat Handled] response={"currentTime":"2025-10-18T10:43:28.592Z"}
+2025-10-18 13:43:28 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {"currentTime":"2025-10-18T10:43:28.592Z"}
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: BootNotification
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_MANUAL_1: Available
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 1 - Available
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 2 for CP_MANUAL_1: Available
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 2 - Available
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 3 for CP_MANUAL_1: Available
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 3 - Available
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 4 for CP_MANUAL_1: Available
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 4 - Available
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: BootNotification
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_MANUAL_2: Available
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 1 - Available
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 2 for CP_MANUAL_2: Available
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 2 - Available
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 3 for CP_MANUAL_2: Available
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 3 - Available
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 4 for CP_MANUAL_2: Available
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 4 - Available
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [connectorManager] cinitializeConnectors: 1 connectors for CP_MANUAL_1
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] Boot from CP_MANUAL_1:
+      Vendor: Demo
+      Model: DemoModel 
+      Point serial number: undefined
+      Box serial number: undefined 
+      Firmware: undefined 
+      iccid: undefined 
+      imsi: undefined 
+      Meter type: undefined 
+      Meter serial number: undefined 
+      saved to MongoDB
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [BootNotification Handled] response={"currentTime":"2025-10-18T10:43:33.613Z","interval":60,"status":"Accepted"}
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {"currentTime":"2025-10-18T10:43:33.613Z","interval":60,"status":"Accepted"}
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [connectorManager] cinitializeConnectors: 1 connectors for CP_MANUAL_2
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] Boot from CP_MANUAL_2:
+      Vendor: Demo
+      Model: DemoModel 
+      Point serial number: undefined
+      Box serial number: undefined 
+      Firmware: undefined 
+      iccid: undefined 
+      imsi: undefined 
+      Meter type: undefined 
+      Meter serial number: undefined 
+      saved to MongoDB
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [BootNotification Handled] response={"currentTime":"2025-10-18T10:43:33.614Z","interval":60,"status":"Accepted"}
+2025-10-18 13:43:33 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {"currentTime":"2025-10-18T10:43:33.614Z","interval":60,"status":"Accepted"}
+2025-10-18 13:43:40 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:40 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:40 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-18 13:43:40 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:40 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:40 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-18 13:43:43 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-18 13:43:43 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: Heartbeat
+2025-10-18 13:43:43 [INFO] o.s.s..main [Thread-1] heartbeat from CP_MANUAL_1
+2025-10-18 13:43:43 [INFO] o.s.s..main [Thread-1] [Heartbeat Handled] response={"currentTime":"2025-10-18T10:43:43.591Z"}
+2025-10-18 13:43:43 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {"currentTime":"2025-10-18T10:43:43.591Z"}
+2025-10-18 13:43:43 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-18 13:43:43 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: Heartbeat
+2025-10-18 13:43:43 [INFO] o.s.s..main [Thread-1] heartbeat from CP_MANUAL_2
+2025-10-18 13:43:43 [INFO] o.s.s..main [Thread-1] [Heartbeat Handled] response={"currentTime":"2025-10-18T10:43:43.592Z"}
+2025-10-18 13:43:43 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {"currentTime":"2025-10-18T10:43:43.592Z"}
+2025-10-18 13:43:44 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:44 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:44 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-18 13:43:44 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:44 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:44 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-18 13:43:44 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:44 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:44 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-18 13:43:44 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:44 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:44 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-18 13:43:45 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:45 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:45 [INFO] o.s.s..main [Thread-1] [httpHandlers], request method OPTIONS
+2025-10-18 13:43:45 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:45 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:45 [INFO] o.s.s..main [Thread-1] [RemoteControl] Sent RemoteStartTransaction to CP_MANUAL_1 (ID: 0cb9cd93-d1e2-4e2e-95dd-25eb0f911ae5): {"idTag":"ADMIN","connectorId":1,"startValue":0}
+2025-10-18 13:43:45 [INFO] o.s.s..main [Thread-1] [RemoteStartTransaction] Sent to CP_MANUAL_1: idTag=ADMIN, connectorId=1, startValue=0
+2025-10-18 13:43:45 [INFO] o.s.s..main [Thread-1] [API] RemoteStartTransaction sent for CP_MANUAL_1, connector 1
+2025-10-18 13:43:45 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-18 13:43:45 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-18 13:43:45 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_MANUAL_1: Preparing
+2025-10-18 13:43:45 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 1 - Preparing
+2025-10-18 13:43:45 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-18 13:43:45 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-18 13:43:46 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:46 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:46 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-18 13:43:46 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-18 13:43:46 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-18 13:43:46 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_MANUAL_1: Charging
+2025-10-18 13:43:46 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 1 - Charging
+2025-10-18 13:43:46 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-18 13:43:46 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-18 13:43:46 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-18 13:43:46 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StartTransaction
+2025-10-18 13:43:46 [INFO] o.s.s..main [Thread-1] [StartTransaction] Started session with limits: type=full, value=100, tariff=0.1
+2025-10-18 13:43:46 [INFO] o.s.s..main [Thread-1] [StartTransaction] Start tx from CP_MANUAL_1: id 1760784226413, connector 1
+2025-10-18 13:43:46 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_MANUAL_1: Charging (transaction id: 1760784226413)
+2025-10-18 13:43:46 [INFO] o.s.s..main [Thread-1] [StartTransaction Handled] response={"transactionId":"1760784226413","idTagInfo":{"status":"Accepted"}}
+2025-10-18 13:43:46 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {"transactionId":"1760784226413","idTagInfo":{"status":"Accepted"}}
+2025-10-18 13:43:47 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:47 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:50 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:50 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:50 [INFO] o.s.s..main [Thread-1] [httpHandlers], request method OPTIONS
+2025-10-18 13:43:50 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:50 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:50 [ERROR] o.s.s..main [Thread-1] [API] remote-stop-session Error: Error: Cannot find module './remoteControl'
+Require stack:
+- /Users/ab/Documents/code/JavaScript/CSMS/dist/api/httpHandlers.js
+- /Users/ab/Documents/code/JavaScript/CSMS/dist/server/index.js
+2025-10-18 13:43:50 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:50 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:50 [ERROR] o.s.s..main [Thread-1] [API] remote-stop-session Error: Error: Cannot find module './remoteControl'
+Require stack:
+- /Users/ab/Documents/code/JavaScript/CSMS/dist/api/httpHandlers.js
+- /Users/ab/Documents/code/JavaScript/CSMS/dist/server/index.js
+2025-10-18 13:43:50 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:50 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:50 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-18 13:43:51 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:51 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:51 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-18 13:43:51 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-18 13:43:51 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: MeterValues
+2025-10-18 13:43:51 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_1: 250 kWh
+2025-10-18 13:43:51 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-18 13:43:51 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: BootNotification
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_MANUAL_1: Available
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 1 - Available
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 2 for CP_MANUAL_1: Available
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 2 - Available
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 3 for CP_MANUAL_1: Available
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 3 - Available
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 4 for CP_MANUAL_1: Available
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 4 - Available
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: BootNotification
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_MANUAL_2: Available
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 1 - Available
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 2 for CP_MANUAL_2: Available
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 2 - Available
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 3 for CP_MANUAL_2: Available
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 3 - Available
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 4 for CP_MANUAL_2: Available
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 4 - Available
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [connectorManager] cinitializeConnectors: 1 connectors for CP_MANUAL_1
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] Boot from CP_MANUAL_1:
+      Vendor: Demo
+      Model: DemoModel 
+      Point serial number: undefined
+      Box serial number: undefined 
+      Firmware: undefined 
+      iccid: undefined 
+      imsi: undefined 
+      Meter type: undefined 
+      Meter serial number: undefined 
+      saved to MongoDB
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [BootNotification Handled] response={"currentTime":"2025-10-18T10:43:53.617Z","interval":60,"status":"Accepted"}
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {"currentTime":"2025-10-18T10:43:53.617Z","interval":60,"status":"Accepted"}
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [connectorManager] cinitializeConnectors: 1 connectors for CP_MANUAL_2
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] Boot from CP_MANUAL_2:
+      Vendor: Demo
+      Model: DemoModel 
+      Point serial number: undefined
+      Box serial number: undefined 
+      Firmware: undefined 
+      iccid: undefined 
+      imsi: undefined 
+      Meter type: undefined 
+      Meter serial number: undefined 
+      saved to MongoDB
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [BootNotification Handled] response={"currentTime":"2025-10-18T10:43:53.618Z","interval":60,"status":"Accepted"}
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {"currentTime":"2025-10-18T10:43:53.618Z","interval":60,"status":"Accepted"}
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:53 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:53 [ERROR] o.s.s..main [Thread-1] [API] remote-stop-session Error: Error: Cannot find module './remoteControl'
+Require stack:
+- /Users/ab/Documents/code/JavaScript/CSMS/dist/api/httpHandlers.js
+- /Users/ab/Documents/code/JavaScript/CSMS/dist/server/index.js
+2025-10-18 13:43:54 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:54 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:54 [ERROR] o.s.s..main [Thread-1] [API] remote-stop-session Error: Error: Cannot find module './remoteControl'
+Require stack:
+- /Users/ab/Documents/code/JavaScript/CSMS/dist/api/httpHandlers.js
+- /Users/ab/Documents/code/JavaScript/CSMS/dist/server/index.js
+2025-10-18 13:43:54 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:54 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:54 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-18 13:43:54 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:54 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:54 [ERROR] o.s.s..main [Thread-1] [API] remote-stop-session Error: Error: Cannot find module './remoteControl'
+Require stack:
+- /Users/ab/Documents/code/JavaScript/CSMS/dist/api/httpHandlers.js
+- /Users/ab/Documents/code/JavaScript/CSMS/dist/server/index.js
+2025-10-18 13:43:54 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:54 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:54 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-18 13:43:54 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:54 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:54 [ERROR] o.s.s..main [Thread-1] [API] remote-stop-session Error: Error: Cannot find module './remoteControl'
+Require stack:
+- /Users/ab/Documents/code/JavaScript/CSMS/dist/api/httpHandlers.js
+- /Users/ab/Documents/code/JavaScript/CSMS/dist/server/index.js
+2025-10-18 13:43:54 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:54 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:54 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-18 13:43:55 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:55 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:55 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-18 13:43:55 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:55 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:55 [INFO] o.s.s..main [Thread-1] [httpHandlers], request method OPTIONS
+2025-10-18 13:43:55 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:55 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:55 [ERROR] o.s.s..main [Thread-1] [API] remote-stop-session Error: Error: Cannot find module './remoteControl'
+Require stack:
+- /Users/ab/Documents/code/JavaScript/CSMS/dist/api/httpHandlers.js
+- /Users/ab/Documents/code/JavaScript/CSMS/dist/server/index.js
+2025-10-18 13:43:55 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:55 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:55 [ERROR] o.s.s..main [Thread-1] [API] remote-stop-session Error: Error: Cannot find module './remoteControl'
+Require stack:
+- /Users/ab/Documents/code/JavaScript/CSMS/dist/api/httpHandlers.js
+- /Users/ab/Documents/code/JavaScript/CSMS/dist/server/index.js
+2025-10-18 13:43:56 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:56 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:56 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-18 13:43:56 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:56 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:56 [ERROR] o.s.s..main [Thread-1] [API] remote-stop-session Error: Error: Cannot find module './remoteControl'
+Require stack:
+- /Users/ab/Documents/code/JavaScript/CSMS/dist/api/httpHandlers.js
+- /Users/ab/Documents/code/JavaScript/CSMS/dist/server/index.js
+2025-10-18 13:43:56 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:56 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:56 [ERROR] o.s.s..main [Thread-1] [API] remote-stop-session Error: Error: Cannot find module './remoteControl'
+Require stack:
+- /Users/ab/Documents/code/JavaScript/CSMS/dist/api/httpHandlers.js
+- /Users/ab/Documents/code/JavaScript/CSMS/dist/server/index.js
+2025-10-18 13:43:56 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-18 13:43:56 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: MeterValues
+2025-10-18 13:43:56 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_1: 500 kWh
+2025-10-18 13:43:56 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-18 13:43:56 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-18 13:43:56 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:56 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:56 [ERROR] o.s.s..main [Thread-1] [API] remote-stop-session Error: Error: Cannot find module './remoteControl'
+Require stack:
+- /Users/ab/Documents/code/JavaScript/CSMS/dist/api/httpHandlers.js
+- /Users/ab/Documents/code/JavaScript/CSMS/dist/server/index.js
+2025-10-18 13:43:56 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:56 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:56 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-18 13:43:56 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:56 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:56 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-18 13:43:56 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:56 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:56 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-18 13:43:57 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:43:57 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:43:57 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-18 13:43:58 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-18 13:43:58 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: Heartbeat
+2025-10-18 13:43:58 [INFO] o.s.s..main [Thread-1] heartbeat from CP_MANUAL_1
+2025-10-18 13:43:58 [INFO] o.s.s..main [Thread-1] [Heartbeat Handled] response={"currentTime":"2025-10-18T10:43:58.591Z"}
+2025-10-18 13:43:58 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {"currentTime":"2025-10-18T10:43:58.591Z"}
+2025-10-18 13:43:58 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-18 13:43:58 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: Heartbeat
+2025-10-18 13:43:58 [INFO] o.s.s..main [Thread-1] heartbeat from CP_MANUAL_2
+2025-10-18 13:43:58 [INFO] o.s.s..main [Thread-1] [Heartbeat Handled] response={"currentTime":"2025-10-18T10:43:58.593Z"}
+2025-10-18 13:43:58 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {"currentTime":"2025-10-18T10:43:58.593Z"}
+2025-10-18 13:44:01 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-18 13:44:01 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: MeterValues
+2025-10-18 13:44:01 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_1: 750 kWh
+2025-10-18 13:44:01 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-18 13:44:01 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-18 13:44:05 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:44:05 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:44:05 [INFO] o.s.s..main [Thread-1] [httpHandlers], request method OPTIONS
+2025-10-18 13:44:05 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:44:05 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:44:05 [ERROR] o.s.s..main [Thread-1] [API] remote-stop-session Error: Error: Cannot find module './remoteControl'
+Require stack:
+- /Users/ab/Documents/code/JavaScript/CSMS/dist/api/httpHandlers.js
+- /Users/ab/Documents/code/JavaScript/CSMS/dist/server/index.js
+2025-10-18 13:44:06 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:44:06 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:44:06 [ERROR] o.s.s..main [Thread-1] [API] remote-stop-session Error: Error: Cannot find module './remoteControl'
+Require stack:
+- /Users/ab/Documents/code/JavaScript/CSMS/dist/api/httpHandlers.js
+- /Users/ab/Documents/code/JavaScript/CSMS/dist/server/index.js
+2025-10-18 13:44:06 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-18 13:44:06 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: MeterValues
+2025-10-18 13:44:06 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_1: 1000 kWh
+2025-10-18 13:44:06 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-18 13:44:06 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-18 13:44:06 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:44:06 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:44:06 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-18 13:44:06 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:44:06 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:44:06 [ERROR] o.s.s..main [Thread-1] [API] remote-stop-session Error: Error: Cannot find module './remoteControl'
+Require stack:
+- /Users/ab/Documents/code/JavaScript/CSMS/dist/api/httpHandlers.js
+- /Users/ab/Documents/code/JavaScript/CSMS/dist/server/index.js
+2025-10-18 13:44:06 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:44:06 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:44:06 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-18 13:44:07 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:44:07 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:44:07 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-18 13:44:11 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-18 13:44:11 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: MeterValues
+2025-10-18 13:44:11 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_1: 1250 kWh
+2025-10-18 13:44:11 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-18 13:44:11 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: Heartbeat
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] heartbeat from CP_MANUAL_1
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [Heartbeat Handled] response={"currentTime":"2025-10-18T10:44:13.591Z"}
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {"currentTime":"2025-10-18T10:44:13.591Z"}
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_MANUAL_1: Available
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 1 - Available
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 2 for CP_MANUAL_1: Available
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 2 - Available
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 3 for CP_MANUAL_1: Available
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 3 - Available
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 4 for CP_MANUAL_1: Available
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 4 - Available
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: Heartbeat
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] heartbeat from CP_MANUAL_2
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_MANUAL_2: Available
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 1 - Available
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 2 for CP_MANUAL_2: Available
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 2 - Available
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 3 for CP_MANUAL_2: Available
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 3 - Available
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 4 for CP_MANUAL_2: Available
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 4 - Available
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [Heartbeat Handled] response={"currentTime":"2025-10-18T10:44:13.598Z"}
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {"currentTime":"2025-10-18T10:44:13.598Z"}
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-18 13:44:13 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-18 13:44:16 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-18 13:44:16 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: MeterValues
+2025-10-18 13:44:16 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_1: 1500 kWh
+2025-10-18 13:44:16 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-18 13:44:16 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-18 13:44:17 [INFO] o.s.s..main [Thread-1] [CLOSE] Disconnected: CP_MANUAL_2, code: 1006, reason: 
+2025-10-18 13:44:17 [INFO] o.s.s..main [Thread-1] [CLOSE] Disconnected: CP_MANUAL_1, code: 1006, reason: 
+2025-10-18 13:44:17 [INFO] o.s.s..main [Thread-1] [Heartbeat] Set lastOffline for CP_MANUAL_1: Sat Oct 18 2025 13:44:17 GMT+0300 (Москва, стандартное время)
+2025-10-18 13:44:17 [INFO] o.s.s..main [Thread-1] [Heartbeat] Set lastOffline for CP_MANUAL_2: Sat Oct 18 2025 13:44:17 GMT+0300 (Москва, стандартное время)
+2025-10-18 13:44:21 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:44:21 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:44:21 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-18 13:44:21 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:44:21 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:44:21 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-18 13:44:23 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:44:23 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:44:23 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-18 13:44:23 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:44:23 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:44:23 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-18 13:44:23 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:44:23 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:44:23 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-18 13:44:23 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:44:23 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:44:23 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-18 13:44:27 [INFO] o.s.s..main [Thread-1] [CONNECTION] New connection: /ocpp/CP_MANUAL_2
+2025-10-18 13:44:27 [INFO] o.s.s..main [Thread-1] [CONNECTION] Headers: {"sec-websocket-version":"13","sec-websocket-key":"ZSmPDOorOmu0IL4pbq+jCg==","connection":"Upgrade","upgrade":"websocket","sec-websocket-extensions":"permessage-deflate; client_max_window_bits","host":"localhost:8081"}
+2025-10-18 13:44:27 [INFO] o.s.s..main [Thread-1] [CONNECTION] ChargePoint ID: CP_MANUAL_2
+2025-10-18 13:44:27 [INFO] o.s.s..main [Thread-1] [wsServer] CS added to the connection manager - CP_MANUAL_2
+2025-10-18 13:44:27 [INFO] o.s.s..main [Thread-1] [CONNECTION] Successfully setup connection for CP_MANUAL_2
+2025-10-18 13:44:27 [INFO] o.s.s..main [Thread-1] [CONNECTION] New connection: /ocpp/CP_MANUAL_1
+2025-10-18 13:44:27 [INFO] o.s.s..main [Thread-1] [CONNECTION] Headers: {"sec-websocket-version":"13","sec-websocket-key":"MdFq6/BZ4q433FEBq7nLvw==","connection":"Upgrade","upgrade":"websocket","sec-websocket-extensions":"permessage-deflate; client_max_window_bits","host":"localhost:8081"}
+2025-10-18 13:44:27 [INFO] o.s.s..main [Thread-1] [CONNECTION] ChargePoint ID: CP_MANUAL_1
+2025-10-18 13:44:27 [INFO] o.s.s..main [Thread-1] [wsServer] CS added to the connection manager - CP_MANUAL_1
+2025-10-18 13:44:27 [INFO] o.s.s..main [Thread-1] [CONNECTION] Successfully setup connection for CP_MANUAL_1
+2025-10-18 13:44:27 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-18 13:44:27 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: BootNotification
+2025-10-18 13:44:27 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-18 13:44:27 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: BootNotification
+2025-10-18 13:44:27 [INFO] o.s.s..main [Thread-1] [connectorManager] cinitializeConnectors: 1 connectors for CP_MANUAL_1
+2025-10-18 13:44:27 [INFO] o.s.s..main [Thread-1] Boot from CP_MANUAL_1:
+      Vendor: Demo
+      Model: DemoModel 
+      Point serial number: undefined
+      Box serial number: undefined 
+      Firmware: undefined 
+      iccid: undefined 
+      imsi: undefined 
+      Meter type: undefined 
+      Meter serial number: undefined 
+      saved to MongoDB
+2025-10-18 13:44:27 [INFO] o.s.s..main [Thread-1] [BootNotification Handled] response={"currentTime":"2025-10-18T10:44:27.461Z","interval":60,"status":"Accepted"}
+2025-10-18 13:44:27 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {"currentTime":"2025-10-18T10:44:27.461Z","interval":60,"status":"Accepted"}
+2025-10-18 13:44:27 [INFO] o.s.s..main [Thread-1] [connectorManager] cinitializeConnectors: 1 connectors for CP_MANUAL_2
+2025-10-18 13:44:27 [INFO] o.s.s..main [Thread-1] Boot from CP_MANUAL_2:
+      Vendor: Demo
+      Model: DemoModel 
+      Point serial number: undefined
+      Box serial number: undefined 
+      Firmware: undefined 
+      iccid: undefined 
+      imsi: undefined 
+      Meter type: undefined 
+      Meter serial number: undefined 
+      saved to MongoDB
+2025-10-18 13:44:27 [INFO] o.s.s..main [Thread-1] [BootNotification Handled] response={"currentTime":"2025-10-18T10:44:27.462Z","interval":60,"status":"Accepted"}
+2025-10-18 13:44:27 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {"currentTime":"2025-10-18T10:44:27.462Z","interval":60,"status":"Accepted"}
+2025-10-18 13:44:30 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:44:30 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:44:30 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-18 13:44:30 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-18 13:44:30 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-18 13:44:30 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-18 13:44:32 [INFO] o.s.s..main [Thread-1] [CLOSE] Disconnected: CP_MANUAL_2, code: 1006, reason: 
+2025-10-18 13:44:32 [INFO] o.s.s..main [Thread-1] [CLOSE] Disconnected: CP_MANUAL_1, code: 1006, reason: 
+2025-10-18 13:44:32 [INFO] o.s.s..main [Thread-1] [Heartbeat] Set lastOffline for CP_MANUAL_1: Sat Oct 18 2025 13:44:32 GMT+0300 (Москва, стандартное время)
+2025-10-18 13:44:32 [INFO] o.s.s..main [Thread-1] [Heartbeat] Set lastOffline for CP_MANUAL_2: Sat Oct 18 2025 13:44:32 GMT+0300 (Москва, стандартное время)
+2025-10-18 13:44:38 [INFO] o.s.s..main [Thread-1] [SHUTDOWN] Received SIGINT. Initiating graceful shutdown...

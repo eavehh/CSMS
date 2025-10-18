@@ -50,7 +50,9 @@ export class ConnectionManager {
             this.reverseConnections.delete(ws);
         }
         this.connections.delete(chargePointId);
-        // Не удаляем состояния коннекторов, чтобы не терять сессии
+        // Удаляем состояния коннекторов при отключении станции
+        this.connectorStates.delete(chargePointId);
+        logger.info(`[ConnectionManager] Removed chargePointId ${chargePointId} and its connector states`);
     }
 
     // Отвязать только сокет, оставив состояние коннекторов нетронутым
