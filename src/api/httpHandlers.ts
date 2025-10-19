@@ -2,7 +2,7 @@ import { get, IncomingMessage, ServerResponse } from 'http';
 import { URL, URLSearchParams } from 'url';
 import { logger } from '../logger';
 import { getStations, startStationsApiHandler, stopStationsApiHandler } from './apiHandlers/stationsApi'
-import { transactionsApiHandler, startRemoteTrx, stopRemoteTrx, clearRecentTransactionsHandler, recentTransactionsApiHandler, clearRecentTransactionsMemoryHandler } from "./apiHandlers/transactionsApi";
+import { transactionsApiHandler, startRemoteTrx, stopRemoteTrx, clearRecentTransactionsHandler, recentTransactionsApiHandler, clearRecentTransactionsMemoryHandler, addRecentTransactionHandler } from "./apiHandlers/transactionsApi";
 import {
     getUserStations,
     getUserConnectorStatus,
@@ -56,6 +56,12 @@ export function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
     // GET /api/transactions/recent - последние 10 транзакций из памяти (с start и stop данными)
     if (req.method === 'GET' && pathname === '/api/transactions/recent') {
         recentTransactionsApiHandler(req, res);
+        return;
+    }
+
+    // POST /api/transactions/recent - вручную добавить транзакцию (для тестирования)
+    if (req.method === 'POST' && pathname === '/api/transactions/recent') {
+        addRecentTransactionHandler(req, res);
         return;
     }
 

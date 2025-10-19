@@ -49,6 +49,58 @@ export function recentTransactionsApiHandler(req: IncomingMessage, res: ServerRe
 }
 
 /**
+ * POST /api/transactions/recent
+ * Вручную добавляет транзакцию в список недавних (для тестирования)
+ * Body: { transactionId, chargePointId, connectorId, idTag, startTime, stopTime, ... }
+ */
+export function addRecentTransactionHandler(req: IncomingMessage, res: ServerResponse) {
+    (async () => {
+        try {
+            const body = await readBody(req);
+
+            // Валидация обязательных полей
+            if (!body.transactionId || !body.chargePointId || !body.connectorId) {
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({
+                    success: false,
+                    error: 'Missing required fields: transactionId, chargePointId, connectorId'
+                }));
+                return;
+            }
+
+            // Добавляем транзакцию
+            connectionManager.addRecentTransaction({
+                transactionId: body.transactionId,
+                chargePointId: body.chargePointId,
+                connectorId: body.connectorId,
+                idTag: body.idTag || 'MANUAL',
+                startTime: body.startTime || new Date().toISOString(),
+                meterStart: body.meterStart || 0,
+                stopTime: body.stopTime || new Date().toISOString(),
+                meterStop: body.meterStop || 0,
+                totalKWh: body.totalKWh || 0,
+                cost: body.cost || 0,
+                efficiencyPercentage: body.efficiencyPercentage || 0,
+                reason: body.reason || 'Manual',
+                status: 'Completed'
+            });
+
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({
+                success: true,
+                message: 'Transaction added manually',
+                transactionId: body.transactionId
+            }));
+            logger.info(`[API] Manually added transaction ${body.transactionId}`);
+        } catch (err) {
+            logger.error(`[API] POST /api/transactions/recent error: ${err}`);
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ success: false, error: 'Internal server error' }));
+        }
+    })();
+}
+
+/**
  * DELETE /api/transactions/recent
  * Очищает все недавние транзакции из памяти (connectionManager)
  * Это админ-функция для сброса списка недавних транзакций

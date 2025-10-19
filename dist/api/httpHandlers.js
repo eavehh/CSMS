@@ -41,6 +41,11 @@ function handleHttpRequest(req, res) {
         (0, transactionsApi_1.recentTransactionsApiHandler)(req, res);
         return;
     }
+    // POST /api/transactions/recent - вручную добавить транзакцию (для тестирования)
+    if (req.method === 'POST' && pathname === '/api/transactions/recent') {
+        (0, transactionsApi_1.addRecentTransactionHandler)(req, res);
+        return;
+    }
     // DELETE /api/transactions/recent - очистить недавние транзакции из памяти (админ)
     if (req.method === 'DELETE' && pathname === '/api/transactions/recent/delete') {
         (0, transactionsApi_1.clearRecentTransactionsMemoryHandler)(req, res);
