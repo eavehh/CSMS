@@ -1,9 +1,44 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ConnectionManager = void 0;
 const logger_1 = require("../logger");
 const mongoose_1 = require("../db/mongoose");
 const Transaction_1 = require("../db/entities/Transaction");
+const fs = __importStar(require("fs"));
+const path = __importStar(require("path"));
 class ConnectionManager {
     constructor() {
         this.connections = new Map();
@@ -14,6 +49,50 @@ class ConnectionManager {
         this.lastActivity = new Map();
         this.reservationCleanupInterval = null;
         this.recentTransactions = [];
+        this.recentTransactionsFile = path.join(__dirname, '../../data/recentTransactions.json');
+        // Загружаем сохраненные транзакции при старте
+        this.loadRecentTransactions();
+    }
+    /**
+     * Загружает транзакции из файла при старте сервера
+     */
+    loadRecentTransactions() {
+        try {
+            // Создаем директорию если не существует
+            const dir = path.dirname(this.recentTransactionsFile);
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir, { recursive: true });
+            }
+            // Загружаем данные из файла
+            if (fs.existsSync(this.recentTransactionsFile)) {
+                const data = fs.readFileSync(this.recentTransactionsFile, 'utf-8');
+                this.recentTransactions = JSON.parse(data);
+                logger_1.logger.info(`[ConnectionManager] Loaded ${this.recentTransactions.length} recent transactions from file`);
+            }
+            else {
+                logger_1.logger.info(`[ConnectionManager] No saved transactions file found, starting fresh`);
+            }
+        }
+        catch (err) {
+            logger_1.logger.error(`[ConnectionManager] Error loading recent transactions: ${err}`);
+            this.recentTransactions = [];
+        }
+    }
+    /**
+     * Сохраняет транзакции в файл
+     */
+    saveRecentTransactions() {
+        try {
+            const dir = path.dirname(this.recentTransactionsFile);
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir, { recursive: true });
+            }
+            fs.writeFileSync(this.recentTransactionsFile, JSON.stringify(this.recentTransactions, null, 2));
+            logger_1.logger.debug(`[ConnectionManager] Saved ${this.recentTransactions.length} transactions to file`);
+        }
+        catch (err) {
+            logger_1.logger.error(`[ConnectionManager] Error saving recent transactions: ${err}`);
+        }
     }
     /**
      * Добавляет или обновляет транзакцию в списке недавних.
@@ -49,6 +128,8 @@ class ConnectionManager {
             if (this.recentTransactions.length > 30) {
                 this.recentTransactions.length = 30;
             }
+            // Сохраняем в файл после каждого изменения
+            this.saveRecentTransactions();
         }
         catch (err) {
             logger_1.logger.error(`[ConnectionManager] Error in addRecentTransaction: ${err}`);
@@ -66,12 +147,13 @@ class ConnectionManager {
         return this.recentTransactions.length < before;
     }
     /**
-     * Очищает все недавние транзакции из памяти
+     * Очищает все недавние транзакции из памяти и файла
      */
     clearRecentTransactions() {
         const count = this.recentTransactions.length;
         this.recentTransactions = [];
-        logger_1.logger.info(`[ConnectionManager] Cleared ${count} recent transactions from memory`);
+        this.saveRecentTransactions(); // Сохраняем пустой массив в файл
+        logger_1.logger.info(`[ConnectionManager] Cleared ${count} recent transactions from memory and file`);
         return count;
     }
     updateLastActivity(chargePointId) {

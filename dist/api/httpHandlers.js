@@ -42,7 +42,7 @@ function handleHttpRequest(req, res) {
         return;
     }
     // DELETE /api/transactions/recent - очистить недавние транзакции из памяти (админ)
-    if (req.method === 'DELETE' && pathname === '/api/transactions/recent') {
+    if (req.method === 'DELETE' && pathname === '/api/transactions/recent/delete') {
         (0, transactionsApi_1.clearRecentTransactionsMemoryHandler)(req, res);
         return;
     }

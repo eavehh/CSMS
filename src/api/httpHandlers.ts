@@ -1,10 +1,6 @@
 import { get, IncomingMessage, ServerResponse } from 'http';
-import { StartTransactionRequest } from '../server/types/1.6/StartTransaction'
 import { URL, URLSearchParams } from 'url';
 import { logger } from '../logger';
-import { connectionManager } from '../server/index';
-import { handleStartTransaction } from '../server/handlers/startTransaction';
-import { sendRemoteStartTransaction } from '../server/remoteControl';
 import { getStations, startStationsApiHandler, stopStationsApiHandler } from './apiHandlers/stationsApi'
 import { transactionsApiHandler, startRemoteTrx, stopRemoteTrx, clearRecentTransactionsHandler, recentTransactionsApiHandler, clearRecentTransactionsMemoryHandler } from "./apiHandlers/transactionsApi";
 import {
