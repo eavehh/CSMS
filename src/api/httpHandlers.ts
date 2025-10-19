@@ -64,7 +64,7 @@ export function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
     }
 
     // DELETE /api/transactions/recent - очистить недавние транзакции из памяти (админ)
-    if (req.method === 'DELETE' && pathname === '/api/transactions/recent') {
+    if (req.method === 'DELETE' && pathname === '/api/transactions/recent/delete') {
         clearRecentTransactionsMemoryHandler(req, res);
         return;
     }

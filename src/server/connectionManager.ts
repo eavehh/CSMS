@@ -2,6 +2,8 @@ import WebSocket from 'ws';
 import { logger } from '../logger';
 import { ChargePoint } from '../db/mongoose';
 import { Transaction } from "../db/entities/Transaction"
+import * as fs from 'fs';
+import * as path from 'path';
 
 
 export interface ConnectorState {
@@ -22,6 +24,53 @@ export class ConnectionManager {
     lastActivity: Map<string, number> = new Map();
     reservationCleanupInterval: NodeJS.Timeout | null = null;
     private recentTransactions: Array<any> = [];
+    private recentTransactionsFile = path.join(__dirname, '../../data/recentTransactions.json');
+
+    constructor() {
+        // Загружаем сохраненные транзакции при старте
+        this.loadRecentTransactions();
+    }
+
+    /**
+     * Загружает транзакции из файла при старте сервера
+     */
+    private loadRecentTransactions() {
+        try {
+            // Создаем директорию если не существует
+            const dir = path.dirname(this.recentTransactionsFile);
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir, { recursive: true });
+            }
+
+            // Загружаем данные из файла
+            if (fs.existsSync(this.recentTransactionsFile)) {
+                const data = fs.readFileSync(this.recentTransactionsFile, 'utf-8');
+                this.recentTransactions = JSON.parse(data);
+                logger.info(`[ConnectionManager] Loaded ${this.recentTransactions.length} recent transactions from file`);
+            } else {
+                logger.info(`[ConnectionManager] No saved transactions file found, starting fresh`);
+            }
+        } catch (err) {
+            logger.error(`[ConnectionManager] Error loading recent transactions: ${err}`);
+            this.recentTransactions = [];
+        }
+    }
+
+    /**
+     * Сохраняет транзакции в файл
+     */
+    private saveRecentTransactions() {
+        try {
+            const dir = path.dirname(this.recentTransactionsFile);
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir, { recursive: true });
+            }
+            fs.writeFileSync(this.recentTransactionsFile, JSON.stringify(this.recentTransactions, null, 2));
+            logger.debug(`[ConnectionManager] Saved ${this.recentTransactions.length} transactions to file`);
+        } catch (err) {
+            logger.error(`[ConnectionManager] Error saving recent transactions: ${err}`);
+        }
+    }
 
     /**
      * Добавляет или обновляет транзакцию в списке недавних.
@@ -60,6 +109,9 @@ export class ConnectionManager {
             if (this.recentTransactions.length > 30) {
                 this.recentTransactions.length = 30;
             }
+
+            // Сохраняем в файл после каждого изменения
+            this.saveRecentTransactions();
         } catch (err) {
             logger.error(`[ConnectionManager] Error in addRecentTransaction: ${err}`);
         }
@@ -81,12 +133,13 @@ export class ConnectionManager {
     }
 
     /**
-     * Очищает все недавние транзакции из памяти
+     * Очищает все недавние транзакции из памяти и файла
      */
     clearRecentTransactions(): number {
         const count = this.recentTransactions.length;
         this.recentTransactions = [];
-        logger.info(`[ConnectionManager] Cleared ${count} recent transactions from memory`);
+        this.saveRecentTransactions(); // Сохраняем пустой массив в файл
+        logger.info(`[ConnectionManager] Cleared ${count} recent transactions from memory and file`);
         return count;
     }
 
