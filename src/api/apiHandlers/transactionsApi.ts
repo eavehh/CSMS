@@ -210,17 +210,33 @@ export async function startRemoteTrx(req: IncomingMessage, res: ServerResponse) 
 
 /**
  * POST /api/remote-stop-session
- * body: { chargePointId, connectorId, transactionId }
+ * body: { chargePointId, connectorId } - transactionId опционален
+ * Если transactionId не указан, автоматически находим активную транзакцию для коннектора
  */
 export async function stopRemoteTrx(req: IncomingMessage, res: ServerResponse) {
     try {
         const body = await readBody(req);
-        const { chargePointId, connectorId, transactionId } = body || {};
+        let { chargePointId, connectorId, transactionId } = body || {};
 
-        if (!chargePointId || !connectorId || !transactionId) {
+        if (!chargePointId || !connectorId) {
             res.writeHead(400, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ success: false, error: 'Missing required fields: chargePointId, connectorId, transactionId' }));
+            res.end(JSON.stringify({ success: false, error: 'Missing required fields: chargePointId, connectorId' }));
             return;
+        }
+
+        // Если transactionId не передан - находим его по коннектору
+        if (!transactionId) {
+            const connectorState = connectionManager.getConnectorState(chargePointId, connectorId);
+            if (!connectorState || !connectorState.transactionId) {
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({
+                    success: false,
+                    error: `No active transaction found for connector ${connectorId} on station ${chargePointId}`
+                }));
+                return;
+            }
+            transactionId = connectorState.transactionId;
+            logger.info(`[API] Auto-resolved transactionId: ${transactionId} for connector ${connectorId} on ${chargePointId}`);
         }
 
         const stationsMap = typeof connectionManager.getAllChargePointsWithConnectors === 'function'
@@ -235,7 +251,11 @@ export async function stopRemoteTrx(req: IncomingMessage, res: ServerResponse) {
                 transactionId
             });
             res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ success: true, message: 'RemoteStopTransaction sent via WebSocket' }));
+            res.end(JSON.stringify({
+                success: true,
+                message: 'RemoteStopTransaction sent via WebSocket',
+                transactionId
+            }));
             return;
         }
 

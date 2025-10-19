@@ -16563,3 +16563,1325 @@
 2025-10-19 16:53:51 [WARN] o.s.s..main [Thread-1] [RECONNECT] 60000ms passed since disconnect of CP_MANUAL_1. If the station supports outbound, attempt reconnect from station. Server will accept.
 2025-10-19 16:53:51 [WARN] o.s.s..main [Thread-1] [RECONNECT] 60000ms passed since disconnect of CP_MANUAL_2. If the station supports outbound, attempt reconnect from station. Server will accept.
 2025-10-19 17:03:03 [INFO] o.s.s..main [Thread-1] [SHUTDOWN] Received SIGINT. Initiating graceful shutdown...
+2025-10-19 17:12:20 [INFO] o.s.s..main [Thread-1] [wsServer] Creating WebSocket server...
+2025-10-19 17:12:20 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server instance created
+2025-10-19 17:12:20 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server setup complete
+2025-10-19 17:12:20 [INFO] o.s.s..main [Thread-1] [mongo] MongoDB connected!
+2025-10-19 17:12:20 [INFO] o.s.s..main [Thread-1] [MONGO] MongoDB connected
+2025-10-19 17:12:20 [INFO] o.s.s..main [Thread-1] [POSTGRES] PostgreSQL connected
+2025-10-19 17:12:20 [INFO] o.s.s..main [Thread-1] [HTTP_SERVER] Starting HTTP server...
+2025-10-19 17:12:20 [INFO] o.s.s..main [Thread-1] [MAIN] CSMS Server fully initialized on port 8081
+2025-10-19 17:12:23 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:12:23 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:12:23 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:12:23 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:12:23 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:12:23 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:12:25 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:12:25 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:12:25 [INFO] o.s.s..main [Thread-1] [API] /api/transactions/recent returned 0 transactions (limit: 10)
+2025-10-19 17:12:26 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:12:26 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:12:26 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:12:26 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:12:26 [INFO] o.s.s..main [Thread-1] [index API] httpServer Faild: Error [ERR_HTTP_HEADERS_SENT]: Cannot write headers after they are sent to the client
+2025-10-19 17:12:54 [INFO] o.s.s..main [Thread-1] [CONNECTION] New connection: /ocpp/CP_MANUAL_2
+2025-10-19 17:12:54 [INFO] o.s.s..main [Thread-1] [CONNECTION] Headers: {"sec-websocket-version":"13","sec-websocket-key":"LIyYq8ZgGv5LsDRrsilifA==","connection":"Upgrade","upgrade":"websocket","sec-websocket-extensions":"permessage-deflate; client_max_window_bits","host":"localhost:8081"}
+2025-10-19 17:12:54 [INFO] o.s.s..main [Thread-1] [CONNECTION] ChargePoint ID: CP_MANUAL_2
+2025-10-19 17:12:54 [INFO] o.s.s..main [Thread-1] [AddConnection] Initialized default connector states for CP_MANUAL_2
+2025-10-19 17:12:54 [INFO] o.s.s..main [Thread-1] [wsServer] CS added to the connection manager - CP_MANUAL_2
+2025-10-19 17:12:54 [INFO] o.s.s..main [Thread-1] [CONNECTION] Successfully setup connection for CP_MANUAL_2
+2025-10-19 17:12:54 [INFO] o.s.s..main [Thread-1] [CONNECTION] New connection: /ocpp/CP_MANUAL_1
+2025-10-19 17:12:54 [INFO] o.s.s..main [Thread-1] [CONNECTION] Headers: {"sec-websocket-version":"13","sec-websocket-key":"f6TE9iWDaUyv70pHtRVP2g==","connection":"Upgrade","upgrade":"websocket","sec-websocket-extensions":"permessage-deflate; client_max_window_bits","host":"localhost:8081"}
+2025-10-19 17:12:54 [INFO] o.s.s..main [Thread-1] [CONNECTION] ChargePoint ID: CP_MANUAL_1
+2025-10-19 17:12:54 [INFO] o.s.s..main [Thread-1] [AddConnection] Initialized default connector states for CP_MANUAL_1
+2025-10-19 17:12:54 [INFO] o.s.s..main [Thread-1] [wsServer] CS added to the connection manager - CP_MANUAL_1
+2025-10-19 17:12:54 [INFO] o.s.s..main [Thread-1] [CONNECTION] Successfully setup connection for CP_MANUAL_1
+2025-10-19 17:12:54 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:12:54 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: BootNotification
+2025-10-19 17:12:54 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:12:54 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: BootNotification
+2025-10-19 17:12:54 [INFO] o.s.s..main [Thread-1] [connectorManager] cinitializeConnectors: 1 connectors for CP_MANUAL_2
+2025-10-19 17:12:54 [INFO] o.s.s..main [Thread-1] Boot from CP_MANUAL_2:
+      Vendor: Demo
+      Model: DemoModel 
+      Point serial number: undefined
+      Box serial number: undefined 
+      Firmware: undefined 
+      iccid: undefined 
+      imsi: undefined 
+      Meter type: undefined 
+      Meter serial number: undefined 
+      saved to MongoDB
+2025-10-19 17:12:54 [INFO] o.s.s..main [Thread-1] [BootNotification Handled] response={"currentTime":"2025-10-19T14:12:54.186Z","interval":60,"status":"Accepted"}
+2025-10-19 17:12:54 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {"currentTime":"2025-10-19T14:12:54.186Z","interval":60,"status":"Accepted"}
+2025-10-19 17:12:54 [INFO] o.s.s..main [Thread-1] [connectorManager] cinitializeConnectors: 1 connectors for CP_MANUAL_1
+2025-10-19 17:12:54 [INFO] o.s.s..main [Thread-1] Boot from CP_MANUAL_1:
+      Vendor: Demo
+      Model: DemoModel 
+      Point serial number: undefined
+      Box serial number: undefined 
+      Firmware: undefined 
+      iccid: undefined 
+      imsi: undefined 
+      Meter type: undefined 
+      Meter serial number: undefined 
+      saved to MongoDB
+2025-10-19 17:12:54 [INFO] o.s.s..main [Thread-1] [BootNotification Handled] response={"currentTime":"2025-10-19T14:12:54.186Z","interval":60,"status":"Accepted"}
+2025-10-19 17:12:54 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {"currentTime":"2025-10-19T14:12:54.186Z","interval":60,"status":"Accepted"}
+2025-10-19 17:12:57 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:12:57 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:12:57 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:12:57 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:12:57 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:12:57 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:12:59 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:12:59 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:12:59 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:01 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:01 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:01 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:02 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:02 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:02 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:02 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:02 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:02 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:02 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:02 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:02 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:02 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:02 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:02 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:02 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:02 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:02 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:02 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:02 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:02 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:03 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:03 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:03 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:03 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:03 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:03 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:03 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:03 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:03 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:04 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:04 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:04 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:04 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:04 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:04 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:06 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:06 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:06 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:07 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:07 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:07 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:07 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:07 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:07 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:07 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:07 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:07 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:07 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:07 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:07 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:08 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:08 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:08 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:08 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:08 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:08 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:08 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:08 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:08 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:08 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:08 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:08 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:09 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:09 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: Heartbeat
+2025-10-19 17:13:09 [INFO] o.s.s..main [Thread-1] heartbeat from CP_MANUAL_2
+2025-10-19 17:13:09 [INFO] o.s.s..main [Thread-1] [Heartbeat Handled] response={"currentTime":"2025-10-19T14:13:09.117Z"}
+2025-10-19 17:13:09 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {"currentTime":"2025-10-19T14:13:09.117Z"}
+2025-10-19 17:13:09 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:13:09 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: Heartbeat
+2025-10-19 17:13:09 [INFO] o.s.s..main [Thread-1] heartbeat from CP_MANUAL_1
+2025-10-19 17:13:09 [INFO] o.s.s..main [Thread-1] [Heartbeat Handled] response={"currentTime":"2025-10-19T14:13:09.118Z"}
+2025-10-19 17:13:09 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {"currentTime":"2025-10-19T14:13:09.118Z"}
+2025-10-19 17:13:09 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:09 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:09 [INFO] o.s.s..main [Thread-1] [API] /api/transactions/recent returned 0 transactions (limit: 10)
+2025-10-19 17:13:12 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:12 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:12 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:12 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:12 [INFO] o.s.s..main [Thread-1] [RemoteControl] Sent RemoteStartTransaction to CP_MANUAL_2 (ID: 49e67693-6a87-4ce6-8557-dda13441f9a6): {"idTag":"ADMIN","connectorId":1,"startValue":0}
+2025-10-19 17:13:12 [INFO] o.s.s..main [Thread-1] [RemoteStartTransaction] Sent to CP_MANUAL_2: idTag=ADMIN, connectorId=1, startValue=0
+2025-10-19 17:13:12 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:12 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-19 17:13:12 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_MANUAL_2: Preparing
+2025-10-19 17:13:12 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 1 - Preparing
+2025-10-19 17:13:12 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:13:12 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:13:12 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:12 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:12 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:13 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:13 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-19 17:13:13 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_MANUAL_2: Charging
+2025-10-19 17:13:13 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 1 - Charging
+2025-10-19 17:13:13 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:13:13 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:13:13 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:13 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StartTransaction
+2025-10-19 17:13:13 [INFO] o.s.s..main [Thread-1] [StartTransaction] Started session with limits: type=full, value=100, tariff=0.1
+2025-10-19 17:13:13 [INFO] o.s.s..main [Thread-1] [StartTransaction] Start tx from CP_MANUAL_2: id 1760883193032, connector 1
+2025-10-19 17:13:13 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_MANUAL_2: Charging (transaction id: 1760883193032)
+2025-10-19 17:13:13 [INFO] o.s.s..main [Thread-1] [ConnectionManager] Added new transaction 1760883193032
+2025-10-19 17:13:13 [INFO] o.s.s..main [Thread-1] [StartTransaction Handled] response={"transactionId":"1760883193032","idTagInfo":{"status":"Accepted"}}
+2025-10-19 17:13:13 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {"transactionId":"1760883193032","idTagInfo":{"status":"Accepted"}}
+2025-10-19 17:13:13 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:13 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:13 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: BootNotification
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_MANUAL_2: Available
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 1 - Available
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 2 for CP_MANUAL_2: Available
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 2 - Available
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 3 for CP_MANUAL_2: Available
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 3 - Available
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 4 for CP_MANUAL_2: Available
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 4 - Available
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: BootNotification
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_MANUAL_1: Available
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 1 - Available
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 2 for CP_MANUAL_1: Available
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 2 - Available
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 3 for CP_MANUAL_1: Available
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 3 - Available
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 4 for CP_MANUAL_1: Available
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 4 - Available
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [connectorManager] cinitializeConnectors: 1 connectors for CP_MANUAL_1
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] Boot from CP_MANUAL_1:
+      Vendor: Demo
+      Model: DemoModel 
+      Point serial number: undefined
+      Box serial number: undefined 
+      Firmware: undefined 
+      iccid: undefined 
+      imsi: undefined 
+      Meter type: undefined 
+      Meter serial number: undefined 
+      saved to MongoDB
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [BootNotification Handled] response={"currentTime":"2025-10-19T14:13:14.139Z","interval":60,"status":"Accepted"}
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {"currentTime":"2025-10-19T14:13:14.139Z","interval":60,"status":"Accepted"}
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [connectorManager] cinitializeConnectors: 1 connectors for CP_MANUAL_2
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] Boot from CP_MANUAL_2:
+      Vendor: Demo
+      Model: DemoModel 
+      Point serial number: undefined
+      Box serial number: undefined 
+      Firmware: undefined 
+      iccid: undefined 
+      imsi: undefined 
+      Meter type: undefined 
+      Meter serial number: undefined 
+      saved to MongoDB
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [BootNotification Handled] response={"currentTime":"2025-10-19T14:13:14.140Z","interval":60,"status":"Accepted"}
+2025-10-19 17:13:14 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {"currentTime":"2025-10-19T14:13:14.140Z","interval":60,"status":"Accepted"}
+2025-10-19 17:13:16 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:16 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:16 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:17 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:17 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:17 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:18 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:18 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: MeterValues
+2025-10-19 17:13:18 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_2: 250 kWh
+2025-10-19 17:13:18 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-19 17:13:18 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:13:18 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:18 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:18 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:18 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:18 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:18 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:18 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:18 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:18 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:18 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:18 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:18 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:19 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:19 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:19 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:20 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:20 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:20 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:20 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:20 [INFO] o.s.s..main [Thread-1] [RemoteControl] Sent RemoteStartTransaction to CP_MANUAL_2 (ID: 8d47d1a7-379d-4283-ab65-dc996d275d9d): {"idTag":"ADMIN","connectorId":1,"startValue":0}
+2025-10-19 17:13:20 [INFO] o.s.s..main [Thread-1] [RemoteStartTransaction] Sent to CP_MANUAL_2: idTag=ADMIN, connectorId=1, startValue=0
+2025-10-19 17:13:21 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:21 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:21 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:22 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:22 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:22 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:23 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:23 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: MeterValues
+2025-10-19 17:13:23 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:23 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:23 [INFO] o.s.s..main [Thread-1] [RemoteControl] Sent RemoteStartTransaction to CP_MANUAL_2 (ID: deaea4f7-b817-4dc5-bd19-2d5724a404eb): {"idTag":"ADMIN","connectorId":1,"startValue":0}
+2025-10-19 17:13:23 [INFO] o.s.s..main [Thread-1] [RemoteStartTransaction] Sent to CP_MANUAL_2: idTag=ADMIN, connectorId=1, startValue=0
+2025-10-19 17:13:23 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_2: 500 kWh
+2025-10-19 17:13:23 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-19 17:13:23 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:13:23 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:23 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:23 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:24 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:24 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: Heartbeat
+2025-10-19 17:13:24 [INFO] o.s.s..main [Thread-1] heartbeat from CP_MANUAL_2
+2025-10-19 17:13:24 [INFO] o.s.s..main [Thread-1] [Heartbeat Handled] response={"currentTime":"2025-10-19T14:13:24.116Z"}
+2025-10-19 17:13:24 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {"currentTime":"2025-10-19T14:13:24.116Z"}
+2025-10-19 17:13:24 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:13:24 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: Heartbeat
+2025-10-19 17:13:24 [INFO] o.s.s..main [Thread-1] heartbeat from CP_MANUAL_1
+2025-10-19 17:13:24 [INFO] o.s.s..main [Thread-1] [Heartbeat Handled] response={"currentTime":"2025-10-19T14:13:24.118Z"}
+2025-10-19 17:13:24 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {"currentTime":"2025-10-19T14:13:24.118Z"}
+2025-10-19 17:13:24 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:24 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:24 [INFO] o.s.s..main [Thread-1] [RemoteControl] Sent RemoteStartTransaction to CP_MANUAL_2 (ID: 4ad92612-d648-4e55-b9a4-61b47de70c64): {"idTag":"ADMIN","connectorId":1,"startValue":0}
+2025-10-19 17:13:24 [INFO] o.s.s..main [Thread-1] [RemoteStartTransaction] Sent to CP_MANUAL_2: idTag=ADMIN, connectorId=1, startValue=0
+2025-10-19 17:13:24 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:24 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:24 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:25 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:25 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:25 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:26 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:26 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:26 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:26 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:26 [INFO] o.s.s..main [Thread-1] [RemoteControl] Sent RemoteStartTransaction to CP_MANUAL_2 (ID: 124db4db-d2f5-42f9-bf30-215d9b7699ea): {"idTag":"ADMIN","connectorId":1,"startValue":0}
+2025-10-19 17:13:26 [INFO] o.s.s..main [Thread-1] [RemoteStartTransaction] Sent to CP_MANUAL_2: idTag=ADMIN, connectorId=1, startValue=0
+2025-10-19 17:13:26 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:26 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:26 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:26 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:26 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:26 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:27 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:27 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:27 [INFO] o.s.s..main [Thread-1] [RemoteControl] Sent RemoteStartTransaction to CP_MANUAL_2 (ID: 25181a95-c295-4bb2-8037-60abec2fe904): {"idTag":"ADMIN","connectorId":1,"startValue":0}
+2025-10-19 17:13:27 [INFO] o.s.s..main [Thread-1] [RemoteStartTransaction] Sent to CP_MANUAL_2: idTag=ADMIN, connectorId=1, startValue=0
+2025-10-19 17:13:27 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:27 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:27 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:28 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:28 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: MeterValues
+2025-10-19 17:13:28 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_2: 750 kWh
+2025-10-19 17:13:28 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-19 17:13:28 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:13:28 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:28 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:28 [INFO] o.s.s..main [Thread-1] [RemoteControl] Sent RemoteStartTransaction to CP_MANUAL_2 (ID: ec3b454a-265f-43fa-911a-43891cfb6541): {"idTag":"ADMIN","connectorId":1,"startValue":0}
+2025-10-19 17:13:28 [INFO] o.s.s..main [Thread-1] [RemoteStartTransaction] Sent to CP_MANUAL_2: idTag=ADMIN, connectorId=1, startValue=0
+2025-10-19 17:13:28 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:28 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:28 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:29 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:29 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:29 [INFO] o.s.s..main [Thread-1] [RemoteControl] Sent RemoteStartTransaction to CP_MANUAL_2 (ID: ed729364-b40a-4a01-8b93-4b8f7a8943fe): {"idTag":"ADMIN","connectorId":1,"startValue":0}
+2025-10-19 17:13:29 [INFO] o.s.s..main [Thread-1] [RemoteStartTransaction] Sent to CP_MANUAL_2: idTag=ADMIN, connectorId=1, startValue=0
+2025-10-19 17:13:29 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:29 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:29 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:29 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:29 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:29 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:29 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:29 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:29 [INFO] o.s.s..main [Thread-1] [RemoteControl] Sent RemoteStartTransaction to CP_MANUAL_2 (ID: 3c4d788c-efb0-4a03-95d7-0752ebf957ce): {"idTag":"ADMIN","connectorId":1,"startValue":0}
+2025-10-19 17:13:29 [INFO] o.s.s..main [Thread-1] [RemoteStartTransaction] Sent to CP_MANUAL_2: idTag=ADMIN, connectorId=1, startValue=0
+2025-10-19 17:13:29 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:29 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:29 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:30 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:30 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:30 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:30 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:30 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:30 [INFO] o.s.s..main [Thread-1] [RemoteControl] Sent RemoteStartTransaction to CP_MANUAL_2 (ID: e9ff2575-27aa-4cf2-9333-4bb1c5907d6d): {"idTag":"ADMIN","connectorId":1,"startValue":0}
+2025-10-19 17:13:30 [INFO] o.s.s..main [Thread-1] [RemoteStartTransaction] Sent to CP_MANUAL_2: idTag=ADMIN, connectorId=1, startValue=0
+2025-10-19 17:13:30 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:30 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:30 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:30 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:30 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:30 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:31 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:31 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:31 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:31 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:31 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:31 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:32 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:32 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:32 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:32 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:32 [INFO] o.s.s..main [Thread-1] [RemoteControl] Sent RemoteStartTransaction to CP_MANUAL_2 (ID: 70e6897d-f7d1-4349-a409-353bcc0eb486): {"idTag":"ADMIN","connectorId":1,"startValue":0}
+2025-10-19 17:13:32 [INFO] o.s.s..main [Thread-1] [RemoteStartTransaction] Sent to CP_MANUAL_2: idTag=ADMIN, connectorId=1, startValue=0
+2025-10-19 17:13:32 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:32 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:32 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:32 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:32 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:32 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:33 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:33 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: MeterValues
+2025-10-19 17:13:33 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_2: 1000 kWh
+2025-10-19 17:13:33 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-19 17:13:33 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:13:33 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:33 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:33 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: BootNotification
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_MANUAL_2: Available
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 1 - Available
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 2 for CP_MANUAL_2: Available
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 2 - Available
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 3 for CP_MANUAL_2: Available
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 3 - Available
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 4 for CP_MANUAL_2: Available
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 4 - Available
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: BootNotification
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_MANUAL_1: Available
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 1 - Available
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 2 for CP_MANUAL_1: Available
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 2 - Available
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 3 for CP_MANUAL_1: Available
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 3 - Available
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 4 for CP_MANUAL_1: Available
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 4 - Available
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [connectorManager] cinitializeConnectors: 1 connectors for CP_MANUAL_2
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] Boot from CP_MANUAL_2:
+      Vendor: Demo
+      Model: DemoModel 
+      Point serial number: undefined
+      Box serial number: undefined 
+      Firmware: undefined 
+      iccid: undefined 
+      imsi: undefined 
+      Meter type: undefined 
+      Meter serial number: undefined 
+      saved to MongoDB
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [BootNotification Handled] response={"currentTime":"2025-10-19T14:13:34.141Z","interval":60,"status":"Accepted"}
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {"currentTime":"2025-10-19T14:13:34.141Z","interval":60,"status":"Accepted"}
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [connectorManager] cinitializeConnectors: 1 connectors for CP_MANUAL_1
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] Boot from CP_MANUAL_1:
+      Vendor: Demo
+      Model: DemoModel 
+      Point serial number: undefined
+      Box serial number: undefined 
+      Firmware: undefined 
+      iccid: undefined 
+      imsi: undefined 
+      Meter type: undefined 
+      Meter serial number: undefined 
+      saved to MongoDB
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [BootNotification Handled] response={"currentTime":"2025-10-19T14:13:34.142Z","interval":60,"status":"Accepted"}
+2025-10-19 17:13:34 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {"currentTime":"2025-10-19T14:13:34.142Z","interval":60,"status":"Accepted"}
+2025-10-19 17:13:38 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:38 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: MeterValues
+2025-10-19 17:13:38 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_2: 1250 kWh
+2025-10-19 17:13:38 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-19 17:13:38 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:13:39 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:39 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: Heartbeat
+2025-10-19 17:13:39 [INFO] o.s.s..main [Thread-1] heartbeat from CP_MANUAL_2
+2025-10-19 17:13:39 [INFO] o.s.s..main [Thread-1] [Heartbeat Handled] response={"currentTime":"2025-10-19T14:13:39.117Z"}
+2025-10-19 17:13:39 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {"currentTime":"2025-10-19T14:13:39.117Z"}
+2025-10-19 17:13:39 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:13:39 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: Heartbeat
+2025-10-19 17:13:39 [INFO] o.s.s..main [Thread-1] heartbeat from CP_MANUAL_1
+2025-10-19 17:13:39 [INFO] o.s.s..main [Thread-1] [Heartbeat Handled] response={"currentTime":"2025-10-19T14:13:39.118Z"}
+2025-10-19 17:13:39 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {"currentTime":"2025-10-19T14:13:39.118Z"}
+2025-10-19 17:13:42 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:42 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:42 [INFO] o.s.s..main [Thread-1] [API] /api/transactions/recent returned 1 transactions (limit: 10)
+2025-10-19 17:13:43 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:43 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: MeterValues
+2025-10-19 17:13:43 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_2: 1500 kWh
+2025-10-19 17:13:43 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-19 17:13:43 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:13:43 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:43 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:43 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:43 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:43 [INFO] o.s.s..main [Thread-1] [index API] httpServer Faild: Error [ERR_HTTP_HEADERS_SENT]: Cannot write headers after they are sent to the client
+2025-10-19 17:13:43 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:43 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:43 [INFO] o.s.s..main [Thread-1] [API] /api/transactions/recent returned 1 transactions (limit: 10)
+2025-10-19 17:13:45 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:45 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:45 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:45 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:45 [INFO] o.s.s..main [Thread-1] [RemoteControl] Sent RemoteStopTransaction to CP_MANUAL_2 (ID: bfaad4fd-7d61-48b3-be22-771bfd77fb53): {"transactionId":1760883193032,"connectorId":1,"reason":"Remote"}
+2025-10-19 17:13:45 [INFO] o.s.s..main [Thread-1] [RemoteStopTransaction] Sent to CP_MANUAL_2: transactionId=1760883193032, connectorId=1, reason=Remote
+2025-10-19 17:13:46 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:46 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:46 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:47 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:47 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:47 [INFO] o.s.s..main [Thread-1] [RemoteControl] Sent RemoteStopTransaction to CP_MANUAL_2 (ID: 259cf960-145a-4b21-a292-c57ea6c4b36b): {"transactionId":1760883193032,"connectorId":1,"reason":"Remote"}
+2025-10-19 17:13:47 [INFO] o.s.s..main [Thread-1] [RemoteStopTransaction] Sent to CP_MANUAL_2: transactionId=1760883193032, connectorId=1, reason=Remote
+2025-10-19 17:13:47 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:47 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:47 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:47 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:47 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:47 [INFO] o.s.s..main [Thread-1] [RemoteControl] Sent RemoteStopTransaction to CP_MANUAL_2 (ID: 9e701e5d-e2a1-4249-9ec9-90960ed2cf10): {"transactionId":1760883193032,"connectorId":1,"reason":"Remote"}
+2025-10-19 17:13:47 [INFO] o.s.s..main [Thread-1] [RemoteStopTransaction] Sent to CP_MANUAL_2: transactionId=1760883193032, connectorId=1, reason=Remote
+2025-10-19 17:13:47 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:47 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:47 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:48 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:48 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:48 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:48 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:48 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: MeterValues
+2025-10-19 17:13:48 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_2: 1750 kWh
+2025-10-19 17:13:48 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-19 17:13:48 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:13:48 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:48 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:48 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:49 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:49 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:49 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:49 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:49 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:49 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:49 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:49 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:49 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:51 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:51 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:51 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:51 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:51 [INFO] o.s.s..main [Thread-1] [RemoteControl] Sent RemoteStartTransaction to CP_MANUAL_2 (ID: 80d306d9-2faa-4136-ab2e-6193bd47ffa8): {"idTag":"ADMIN","connectorId":2,"startValue":0}
+2025-10-19 17:13:51 [INFO] o.s.s..main [Thread-1] [RemoteStartTransaction] Sent to CP_MANUAL_2: idTag=ADMIN, connectorId=2, startValue=0
+2025-10-19 17:13:51 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:51 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-19 17:13:51 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 2 for CP_MANUAL_2: Preparing
+2025-10-19 17:13:51 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 2 - Preparing
+2025-10-19 17:13:51 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:13:51 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:13:51 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:51 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:51 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:52 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:52 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-19 17:13:52 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 2 for CP_MANUAL_2: Charging
+2025-10-19 17:13:52 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 2 - Charging
+2025-10-19 17:13:52 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:13:52 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:13:52 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:52 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StartTransaction
+2025-10-19 17:13:52 [INFO] o.s.s..main [Thread-1] [StartTransaction] Started session with limits: type=full, value=100, tariff=0.1
+2025-10-19 17:13:52 [INFO] o.s.s..main [Thread-1] [StartTransaction] Start tx from CP_MANUAL_2: id 1760883232075, connector 2
+2025-10-19 17:13:52 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 2 for CP_MANUAL_2: Charging (transaction id: 1760883232075)
+2025-10-19 17:13:52 [INFO] o.s.s..main [Thread-1] [ConnectionManager] Added new transaction 1760883232075
+2025-10-19 17:13:52 [INFO] o.s.s..main [Thread-1] [StartTransaction Handled] response={"transactionId":"1760883232075","idTagInfo":{"status":"Accepted"}}
+2025-10-19 17:13:52 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {"transactionId":"1760883232075","idTagInfo":{"status":"Accepted"}}
+2025-10-19 17:13:52 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:52 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:52 [INFO] o.s.s..main [Thread-1] [RemoteControl] Sent RemoteStartTransaction to CP_MANUAL_2 (ID: 9ace0804-4000-4ed8-a86d-6f2e77cba51a): {"idTag":"ADMIN","connectorId":3,"startValue":0}
+2025-10-19 17:13:52 [INFO] o.s.s..main [Thread-1] [RemoteStartTransaction] Sent to CP_MANUAL_2: idTag=ADMIN, connectorId=3, startValue=0
+2025-10-19 17:13:52 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:52 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-19 17:13:52 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 3 for CP_MANUAL_2: Preparing
+2025-10-19 17:13:52 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 3 - Preparing
+2025-10-19 17:13:52 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:13:52 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:13:52 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:52 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:52 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:53 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:53 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: MeterValues
+2025-10-19 17:13:53 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_2: 2000 kWh
+2025-10-19 17:13:53 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-19 17:13:53 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:13:53 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:53 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:53 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:53 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:53 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:53 [INFO] o.s.s..main [Thread-1] [RemoteControl] Sent RemoteStartTransaction to CP_MANUAL_2 (ID: 47328dc4-6e50-4406-9517-0ea1381a7d39): {"idTag":"ADMIN","connectorId":4,"startValue":0}
+2025-10-19 17:13:53 [INFO] o.s.s..main [Thread-1] [RemoteStartTransaction] Sent to CP_MANUAL_2: idTag=ADMIN, connectorId=4, startValue=0
+2025-10-19 17:13:53 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:53 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-19 17:13:53 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 4 for CP_MANUAL_2: Preparing
+2025-10-19 17:13:53 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 4 - Preparing
+2025-10-19 17:13:53 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:13:53 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:13:53 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:53 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-19 17:13:53 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 3 for CP_MANUAL_2: Charging
+2025-10-19 17:13:53 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 3 - Charging
+2025-10-19 17:13:53 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:13:53 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:13:53 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:53 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StartTransaction
+2025-10-19 17:13:53 [INFO] o.s.s..main [Thread-1] [StartTransaction] Started session with limits: type=full, value=100, tariff=0.1
+2025-10-19 17:13:53 [INFO] o.s.s..main [Thread-1] [StartTransaction] Start tx from CP_MANUAL_2: id 1760883233513, connector 3
+2025-10-19 17:13:53 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 3 for CP_MANUAL_2: Charging (transaction id: 1760883233513)
+2025-10-19 17:13:53 [INFO] o.s.s..main [Thread-1] [ConnectionManager] Added new transaction 1760883233513
+2025-10-19 17:13:53 [INFO] o.s.s..main [Thread-1] [StartTransaction Handled] response={"transactionId":"1760883233513","idTagInfo":{"status":"Accepted"}}
+2025-10-19 17:13:53 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {"transactionId":"1760883233513","idTagInfo":{"status":"Accepted"}}
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_MANUAL_2: Available
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 1 - Available
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 2 for CP_MANUAL_2: Available
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 2 - Available
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 3 for CP_MANUAL_2: Available
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 3 - Available
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 4 for CP_MANUAL_2: Available
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 4 - Available
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: Heartbeat
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] heartbeat from CP_MANUAL_2
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [Heartbeat Handled] response={"currentTime":"2025-10-19T14:13:54.121Z"}
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {"currentTime":"2025-10-19T14:13:54.121Z"}
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: Heartbeat
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] heartbeat from CP_MANUAL_1
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_MANUAL_1: Available
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 1 - Available
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 2 for CP_MANUAL_1: Available
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 2 - Available
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 3 for CP_MANUAL_1: Available
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 3 - Available
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 4 for CP_MANUAL_1: Available
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 4 - Available
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [Heartbeat Handled] response={"currentTime":"2025-10-19T14:13:54.124Z"}
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {"currentTime":"2025-10-19T14:13:54.124Z"}
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 4 for CP_MANUAL_2: Charging
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 4 - Charging
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StartTransaction
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [StartTransaction] Started session with limits: type=full, value=100, tariff=0.1
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [StartTransaction] Start tx from CP_MANUAL_2: id 1760883234512, connector 4
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 4 for CP_MANUAL_2: Charging (transaction id: 1760883234512)
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [ConnectionManager] Added new transaction 1760883234512
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [StartTransaction Handled] response={"transactionId":"1760883234512","idTagInfo":{"status":"Accepted"}}
+2025-10-19 17:13:54 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {"transactionId":"1760883234512","idTagInfo":{"status":"Accepted"}}
+2025-10-19 17:13:55 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:55 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:55 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:55 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:55 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:55 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:13:56 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:56 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:56 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:56 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:56 [INFO] o.s.s..main [Thread-1] [index API] httpServer Faild: Error [ERR_HTTP_HEADERS_SENT]: Cannot write headers after they are sent to the client
+2025-10-19 17:13:57 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:57 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: MeterValues
+2025-10-19 17:13:57 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_2: 250 kWh
+2025-10-19 17:13:57 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-19 17:13:57 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:13:57 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:13:57 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:13:57 [INFO] o.s.s..main [Thread-1] [API] /api/transactions/recent returned 4 transactions (limit: 10)
+2025-10-19 17:13:58 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:58 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: MeterValues
+2025-10-19 17:13:58 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_2: 2250 kWh
+2025-10-19 17:13:58 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-19 17:13:58 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:13:58 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:58 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: MeterValues
+2025-10-19 17:13:58 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_2: 250 kWh
+2025-10-19 17:13:58 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-19 17:13:58 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:13:59 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:13:59 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: MeterValues
+2025-10-19 17:13:59 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_2: 250 kWh
+2025-10-19 17:13:59 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-19 17:13:59 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:14:02 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:14:02 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: MeterValues
+2025-10-19 17:14:02 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_2: 500 kWh
+2025-10-19 17:14:02 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-19 17:14:02 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:14:02 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:14:02 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:14:02 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:14:02 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:14:02 [INFO] o.s.s..main [Thread-1] [RemoteControl] Sent RemoteStopTransaction to CP_MANUAL_2 (ID: 0557274f-ca7d-48f1-b50e-89c357a77ff5): {"transactionId":1760883233513,"connectorId":3,"reason":"Remote"}
+2025-10-19 17:14:02 [INFO] o.s.s..main [Thread-1] [RemoteStopTransaction] Sent to CP_MANUAL_2: transactionId=1760883233513, connectorId=3, reason=Remote
+2025-10-19 17:14:03 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:14:03 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: MeterValues
+2025-10-19 17:14:03 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_2: 2500 kWh
+2025-10-19 17:14:03 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-19 17:14:03 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:14:03 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:14:03 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:14:03 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:14:03 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:14:03 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: MeterValues
+2025-10-19 17:14:03 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_2: 500 kWh
+2025-10-19 17:14:03 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-19 17:14:03 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:14:04 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:14:04 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:14:04 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:14:04 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:14:04 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: MeterValues
+2025-10-19 17:14:04 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_2: 500 kWh
+2025-10-19 17:14:04 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-19 17:14:04 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:14:04 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:14:04 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:14:04 [INFO] o.s.s..main [Thread-1] [RemoteControl] Sent RemoteStopTransaction to CP_MANUAL_2 (ID: 5c793635-ecbd-4192-8ff6-b77a9133f322): {"transactionId":1760883232075,"connectorId":2,"reason":"Remote"}
+2025-10-19 17:14:04 [INFO] o.s.s..main [Thread-1] [RemoteStopTransaction] Sent to CP_MANUAL_2: transactionId=1760883232075, connectorId=2, reason=Remote
+2025-10-19 17:14:05 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:14:05 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:14:05 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:14:06 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:14:06 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:14:06 [INFO] o.s.s..main [Thread-1] [RemoteControl] Sent RemoteStopTransaction to CP_MANUAL_2 (ID: 65460beb-044d-4988-bc90-9c18fbe0bba8): {"transactionId":1760883193032,"connectorId":1,"reason":"Remote"}
+2025-10-19 17:14:06 [INFO] o.s.s..main [Thread-1] [RemoteStopTransaction] Sent to CP_MANUAL_2: transactionId=1760883193032, connectorId=1, reason=Remote
+2025-10-19 17:14:06 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:14:06 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:14:06 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:14:07 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:14:07 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:14:07 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:14:07 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:14:07 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: MeterValues
+2025-10-19 17:14:07 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_2: 750 kWh
+2025-10-19 17:14:07 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-19 17:14:07 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:14:08 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:14:08 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: MeterValues
+2025-10-19 17:14:08 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:14:08 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:14:08 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:14:08 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_2: 2750 kWh
+2025-10-19 17:14:08 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-19 17:14:08 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:14:08 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:14:08 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: MeterValues
+2025-10-19 17:14:08 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_2: 750 kWh
+2025-10-19 17:14:08 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-19 17:14:08 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:14:09 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:14:09 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: Heartbeat
+2025-10-19 17:14:09 [INFO] o.s.s..main [Thread-1] heartbeat from CP_MANUAL_2
+2025-10-19 17:14:09 [INFO] o.s.s..main [Thread-1] [Heartbeat Handled] response={"currentTime":"2025-10-19T14:14:09.122Z"}
+2025-10-19 17:14:09 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {"currentTime":"2025-10-19T14:14:09.122Z"}
+2025-10-19 17:14:09 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:14:09 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: Heartbeat
+2025-10-19 17:14:09 [INFO] o.s.s..main [Thread-1] heartbeat from CP_MANUAL_1
+2025-10-19 17:14:09 [INFO] o.s.s..main [Thread-1] [Heartbeat Handled] response={"currentTime":"2025-10-19T14:14:09.123Z"}
+2025-10-19 17:14:09 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {"currentTime":"2025-10-19T14:14:09.123Z"}
+2025-10-19 17:14:09 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:14:09 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: MeterValues
+2025-10-19 17:14:09 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_2: 750 kWh
+2025-10-19 17:14:09 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-19 17:14:09 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:14:12 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:14:12 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: MeterValues
+2025-10-19 17:14:12 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_2: 1000 kWh
+2025-10-19 17:14:12 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-19 17:14:12 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:14:13 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:14:13 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: MeterValues
+2025-10-19 17:14:13 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_2: 3000 kWh
+2025-10-19 17:14:13 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-19 17:14:13 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:14:13 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:14:13 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: MeterValues
+2025-10-19 17:14:13 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_2: 1000 kWh
+2025-10-19 17:14:13 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-19 17:14:13 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_MANUAL_2: Available
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 1 - Available
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 2 for CP_MANUAL_2: Available
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 2 - Available
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 3 for CP_MANUAL_2: Available
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 3 - Available
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 4 for CP_MANUAL_2: Available
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 4 - Available
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_MANUAL_1: Available
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 1 - Available
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 2 for CP_MANUAL_1: Available
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 2 - Available
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 3 for CP_MANUAL_1: Available
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 3 - Available
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 4 for CP_MANUAL_1: Available
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 4 - Available
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: MeterValues
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_2: 1000 kWh
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-19 17:14:14 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:14:17 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:14:17 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: MeterValues
+2025-10-19 17:14:17 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_2: 1250 kWh
+2025-10-19 17:14:17 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-19 17:14:17 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:14:17 [INFO] o.s.s..main [Thread-1] [CLOSE] Disconnected: CP_MANUAL_2, code: 1006, reason: 
+2025-10-19 17:14:17 [INFO] o.s.s..main [Thread-1] [CLOSE] Disconnected: CP_MANUAL_1, code: 1006, reason: 
+2025-10-19 17:14:17 [INFO] o.s.s..main [Thread-1] [Heartbeat] Set lastOffline for CP_MANUAL_1: Sun Oct 19 2025 17:14:17 GMT+0300 (Москва, стандартное время)
+2025-10-19 17:14:17 [INFO] o.s.s..main [Thread-1] [Heartbeat] Set lastOffline for CP_MANUAL_2: Sun Oct 19 2025 17:14:17 GMT+0300 (Москва, стандартное время)
+2025-10-19 17:14:20 [INFO] o.s.s..main [Thread-1] [SHUTDOWN] Received SIGINT. Initiating graceful shutdown...
+2025-10-19 17:30:17 [INFO] o.s.s..main [Thread-1] [wsServer] Creating WebSocket server...
+2025-10-19 17:30:17 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server instance created
+2025-10-19 17:30:17 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server setup complete
+2025-10-19 17:30:17 [INFO] o.s.s..main [Thread-1] [mongo] MongoDB connected!
+2025-10-19 17:30:17 [INFO] o.s.s..main [Thread-1] [MONGO] MongoDB connected
+2025-10-19 17:30:17 [INFO] o.s.s..main [Thread-1] [POSTGRES] PostgreSQL connected
+2025-10-19 17:30:17 [INFO] o.s.s..main [Thread-1] [HTTP_SERVER] Starting HTTP server...
+2025-10-19 17:30:17 [INFO] o.s.s..main [Thread-1] [MAIN] CSMS Server fully initialized on port 8081
+2025-10-19 17:31:01 [INFO] o.s.s..main [Thread-1] [CONNECTION] New connection: /ocpp/CP_MANUAL_1
+2025-10-19 17:31:01 [INFO] o.s.s..main [Thread-1] [CONNECTION] Headers: {"sec-websocket-version":"13","sec-websocket-key":"ZpsgW6gxMccbZAVbfWrYpQ==","connection":"Upgrade","upgrade":"websocket","sec-websocket-extensions":"permessage-deflate; client_max_window_bits","host":"localhost:8081"}
+2025-10-19 17:31:01 [INFO] o.s.s..main [Thread-1] [CONNECTION] ChargePoint ID: CP_MANUAL_1
+2025-10-19 17:31:01 [INFO] o.s.s..main [Thread-1] [AddConnection] Initialized default connector states for CP_MANUAL_1
+2025-10-19 17:31:01 [INFO] o.s.s..main [Thread-1] [wsServer] CS added to the connection manager - CP_MANUAL_1
+2025-10-19 17:31:01 [INFO] o.s.s..main [Thread-1] [CONNECTION] Successfully setup connection for CP_MANUAL_1
+2025-10-19 17:31:01 [INFO] o.s.s..main [Thread-1] [CONNECTION] New connection: /ocpp/CP_MANUAL_2
+2025-10-19 17:31:01 [INFO] o.s.s..main [Thread-1] [CONNECTION] Headers: {"sec-websocket-version":"13","sec-websocket-key":"KXbdm401h+KLhVPouhe0Nw==","connection":"Upgrade","upgrade":"websocket","sec-websocket-extensions":"permessage-deflate; client_max_window_bits","host":"localhost:8081"}
+2025-10-19 17:31:01 [INFO] o.s.s..main [Thread-1] [CONNECTION] ChargePoint ID: CP_MANUAL_2
+2025-10-19 17:31:01 [INFO] o.s.s..main [Thread-1] [AddConnection] Initialized default connector states for CP_MANUAL_2
+2025-10-19 17:31:01 [INFO] o.s.s..main [Thread-1] [wsServer] CS added to the connection manager - CP_MANUAL_2
+2025-10-19 17:31:01 [INFO] o.s.s..main [Thread-1] [CONNECTION] Successfully setup connection for CP_MANUAL_2
+2025-10-19 17:31:01 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:31:01 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: BootNotification
+2025-10-19 17:31:01 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:31:01 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: BootNotification
+2025-10-19 17:31:01 [INFO] o.s.s..main [Thread-1] [connectorManager] cinitializeConnectors: 1 connectors for CP_MANUAL_1
+2025-10-19 17:31:01 [INFO] o.s.s..main [Thread-1] Boot from CP_MANUAL_1:
+      Vendor: Demo
+      Model: DemoModel 
+      Point serial number: undefined
+      Box serial number: undefined 
+      Firmware: undefined 
+      iccid: undefined 
+      imsi: undefined 
+      Meter type: undefined 
+      Meter serial number: undefined 
+      saved to MongoDB
+2025-10-19 17:31:01 [INFO] o.s.s..main [Thread-1] [BootNotification Handled] response={"currentTime":"2025-10-19T14:31:01.345Z","interval":60,"status":"Accepted"}
+2025-10-19 17:31:01 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {"currentTime":"2025-10-19T14:31:01.345Z","interval":60,"status":"Accepted"}
+2025-10-19 17:31:01 [INFO] o.s.s..main [Thread-1] [connectorManager] cinitializeConnectors: 1 connectors for CP_MANUAL_2
+2025-10-19 17:31:01 [INFO] o.s.s..main [Thread-1] Boot from CP_MANUAL_2:
+      Vendor: Demo
+      Model: DemoModel 
+      Point serial number: undefined
+      Box serial number: undefined 
+      Firmware: undefined 
+      iccid: undefined 
+      imsi: undefined 
+      Meter type: undefined 
+      Meter serial number: undefined 
+      saved to MongoDB
+2025-10-19 17:31:01 [INFO] o.s.s..main [Thread-1] [BootNotification Handled] response={"currentTime":"2025-10-19T14:31:01.346Z","interval":60,"status":"Accepted"}
+2025-10-19 17:31:01 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {"currentTime":"2025-10-19T14:31:01.346Z","interval":60,"status":"Accepted"}
+2025-10-19 17:31:16 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:31:16 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: Heartbeat
+2025-10-19 17:31:16 [INFO] o.s.s..main [Thread-1] heartbeat from CP_MANUAL_1
+2025-10-19 17:31:16 [INFO] o.s.s..main [Thread-1] [Heartbeat Handled] response={"currentTime":"2025-10-19T14:31:16.292Z"}
+2025-10-19 17:31:16 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {"currentTime":"2025-10-19T14:31:16.292Z"}
+2025-10-19 17:31:16 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:31:16 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: Heartbeat
+2025-10-19 17:31:16 [INFO] o.s.s..main [Thread-1] heartbeat from CP_MANUAL_2
+2025-10-19 17:31:16 [INFO] o.s.s..main [Thread-1] [Heartbeat Handled] response={"currentTime":"2025-10-19T14:31:16.295Z"}
+2025-10-19 17:31:16 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {"currentTime":"2025-10-19T14:31:16.295Z"}
+2025-10-19 17:31:20 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:20 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:20 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:31:20 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:20 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:20 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:31:20 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:20 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:20 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:31:20 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:20 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:20 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: BootNotification
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_MANUAL_1: Available
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 1 - Available
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 2 for CP_MANUAL_1: Available
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 2 - Available
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 3 for CP_MANUAL_1: Available
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 3 - Available
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 4 for CP_MANUAL_1: Available
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 4 - Available
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: BootNotification
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_MANUAL_2: Available
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 1 - Available
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 2 for CP_MANUAL_2: Available
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 2 - Available
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 3 for CP_MANUAL_2: Available
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 3 - Available
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 4 for CP_MANUAL_2: Available
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 4 - Available
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [connectorManager] cinitializeConnectors: 1 connectors for CP_MANUAL_2
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] Boot from CP_MANUAL_2:
+      Vendor: Demo
+      Model: DemoModel 
+      Point serial number: undefined
+      Box serial number: undefined 
+      Firmware: undefined 
+      iccid: undefined 
+      imsi: undefined 
+      Meter type: undefined 
+      Meter serial number: undefined 
+      saved to MongoDB
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [BootNotification Handled] response={"currentTime":"2025-10-19T14:31:21.708Z","interval":60,"status":"Accepted"}
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {"currentTime":"2025-10-19T14:31:21.708Z","interval":60,"status":"Accepted"}
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [connectorManager] cinitializeConnectors: 1 connectors for CP_MANUAL_1
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] Boot from CP_MANUAL_1:
+      Vendor: Demo
+      Model: DemoModel 
+      Point serial number: undefined
+      Box serial number: undefined 
+      Firmware: undefined 
+      iccid: undefined 
+      imsi: undefined 
+      Meter type: undefined 
+      Meter serial number: undefined 
+      saved to MongoDB
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [BootNotification Handled] response={"currentTime":"2025-10-19T14:31:21.709Z","interval":60,"status":"Accepted"}
+2025-10-19 17:31:21 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {"currentTime":"2025-10-19T14:31:21.709Z","interval":60,"status":"Accepted"}
+2025-10-19 17:31:22 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:22 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:22 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:31:23 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:23 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:23 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:31:23 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:23 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:23 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:31:24 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:24 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:24 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:24 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:24 [INFO] o.s.s..main [Thread-1] [RemoteControl] Sent RemoteStartTransaction to CP_MANUAL_1 (ID: 398b87b3-2ae5-4621-bfce-64382d479e75): {"idTag":"ADMIN","connectorId":1,"startValue":0}
+2025-10-19 17:31:24 [INFO] o.s.s..main [Thread-1] [RemoteStartTransaction] Sent to CP_MANUAL_1: idTag=ADMIN, connectorId=1, startValue=0
+2025-10-19 17:31:24 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:31:24 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-19 17:31:24 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_MANUAL_1: Preparing
+2025-10-19 17:31:24 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 1 - Preparing
+2025-10-19 17:31:24 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:31:24 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-19 17:31:25 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:25 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:25 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:31:25 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:31:25 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-19 17:31:25 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_MANUAL_1: Charging
+2025-10-19 17:31:25 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 1 - Charging
+2025-10-19 17:31:25 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:31:25 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-19 17:31:25 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:31:25 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StartTransaction
+2025-10-19 17:31:25 [INFO] o.s.s..main [Thread-1] [StartTransaction] Started session with limits: type=full, value=100, tariff=0.1
+2025-10-19 17:31:25 [INFO] o.s.s..main [Thread-1] [StartTransaction] Start tx from CP_MANUAL_1: id 1760884285470, connector 1
+2025-10-19 17:31:25 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_MANUAL_1: Charging (transaction id: 1760884285470)
+2025-10-19 17:31:25 [INFO] o.s.s..main [Thread-1] [ConnectionManager] Added new transaction 1760884285470
+2025-10-19 17:31:25 [INFO] o.s.s..main [Thread-1] [StartTransaction Handled] response={"transactionId":"1760884285470","idTagInfo":{"status":"Accepted"}}
+2025-10-19 17:31:25 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {"transactionId":"1760884285470","idTagInfo":{"status":"Accepted"}}
+2025-10-19 17:31:26 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:26 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:26 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:31:30 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:30 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:30 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:30 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:30 [INFO] o.s.s..main [Thread-1] [index API] httpServer Faild: Error [ERR_HTTP_HEADERS_SENT]: Cannot write headers after they are sent to the client
+2025-10-19 17:31:30 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:31:30 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: MeterValues
+2025-10-19 17:31:30 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_1: 250 kWh
+2025-10-19 17:31:30 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-19 17:31:30 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-19 17:31:31 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:31:31 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: Heartbeat
+2025-10-19 17:31:31 [INFO] o.s.s..main [Thread-1] heartbeat from CP_MANUAL_1
+2025-10-19 17:31:31 [INFO] o.s.s..main [Thread-1] [Heartbeat Handled] response={"currentTime":"2025-10-19T14:31:31.278Z"}
+2025-10-19 17:31:31 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {"currentTime":"2025-10-19T14:31:31.278Z"}
+2025-10-19 17:31:31 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:31:31 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: Heartbeat
+2025-10-19 17:31:31 [INFO] o.s.s..main [Thread-1] heartbeat from CP_MANUAL_2
+2025-10-19 17:31:31 [INFO] o.s.s..main [Thread-1] [Heartbeat Handled] response={"currentTime":"2025-10-19T14:31:31.283Z"}
+2025-10-19 17:31:31 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {"currentTime":"2025-10-19T14:31:31.283Z"}
+2025-10-19 17:31:31 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:31 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:31 [INFO] o.s.s..main [Thread-1] [API] /api/transactions/recent returned 1 transactions (limit: 10)
+2025-10-19 17:31:32 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:32 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:32 [INFO] o.s.s..main [Thread-1] [API] /api/transactions/recent returned 1 transactions (limit: 10)
+2025-10-19 17:31:32 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:32 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:32 [INFO] o.s.s..main [Thread-1] [API] /api/transactions/recent returned 1 transactions (limit: 10)
+2025-10-19 17:31:32 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:32 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:32 [INFO] o.s.s..main [Thread-1] [API] /api/transactions/recent returned 1 transactions (limit: 10)
+2025-10-19 17:31:33 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:33 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:33 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:33 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:33 [INFO] o.s.s..main [Thread-1] [RemoteControl] Sent RemoteStopTransaction to CP_MANUAL_1 (ID: 6dbd6dfb-d23d-416f-8bd2-2a3e3fd5899a): {"transactionId":1760884285470,"connectorId":1,"reason":"Remote"}
+2025-10-19 17:31:33 [INFO] o.s.s..main [Thread-1] [RemoteStopTransaction] Sent to CP_MANUAL_1: transactionId=1760884285470, connectorId=1, reason=Remote
+2025-10-19 17:31:34 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:34 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:34 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:31:35 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:31:35 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: MeterValues
+2025-10-19 17:31:35 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_1: 500 kWh
+2025-10-19 17:31:35 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-19 17:31:35 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-19 17:31:35 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:35 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:35 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:31:37 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:37 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:37 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:31:38 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:38 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:38 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:31:38 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:38 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:38 [INFO] o.s.s..main [Thread-1] [httpHandlers] GET /api/stations response formatted (only active stations)
+2025-10-19 17:31:40 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:31:40 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: MeterValues
+2025-10-19 17:31:40 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_1: 750 kWh
+2025-10-19 17:31:40 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-19 17:31:40 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: BootNotification
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_MANUAL_1: Available
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 1 - Available
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 2 for CP_MANUAL_1: Available
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 2 - Available
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 3 for CP_MANUAL_1: Available
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 3 - Available
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 4 for CP_MANUAL_1: Available
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 4 - Available
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: BootNotification
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_MANUAL_2: Available
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 1 - Available
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 2 for CP_MANUAL_2: Available
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 2 - Available
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 3 for CP_MANUAL_2: Available
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 3 - Available
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 4 for CP_MANUAL_2: Available
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 4 - Available
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [connectorManager] cinitializeConnectors: 1 connectors for CP_MANUAL_1
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] Boot from CP_MANUAL_1:
+      Vendor: Demo
+      Model: DemoModel 
+      Point serial number: undefined
+      Box serial number: undefined 
+      Firmware: undefined 
+      iccid: undefined 
+      imsi: undefined 
+      Meter type: undefined 
+      Meter serial number: undefined 
+      saved to MongoDB
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [BootNotification Handled] response={"currentTime":"2025-10-19T14:31:41.299Z","interval":60,"status":"Accepted"}
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {"currentTime":"2025-10-19T14:31:41.299Z","interval":60,"status":"Accepted"}
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [connectorManager] cinitializeConnectors: 1 connectors for CP_MANUAL_2
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] Boot from CP_MANUAL_2:
+      Vendor: Demo
+      Model: DemoModel 
+      Point serial number: undefined
+      Box serial number: undefined 
+      Firmware: undefined 
+      iccid: undefined 
+      imsi: undefined 
+      Meter type: undefined 
+      Meter serial number: undefined 
+      saved to MongoDB
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [BootNotification Handled] response={"currentTime":"2025-10-19T14:31:41.304Z","interval":60,"status":"Accepted"}
+2025-10-19 17:31:41 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {"currentTime":"2025-10-19T14:31:41.304Z","interval":60,"status":"Accepted"}
+2025-10-19 17:31:42 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:42 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:42 [INFO] o.s.s..main [Thread-1] [API] /api/transactions/recent returned 1 transactions (limit: 10)
+2025-10-19 17:31:43 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:43 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:43 [INFO] o.s.s..main [Thread-1] [API] /api/transactions/recent returned 1 transactions (limit: 10)
+2025-10-19 17:31:43 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:43 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:43 [INFO] o.s.s..main [Thread-1] [API] /api/transactions/recent returned 1 transactions (limit: 10)
+2025-10-19 17:31:43 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:43 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:43 [INFO] o.s.s..main [Thread-1] [API] /api/transactions/recent returned 1 transactions (limit: 10)
+2025-10-19 17:31:43 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:43 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:43 [INFO] o.s.s..main [Thread-1] [API] /api/transactions/recent returned 1 transactions (limit: 10)
+2025-10-19 17:31:43 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:43 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:43 [INFO] o.s.s..main [Thread-1] [API] /api/transactions/recent returned 1 transactions (limit: 10)
+2025-10-19 17:31:44 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:44 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:44 [INFO] o.s.s..main [Thread-1] [API] /api/transactions/recent returned 1 transactions (limit: 10)
+2025-10-19 17:31:44 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:44 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:44 [INFO] o.s.s..main [Thread-1] [API] /api/transactions/recent returned 1 transactions (limit: 10)
+2025-10-19 17:31:44 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:44 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:44 [INFO] o.s.s..main [Thread-1] [API] /api/transactions/recent returned 1 transactions (limit: 10)
+2025-10-19 17:31:44 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:44 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:44 [INFO] o.s.s..main [Thread-1] [API] /api/transactions/recent returned 1 transactions (limit: 10)
+2025-10-19 17:31:45 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:45 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:45 [INFO] o.s.s..main [Thread-1] [API] /api/transactions/recent returned 1 transactions (limit: 10)
+2025-10-19 17:31:45 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-19 17:31:45 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-19 17:31:45 [INFO] o.s.s..main [Thread-1] [API] /api/transactions/recent returned 1 transactions (limit: 10)
+2025-10-19 17:31:45 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:31:45 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: MeterValues
+2025-10-19 17:31:45 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_1: 1000 kWh
+2025-10-19 17:31:45 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-19 17:31:45 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-19 17:31:46 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:31:46 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: Heartbeat
+2025-10-19 17:31:46 [INFO] o.s.s..main [Thread-1] heartbeat from CP_MANUAL_1
+2025-10-19 17:31:46 [INFO] o.s.s..main [Thread-1] [Heartbeat Handled] response={"currentTime":"2025-10-19T14:31:46.297Z"}
+2025-10-19 17:31:46 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {"currentTime":"2025-10-19T14:31:46.297Z"}
+2025-10-19 17:31:46 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-19 17:31:46 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: Heartbeat
+2025-10-19 17:31:46 [INFO] o.s.s..main [Thread-1] heartbeat from CP_MANUAL_2
+2025-10-19 17:31:46 [INFO] o.s.s..main [Thread-1] [Heartbeat Handled] response={"currentTime":"2025-10-19T14:31:46.298Z"}
+2025-10-19 17:31:46 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {"currentTime":"2025-10-19T14:31:46.298Z"}
+2025-10-19 17:31:50 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-19 17:31:50 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: MeterValues
+2025-10-19 17:31:50 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_1: 1250 kWh
+2025-10-19 17:31:50 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-19 17:31:50 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-19 17:31:52 [INFO] o.s.s..main [Thread-1] [SHUTDOWN] Received SIGINT. Initiating graceful shutdown...
+2025-10-19 17:31:52 [INFO] o.s.s..main [Thread-1] [wsServer] Closing new connections
+2025-10-19 17:31:52 [INFO] o.s.s..main [Thread-1] [SHUTDOWN] Waiting for 2 connections to close...
+2025-10-19 17:31:52 [INFO] o.s.s..main [Thread-1] [CLOSE] Disconnected: CP_MANUAL_2, code: 1006, reason: 
+2025-10-19 17:31:52 [INFO] o.s.s..main [Thread-1] [CLOSE] Disconnected: CP_MANUAL_1, code: 1006, reason: 
+2025-10-19 17:31:52 [INFO] o.s.s..main [Thread-1] [Heartbeat] Set lastOffline for CP_MANUAL_2: Sun Oct 19 2025 17:31:52 GMT+0300 (Москва, стандартное время)
+2025-10-19 17:31:52 [INFO] o.s.s..main [Thread-1] [Heartbeat] Set lastOffline for CP_MANUAL_1: Sun Oct 19 2025 17:31:52 GMT+0300 (Москва, стандартное время)
+2025-10-19 17:31:53 [INFO] o.s.s..main [Thread-1] [SHUTDOWN] All connections closed. Shutting down.
