@@ -21,8 +21,6 @@ const httpServer = createServer((req: IncomingMessage, res: ServerResponse) => {
 });
 
 export let connectionManager = new ConnectionManager();
-// Очистим буфер последних транзакций при (пере)запуске сервера
-connectionManager.clearRecentTransactions();
 
 // Создаём WS-сервер
 const wsServer = new WsServer(httpServer, connectionManager);

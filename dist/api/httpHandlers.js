@@ -17,7 +17,6 @@ function sendJson(res, status, payload) {
     res.writeHead(status, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify(payload));
 }
-// ...existing code...
 function handleHttpRequest(req, res) {
     // CORS для фронтенда
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -35,6 +34,16 @@ function handleHttpRequest(req, res) {
     // GET /api/stations - список активных (онлайн) станций (готовый для фронта формат)
     if (req.method === 'GET' && pathname === '/api/stations') {
         (0, stationsApi_1.getStations)(req, res);
+        return;
+    }
+    // GET /api/transactions/recent - последние 10 транзакций из памяти (с start и stop данными)
+    if (req.method === 'GET' && pathname === '/api/transactions/recent') {
+        (0, transactionsApi_1.recentTransactionsApiHandler)(req, res);
+        return;
+    }
+    // DELETE /api/transactions/recent - очистить недавние транзакции из памяти (админ)
+    if (req.method === 'DELETE' && pathname === '/api/transactions/recent') {
+        (0, transactionsApi_1.clearRecentTransactionsMemoryHandler)(req, res);
         return;
     }
     // GET /api/transactions - история транзакций (Postgres) / query: ?chargePointId=...

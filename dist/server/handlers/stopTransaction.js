@@ -53,12 +53,18 @@ async function handleStopTransaction(req, chargePointId, ws) {
             logger_1.logger.warn(`[StopTransaction] for non-charging connector ${connectorId} on ${chargePointId}`);
         }
         index_1.connectionManager.updateConnectorState(chargePointId, connectorId, 'Finishing');
+        // Дополняем существующую транзакцию данными остановки
         index_1.connectionManager.addRecentTransaction({
             transactionId: req.transactionId,
             chargePointId,
-            connectorId, // берем из tx, а не из req!
-            idTag: req.idTag,
+            connectorId,
+            idTag: req.idTag || tx.idTag,
             stopTime: new Date(req.timestamp),
+            meterStop: req.meterStop,
+            reason: req.reason,
+            totalKWh,
+            cost,
+            efficiencyPercentage,
             status: 'Stopped'
         });
         // Таймаут сброса коннектора

@@ -1,5 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.recentTransactionsApiHandler = recentTransactionsApiHandler;
+exports.clearRecentTransactionsMemoryHandler = clearRecentTransactionsMemoryHandler;
 exports.transactionsApiHandler = transactionsApiHandler;
 exports.clearRecentTransactionsHandler = clearRecentTransactionsHandler;
 exports.startRemoteTrx = startRemoteTrx;
@@ -22,6 +24,54 @@ function readBody(req) {
         });
         req.on('error', reject);
     });
+}
+/**
+ * GET /api/transactions/recent
+ * Возвращает последние 10 транзакций из памяти connectionManager
+ * Эти транзакции содержат как начальные, так и конечные данные (если транзакция завершена)
+ */
+function recentTransactionsApiHandler(req, res) {
+    try {
+        const url = new URL(req.url || '', 'http://localhost:8081');
+        const limitParam = url.searchParams.get('limit');
+        const limit = limitParam ? parseInt(limitParam, 10) : 10;
+        // Получаем последние транзакции из connectionManager
+        const recentTransactions = index_1.connectionManager.getRecentTransactions(limit);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+            success: true,
+            data: recentTransactions,
+            count: recentTransactions.length
+        }));
+        logger_1.logger.info(`[API] /api/transactions/recent returned ${recentTransactions.length} transactions (limit: ${limit})`);
+    }
+    catch (err) {
+        logger_1.logger.error(`[API] /api/transactions/recent error: ${err}`);
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: 'Internal server error' }));
+    }
+}
+/**
+ * DELETE /api/transactions/recent
+ * Очищает все недавние транзакции из памяти (connectionManager)
+ * Это админ-функция для сброса списка недавних транзакций
+ */
+function clearRecentTransactionsMemoryHandler(req, res) {
+    try {
+        const clearedCount = index_1.connectionManager.clearRecentTransactions();
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+            success: true,
+            message: `Cleared ${clearedCount} recent transactions from memory`,
+            cleared: clearedCount
+        }));
+        logger_1.logger.info(`[API] /api/transactions/recent DELETE cleared ${clearedCount} transactions from memory`);
+    }
+    catch (err) {
+        logger_1.logger.error(`[API] /api/transactions/recent DELETE error: ${err}`);
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: 'Internal server error' }));
+    }
 }
 /**
  * GET /api/transactions
@@ -67,16 +117,19 @@ async function clearRecentTransactionsHandler(req, res) {
         const repo = AppDataSource.getRepository(Transaction);
         const cutoffDate = new Date();
         cutoffDate.setDate(cutoffDate.getDate() - olderThanDays);
-        const result = await repo.delete({
-            stopTime: { $lt: cutoffDate }
-        });
+        // Для TypeORM/Postgres используем QueryBuilder для удаления с условием
+        const deleteResult = await repo.createQueryBuilder()
+            .delete()
+            .from(Transaction)
+            .where('stopTime < :cutoffDate', { cutoffDate })
+            .execute();
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({
             success: true,
             message: `Deleted transactions older than ${olderThanDays} days`,
-            deleted: result.affected || 0
+            deleted: deleteResult.affected || 0
         }));
-        logger_1.logger.info(`[API] /api/transactions/clear deleted ${result.affected || 0} old transactions`);
+        logger_1.logger.info(`[API] /api/transactions/clear deleted ${deleteResult.affected || 0} old transactions`);
     }
     catch (err) {
         logger_1.logger.error(`[API] clear /api/transactions error: ${err}`);

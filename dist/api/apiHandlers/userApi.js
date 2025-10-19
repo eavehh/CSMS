@@ -41,8 +41,10 @@ function getUserStations(req, res) {
                 .filter(([stationId]) => activeStations.includes(stationId))
                 .map(([stationId, connectors]) => {
                 const formatted = (0, formatters_1.formatStation)(stationId, connectors);
-                // Добавляем только доступные коннекторы для пользователя
-                formatted.connectors = formatted.connectors.filter(c => c.status === 'Available' || c.status === 'Charging');
+                // Фильтруем коннектор 0 (это станция, а не коннектор) и оставляем только доступные
+                formatted.connectors = formatted.connectors
+                    .filter(c => c.id > 0) // Исключаем connector 0 (станция)
+                    .filter(c => c.status === 'Available' || c.status === 'Charging');
                 return formatted;
             })
                 .filter(station => station.connectors.length > 0); // Только станции с доступными коннекторами
@@ -70,8 +72,8 @@ function getUserConnectorStatus(req, res) {
             const parts = url.pathname.split('/');
             const stationId = parts[4];
             const connectorId = parseInt(parts[5]);
-            if (!stationId || !connectorId) {
-                (0, httpHandlers_1.sendJson)(res, 400, { success: false, error: 'Missing stationId or connectorId' });
+            if (!stationId || !connectorId || connectorId <= 0) {
+                (0, httpHandlers_1.sendJson)(res, 400, { success: false, error: 'Invalid stationId or connectorId (must be > 0)' });
                 return;
             }
             const state = index_1.connectionManager.getConnectorState(stationId, connectorId);
@@ -110,8 +112,8 @@ function userStartCharging(req, res) {
         try {
             const body = await readBody(req);
             const { stationId, connectorId, userId } = body;
-            if (!stationId || !connectorId || !userId) {
-                (0, httpHandlers_1.sendJson)(res, 400, { success: false, error: 'Missing required fields: stationId, connectorId, userId' });
+            if (!stationId || !connectorId || !userId || connectorId <= 0) {
+                (0, httpHandlers_1.sendJson)(res, 400, { success: false, error: 'Missing required fields or invalid connectorId (must be > 0)' });
                 return;
             }
             // Проверяем, что станция онлайн
@@ -168,8 +170,8 @@ function userStopCharging(req, res) {
         try {
             const body = await readBody(req);
             const { stationId, connectorId, userId, transactionId } = body;
-            if (!stationId || !connectorId || !userId || !transactionId) {
-                (0, httpHandlers_1.sendJson)(res, 400, { success: false, error: 'Missing required fields: stationId, connectorId, userId, transactionId' });
+            if (!stationId || !connectorId || !userId || !transactionId || connectorId <= 0) {
+                (0, httpHandlers_1.sendJson)(res, 400, { success: false, error: 'Missing required fields or invalid connectorId (must be > 0)' });
                 return;
             }
             // Проверяем, что станция онлайн
@@ -225,9 +227,8 @@ function getUserSessions(req, res) {
             const activeSessions = [];
             stationsMap.forEach((connectors, stationId) => {
                 connectors.forEach((state, connectorId) => {
-                    if (state.status === 'Charging' && state.transactionId) {
-                        // Здесь можно добавить проверку userId через transactionId
-                        // Пока просто возвращаем все активные сессии
+                    // Исключаем connector 0 и учитываем только зарядные коннекторы
+                    if (connectorId > 0 && state.status === 'Charging' && state.transactionId) {
                         activeSessions.push({
                             stationId,
                             connectorId,
@@ -262,8 +263,8 @@ function getStatusNotification(req, res) {
             const parts = url.pathname.split('/');
             const stationId = parts[3];
             const connectorId = parseInt(parts[4]);
-            if (!stationId || !connectorId) {
-                (0, httpHandlers_1.sendJson)(res, 400, { success: false, error: 'Missing stationId or connectorId' });
+            if (!stationId || !connectorId || connectorId < 0) {
+                (0, httpHandlers_1.sendJson)(res, 400, { success: false, error: 'Invalid stationId or connectorId' });
                 return;
             }
             const state = index_1.connectionManager.getConnectorState(stationId, connectorId);
@@ -281,10 +282,11 @@ function getStatusNotification(req, res) {
                     errorCode: state.errorCode || 'NoError',
                     isOnline,
                     lastUpdate: state.lastUpdate,
-                    transactionId: state.transactionId || null
+                    transactionId: state.transactionId || null,
+                    isStationConnector: connectorId === 0 // Указываем, является ли это коннектором станции
                 }
             });
-            logger_1.logger.info(`[STATUS_API] GET /api/status/${stationId}/${connectorId} - status: ${state.status}`);
+            logger_1.logger.info(`[STATUS_API] GET /api/status/${stationId}/${connectorId} - status: ${state.status}, isStation: ${connectorId === 0}`);
         }
         catch (err) {
             logger_1.logger.error(`[STATUS_API] getStatusNotification error: ${err}`);

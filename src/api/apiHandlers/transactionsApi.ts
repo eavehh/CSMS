@@ -21,9 +21,61 @@ function readBody(req: IncomingMessage): Promise<any> {
 }
 
 /**
+ * GET /api/transactions/recent
+ * Возвращает последние 10 транзакций из памяти connectionManager
+ * Эти транзакции содержат как начальные, так и конечные данные (если транзакция завершена)
+ */
+export function recentTransactionsApiHandler(req: IncomingMessage, res: ServerResponse) {
+    try {
+        const url = new URL(req.url || '', 'http://localhost:8081');
+        const limitParam = url.searchParams.get('limit');
+        const limit = limitParam ? parseInt(limitParam, 10) : 10;
+
+        // Получаем последние транзакции из connectionManager
+        const recentTransactions = connectionManager.getRecentTransactions(limit);
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+            success: true,
+            data: recentTransactions,
+            count: recentTransactions.length
+        }));
+        logger.info(`[API] /api/transactions/recent returned ${recentTransactions.length} transactions (limit: ${limit})`);
+    } catch (err) {
+        logger.error(`[API] /api/transactions/recent error: ${err}`);
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: 'Internal server error' }));
+    }
+}
+
+/**
+ * DELETE /api/transactions/recent
+ * Очищает все недавние транзакции из памяти (connectionManager)
+ * Это админ-функция для сброса списка недавних транзакций
+ */
+export function clearRecentTransactionsMemoryHandler(req: IncomingMessage, res: ServerResponse) {
+    try {
+        const clearedCount = connectionManager.clearRecentTransactions();
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+            success: true,
+            message: `Cleared ${clearedCount} recent transactions from memory`,
+            cleared: clearedCount
+        }));
+        logger.info(`[API] /api/transactions/recent DELETE cleared ${clearedCount} transactions from memory`);
+    } catch (err) {
+        logger.error(`[API] /api/transactions/recent DELETE error: ${err}`);
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: 'Internal server error' }));
+    }
+}
+
+/**
  * GET /api/transactions
  * Возвращает транзакции из PostgreSQL
  */
+
 export function transactionsApiHandler(req: IncomingMessage, res: ServerResponse) {
     (async () => {
         try {
@@ -31,17 +83,17 @@ export function transactionsApiHandler(req: IncomingMessage, res: ServerResponse
             const { Transaction } = require('../../db/entities/Transaction');
             const url = new URL(req.url || '', 'http://localhost:8081');
             const chargePointId = url.searchParams.get('chargePointId');
-            
+
             const repo = AppDataSource.getRepository(Transaction);
             const where: any = {};
             if (chargePointId) where.chargePointId = chargePointId;
-            
+
             const transactions = await repo.find({
                 where,
                 order: { startTime: 'DESC' },
                 take: 100
             });
-            
+
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ success: true, data: transactions, count: transactions.length }));
             logger.info(`[API] /api/transactions returned ${transactions.length} transactions`);
@@ -61,25 +113,28 @@ export async function clearRecentTransactionsHandler(req: IncomingMessage, res: 
     try {
         const body = await readBody(req);
         const { olderThanDays = 30 } = body;
-        
+
         const { AppDataSource } = require('../../db/postgres');
         const { Transaction } = require('../../db/entities/Transaction');
-        
+
         const repo = AppDataSource.getRepository(Transaction);
         const cutoffDate = new Date();
         cutoffDate.setDate(cutoffDate.getDate() - olderThanDays);
-        
-        const result = await repo.delete({
-            stopTime: { $lt: cutoffDate }
-        });
-        
+
+        // Для TypeORM/Postgres используем QueryBuilder для удаления с условием
+        const deleteResult = await repo.createQueryBuilder()
+            .delete()
+            .from(Transaction)
+            .where('stopTime < :cutoffDate', { cutoffDate })
+            .execute();
+
         res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ 
-            success: true, 
+        res.end(JSON.stringify({
+            success: true,
             message: `Deleted transactions older than ${olderThanDays} days`,
-            deleted: result.affected || 0
+            deleted: deleteResult.affected || 0
         }));
-        logger.info(`[API] /api/transactions/clear deleted ${result.affected || 0} old transactions`);
+        logger.info(`[API] /api/transactions/clear deleted ${deleteResult.affected || 0} old transactions`);
     } catch (err) {
         logger.error(`[API] clear /api/transactions error: ${err}`);
         res.writeHead(500, { 'Content-Type': 'application/json' });

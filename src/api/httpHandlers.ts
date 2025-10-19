@@ -6,7 +6,7 @@ import { connectionManager } from '../server/index';
 import { handleStartTransaction } from '../server/handlers/startTransaction';
 import { sendRemoteStartTransaction } from '../server/remoteControl';
 import { getStations, startStationsApiHandler, stopStationsApiHandler } from './apiHandlers/stationsApi'
-import { transactionsApiHandler, startRemoteTrx, stopRemoteTrx, clearRecentTransactionsHandler } from "./apiHandlers/transactionsApi";
+import { transactionsApiHandler, startRemoteTrx, stopRemoteTrx, clearRecentTransactionsHandler, recentTransactionsApiHandler, clearRecentTransactionsMemoryHandler } from "./apiHandlers/transactionsApi";
 import {
     getUserStations,
     getUserConnectorStatus,
@@ -34,7 +34,6 @@ export function sendJson(
     res.end(JSON.stringify(payload));
 }
 
-// ...existing code...
 export function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
     // CORS для фронтенда
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -55,6 +54,18 @@ export function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
     // GET /api/stations - список активных (онлайн) станций (готовый для фронта формат)
     if (req.method === 'GET' && pathname === '/api/stations') {
         getStations(req, res);
+        return;
+    }
+
+    // GET /api/transactions/recent - последние 10 транзакций из памяти (с start и stop данными)
+    if (req.method === 'GET' && pathname === '/api/transactions/recent') {
+        recentTransactionsApiHandler(req, res);
+        return;
+    }
+
+    // DELETE /api/transactions/recent - очистить недавние транзакции из памяти (админ)
+    if (req.method === 'DELETE' && pathname === '/api/transactions/recent') {
+        clearRecentTransactionsMemoryHandler(req, res);
         return;
     }
 

@@ -36,16 +36,16 @@ export function getUserStations(req: IncomingMessage, res: ServerResponse) {
                 .filter(([stationId]) => activeStations.includes(stationId))
                 .map(([stationId, connectors]) => {
                     const formatted = formatStation(stationId, connectors);
-                    // Добавляем только доступные коннекторы для пользователя
-                    formatted.connectors = formatted.connectors.filter(c => 
-                        c.status === 'Available' || c.status === 'Charging'
-                    );
+                    // Фильтруем коннектор 0 (это станция, а не коннектор) и оставляем только доступные
+                    formatted.connectors = formatted.connectors
+                        .filter(c => c.id > 0) // Исключаем connector 0 (станция)
+                        .filter(c => c.status === 'Available' || c.status === 'Charging');
                     return formatted;
                 })
                 .filter(station => station.connectors.length > 0); // Только станции с доступными коннекторами
 
-            sendJson(res, 200, { 
-                success: true, 
+            sendJson(res, 200, {
+                success: true,
                 data,
                 count: data.length
             });
@@ -69,13 +69,13 @@ export function getUserConnectorStatus(req: IncomingMessage, res: ServerResponse
             const stationId = parts[4];
             const connectorId = parseInt(parts[5]);
 
-            if (!stationId || !connectorId) {
-                sendJson(res, 400, { success: false, error: 'Missing stationId or connectorId' });
+            if (!stationId || !connectorId || connectorId <= 0) {
+                sendJson(res, 400, { success: false, error: 'Invalid stationId or connectorId (must be > 0)' });
                 return;
             }
 
             const state = connectionManager.getConnectorState(stationId, connectorId);
-            
+
             if (!state) {
                 sendJson(res, 404, { success: false, error: 'Connector not found' });
                 return;
@@ -114,16 +114,16 @@ export function userStartCharging(req: IncomingMessage, res: ServerResponse) {
             const body = await readBody(req);
             const { stationId, connectorId, userId } = body;
 
-            if (!stationId || !connectorId || !userId) {
-                sendJson(res, 400, { success: false, error: 'Missing required fields: stationId, connectorId, userId' });
+            if (!stationId || !connectorId || !userId || connectorId <= 0) {
+                sendJson(res, 400, { success: false, error: 'Missing required fields or invalid connectorId (must be > 0)' });
                 return;
             }
 
             // Проверяем, что станция онлайн
             const ws = connectionManager.get(stationId);
             if (!ws) {
-                sendJson(res, 503, { 
-                    success: false, 
+                sendJson(res, 503, {
+                    success: false,
                     error: 'Station is offline',
                     message: 'Пожалуйста, выберите другую станцию'
                 });
@@ -133,8 +133,8 @@ export function userStartCharging(req: IncomingMessage, res: ServerResponse) {
             // Проверяем статус коннектора
             const state = connectionManager.getConnectorState(stationId, connectorId);
             if (!state || state.status !== 'Available') {
-                sendJson(res, 400, { 
-                    success: false, 
+                sendJson(res, 400, {
+                    success: false,
                     error: 'Connector not available',
                     message: 'Коннектор занят или недоступен'
                 });
@@ -148,8 +148,8 @@ export function userStartCharging(req: IncomingMessage, res: ServerResponse) {
                 startValue: 0
             });
 
-            sendJson(res, 200, { 
-                success: true, 
+            sendJson(res, 200, {
+                success: true,
                 message: 'Зарядка начата',
                 data: {
                     stationId,
@@ -177,16 +177,16 @@ export function userStopCharging(req: IncomingMessage, res: ServerResponse) {
             const body = await readBody(req);
             const { stationId, connectorId, userId, transactionId } = body;
 
-            if (!stationId || !connectorId || !userId || !transactionId) {
-                sendJson(res, 400, { success: false, error: 'Missing required fields: stationId, connectorId, userId, transactionId' });
+            if (!stationId || !connectorId || !userId || !transactionId || connectorId <= 0) {
+                sendJson(res, 400, { success: false, error: 'Missing required fields or invalid connectorId (must be > 0)' });
                 return;
             }
 
             // Проверяем, что станция онлайн
             const ws = connectionManager.get(stationId);
             if (!ws) {
-                sendJson(res, 503, { 
-                    success: false, 
+                sendJson(res, 503, {
+                    success: false,
                     error: 'Station is offline',
                     message: 'Станция недоступна'
                 });
@@ -199,8 +199,8 @@ export function userStopCharging(req: IncomingMessage, res: ServerResponse) {
                 transactionId
             });
 
-            sendJson(res, 200, { 
-                success: true, 
+            sendJson(res, 200, {
+                success: true,
                 message: 'Зарядка остановлена',
                 data: {
                     stationId,
@@ -240,9 +240,8 @@ export function getUserSessions(req: IncomingMessage, res: ServerResponse) {
 
             stationsMap.forEach((connectors, stationId) => {
                 connectors.forEach((state, connectorId) => {
-                    if (state.status === 'Charging' && state.transactionId) {
-                        // Здесь можно добавить проверку userId через transactionId
-                        // Пока просто возвращаем все активные сессии
+                    // Исключаем connector 0 и учитываем только зарядные коннекторы
+                    if (connectorId > 0 && state.status === 'Charging' && state.transactionId) {
                         activeSessions.push({
                             stationId,
                             connectorId,
@@ -254,8 +253,8 @@ export function getUserSessions(req: IncomingMessage, res: ServerResponse) {
                 });
             });
 
-            sendJson(res, 200, { 
-                success: true, 
+            sendJson(res, 200, {
+                success: true,
                 data: activeSessions,
                 count: activeSessions.length
             });
@@ -279,13 +278,13 @@ export function getStatusNotification(req: IncomingMessage, res: ServerResponse)
             const stationId = parts[3];
             const connectorId = parseInt(parts[4]);
 
-            if (!stationId || !connectorId) {
-                sendJson(res, 400, { success: false, error: 'Missing stationId or connectorId' });
+            if (!stationId || !connectorId || connectorId < 0) {
+                sendJson(res, 400, { success: false, error: 'Invalid stationId or connectorId' });
                 return;
             }
 
             const state = connectionManager.getConnectorState(stationId, connectorId);
-            
+
             if (!state) {
                 sendJson(res, 404, { success: false, error: 'Connector not found' });
                 return;
@@ -302,10 +301,11 @@ export function getStatusNotification(req: IncomingMessage, res: ServerResponse)
                     errorCode: state.errorCode || 'NoError',
                     isOnline,
                     lastUpdate: state.lastUpdate,
-                    transactionId: state.transactionId || null
+                    transactionId: state.transactionId || null,
+                    isStationConnector: connectorId === 0 // Указываем, является ли это коннектором станции
                 }
             });
-            logger.info(`[STATUS_API] GET /api/status/${stationId}/${connectorId} - status: ${state.status}`);
+            logger.info(`[STATUS_API] GET /api/status/${stationId}/${connectorId} - status: ${state.status}, isStation: ${connectorId === 0}`);
         } catch (err) {
             logger.error(`[STATUS_API] getStatusNotification error: ${err}`);
             sendJson(res, 500, { success: false, error: 'Failed to fetch status' });

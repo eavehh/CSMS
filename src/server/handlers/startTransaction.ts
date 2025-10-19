@@ -69,14 +69,18 @@ export async function handleStartTransaction(req: StartTransactionRequest & {  /
 
         // Обновляем состояние коннектора
         connectionManager.updateConnectorState(chargePointId, req.connectorId, 'Charging', transId.toString());
-        
-        // Добавляем в недавние транзакции для того чтобы на фронте отобразить 30 последних транзакций
+
+        // Добавляем в недавние транзакции начальные данные
         connectionManager.addRecentTransaction({
             transactionId: response.transactionId,
             chargePointId,
-            connectorId: req.connectorId, // исправлено!
-            idTag: req.idTag,             // исправлено!
-            startTime: new Date(),
+            connectorId: req.connectorId,
+            idTag: req.idTag,
+            startTime: new Date(req.timestamp),
+            meterStart: req.meterStart,
+            limitType,
+            limitValue,
+            tariffPerKWh,
             status: 'Started'
         });
 

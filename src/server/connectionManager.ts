@@ -23,30 +23,73 @@ export class ConnectionManager {
     reservationCleanupInterval: NodeJS.Timeout | null = null;
     private recentTransactions: Array<any> = [];
 
+    /**
+     * Добавляет или обновляет транзакцию в списке недавних.
+     * При первом вызове (start) создается новая запись.
+     * При втором вызове (stop) с тем же transactionId - дополняет существующую запись.
+     */
     addRecentTransaction(trx: any) {
         try {
-            this.recentTransactions.unshift(trx); // добавляем в начало
+            const transactionId = String(trx.transactionId);
+            const existingIndex = this.recentTransactions.findIndex(
+                t => String(t.transactionId) === transactionId
+            );
+
+            if (existingIndex !== -1) {
+                // Транзакция уже существует - дополняем её данными остановки
+                const existing = this.recentTransactions[existingIndex];
+                this.recentTransactions[existingIndex] = {
+                    ...existing,
+                    ...trx,
+                    // Сохраняем startTime из первой записи, если он там был
+                    startTime: existing.startTime || trx.startTime,
+                    // Обновляем статус
+                    status: trx.status === 'Stopped' ? 'Completed' : trx.status
+                };
+                logger.info(`[ConnectionManager] Updated transaction ${transactionId} with stop data`);
+            } else {
+                // Новая транзакция - добавляем в начало
+                this.recentTransactions.unshift({
+                    ...trx,
+                    status: trx.status || 'Started'
+                });
+                logger.info(`[ConnectionManager] Added new transaction ${transactionId}`);
+            }
+
+            // Обрезаем до 30 последних
             if (this.recentTransactions.length > 30) {
-                this.recentTransactions.length = 30; // обрезаем до 30
+                this.recentTransactions.length = 30;
             }
         } catch (err) {
             logger.error(`[ConnectionManager] Error in addRecentTransaction: ${err}`);
         }
     }
 
-    getRecentTransactions(): Array<any> {
-        return [...this.recentTransactions];
+    /**
+     * Возвращает последние N транзакций
+     */
+    getRecentTransactions(limit: number = 30): Array<any> {
+        return this.recentTransactions.slice(0, limit);
     }
 
     removeRecentTransaction(transactionId: string): boolean {
         const before = this.recentTransactions.length;
-        this.recentTransactions = this.recentTransactions.filter(t => String(t.transactionId) !== String(transactionId));
+        this.recentTransactions = this.recentTransactions.filter(
+            t => String(t.transactionId) !== String(transactionId)
+        );
         return this.recentTransactions.length < before;
     }
 
-    clearRecentTransactions() {
+    /**
+     * Очищает все недавние транзакции из памяти
+     */
+    clearRecentTransactions(): number {
+        const count = this.recentTransactions.length;
         this.recentTransactions = [];
+        logger.info(`[ConnectionManager] Cleared ${count} recent transactions from memory`);
+        return count;
     }
+
 
     updateLastActivity(chargePointId: string) {
         this.lastActivity.set(chargePointId, Date.now());
