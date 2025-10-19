@@ -2,8 +2,6 @@ import WebSocket from 'ws';
 import { logger } from '../logger';
 import { ChargePoint } from '../db/mongoose';
 import { Transaction } from "../db/entities/Transaction"
-import * as fs from 'fs';
-import * as path from 'path';
 
 
 export interface ConnectorState {
@@ -23,123 +21,70 @@ export class ConnectionManager {
     private connectorStates: Map<string, Map<number, ConnectorState>> = new Map();
     lastActivity: Map<string, number> = new Map();
     reservationCleanupInterval: NodeJS.Timeout | null = null;
+
+    // 🔥 Простой массив транзакций в памяти (максимум 10)
     private recentTransactions: Array<any> = [];
-    private recentTransactionsFile = path.join(__dirname, '../../data/recentTransactions.json');
+    private readonly MAX_RECENT_TRANSACTIONS = 10;
 
     constructor() {
-        // Загружаем сохраненные транзакции при старте
-        this.loadRecentTransactions();
+        logger.info(`[ConnectionManager] Initialized with in-memory transaction storage (max ${this.MAX_RECENT_TRANSACTIONS})`);
     }
 
     /**
-     * Загружает транзакции из файла при старте сервера
-     */
-    private loadRecentTransactions() {
-        try {
-            // Создаем директорию если не существует
-            const dir = path.dirname(this.recentTransactionsFile);
-            if (!fs.existsSync(dir)) {
-                fs.mkdirSync(dir, { recursive: true });
-            }
-
-            // Загружаем данные из файла
-            if (fs.existsSync(this.recentTransactionsFile)) {
-                const data = fs.readFileSync(this.recentTransactionsFile, 'utf-8');
-                this.recentTransactions = JSON.parse(data);
-                logger.info(`[ConnectionManager] Loaded ${this.recentTransactions.length} recent transactions from file`);
-            } else {
-                logger.info(`[ConnectionManager] No saved transactions file found, starting fresh`);
-            }
-        } catch (err) {
-            logger.error(`[ConnectionManager] Error loading recent transactions: ${err}`);
-            this.recentTransactions = [];
-        }
-    }
-
-    /**
-     * Сохраняет транзакции в файл
-     */
-    private saveRecentTransactions() {
-        try {
-            const dir = path.dirname(this.recentTransactionsFile);
-            if (!fs.existsSync(dir)) {
-                fs.mkdirSync(dir, { recursive: true });
-            }
-            fs.writeFileSync(this.recentTransactionsFile, JSON.stringify(this.recentTransactions, null, 2));
-            logger.debug(`[ConnectionManager] Saved ${this.recentTransactions.length} transactions to file`);
-        } catch (err) {
-            logger.error(`[ConnectionManager] Error saving recent transactions: ${err}`);
-        }
-    }
-
-    /**
-     * Добавляет или обновляет транзакцию в списке недавних.
-     * При первом вызове (start) создается новая запись.
-     * При втором вызове (stop) с тем же transactionId - дополняет существующую запись.
+     * 🔥 Добавляет ЗАВЕРШЕННУЮ транзакцию в список недавних (только в памяти).
+     * Вызывается ТОЛЬКО при stopTransaction с полными данными (start + stop).
      */
     addRecentTransaction(trx: any) {
         try {
             const transactionId = String(trx.transactionId);
-            const existingIndex = this.recentTransactions.findIndex(
-                t => String(t.transactionId) === transactionId
-            );
 
-            if (existingIndex !== -1) {
-                // Транзакция уже существует - дополняем её данными остановки
-                const existing = this.recentTransactions[existingIndex];
-                this.recentTransactions[existingIndex] = {
-                    ...existing,
-                    ...trx,
-                    // Сохраняем startTime из первой записи, если он там был
-                    startTime: existing.startTime || trx.startTime,
-                    // Обновляем статус
-                    status: trx.status === 'Stopped' ? 'Completed' : trx.status
-                };
-                logger.info(`[ConnectionManager] Updated transaction ${transactionId} with stop data`);
-            } else {
-                // Новая транзакция - добавляем в начало
-                this.recentTransactions.unshift({
-                    ...trx,
-                    status: trx.status || 'Started'
-                });
-                logger.info(`[ConnectionManager] Added new transaction ${transactionId}`);
+            // Просто добавляем новую транзакцию в начало массива
+            this.recentTransactions.unshift({
+                ...trx,
+                status: trx.status || 'Completed'
+            });
+
+            logger.info(`[ConnectionManager] Added completed transaction ${transactionId} to recent list`);
+
+            // 🔥 Обрезаем до MAX_RECENT_TRANSACTIONS (10 элементов)
+            if (this.recentTransactions.length > this.MAX_RECENT_TRANSACTIONS) {
+                const removed = this.recentTransactions.splice(this.MAX_RECENT_TRANSACTIONS);
+                logger.debug(`[ConnectionManager] Removed ${removed.length} oldest transactions`);
             }
-
-            // Обрезаем до 30 последних
-            if (this.recentTransactions.length > 30) {
-                this.recentTransactions.length = 30;
-            }
-
-            // Сохраняем в файл после каждого изменения
-            this.saveRecentTransactions();
         } catch (err) {
             logger.error(`[ConnectionManager] Error in addRecentTransaction: ${err}`);
         }
     }
 
     /**
-     * Возвращает последние N транзакций
+     * 🔥 Возвращает последние N транзакций из памяти
      */
-    getRecentTransactions(limit: number = 30): Array<any> {
+    getRecentTransactions(limit: number = 10): Array<any> {
         return this.recentTransactions.slice(0, limit);
     }
 
+    /**
+     * 🔥 Удаляет транзакцию по ID
+     */
     removeRecentTransaction(transactionId: string): boolean {
         const before = this.recentTransactions.length;
         this.recentTransactions = this.recentTransactions.filter(
             t => String(t.transactionId) !== String(transactionId)
         );
-        return this.recentTransactions.length < before;
+        const removed = this.recentTransactions.length < before;
+        if (removed) {
+            logger.info(`[ConnectionManager] Removed transaction ${transactionId}`);
+        }
+        return removed;
     }
 
     /**
-     * Очищает все недавние транзакции из памяти и файла
+     * 🔥 Очищает все недавние транзакции из памяти
      */
     clearRecentTransactions(): number {
         const count = this.recentTransactions.length;
         this.recentTransactions = [];
-        this.saveRecentTransactions(); // Сохраняем пустой массив в файл
-        logger.info(`[ConnectionManager] Cleared ${count} recent transactions from memory and file`);
+        logger.info(`[ConnectionManager] Cleared ${count} recent transactions from memory`);
         return count;
     }
 

@@ -62,19 +62,23 @@ export async function handleStopTransaction(req: StopTransactionRequest, chargeP
 
         connectionManager.updateConnectorState(chargePointId, connectorId, 'Finishing');
 
-        // Дополняем существующую транзакцию данными остановки
+        // 🔥 Добавляем ПОЛНУЮ транзакцию в recentTransactions (start + stop данные)
         connectionManager.addRecentTransaction({
             transactionId: req.transactionId,
             chargePointId,
             connectorId,
             idTag: req.idTag || tx.idTag,
+            // START данные из БД:
+            startTime: tx.startTime,
+            meterStart: tx.meterStart,
+            // STOP данные:
             stopTime: new Date(req.timestamp),
             meterStop: req.meterStop,
             reason: req.reason,
             totalKWh,
             cost,
             efficiencyPercentage,
-            status: 'Stopped'
+            status: 'Completed'
         });
 
         // Таймаут сброса коннектора

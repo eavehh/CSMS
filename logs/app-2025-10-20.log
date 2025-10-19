@@ -66,3 +66,66 @@
 2025-10-20 00:03:43 [INFO] o.s.s..main [Thread-1] [HTTP_SERVER] Starting HTTP server...
 2025-10-20 00:03:43 [INFO] o.s.s..main [Thread-1] [MAIN] CSMS Server fully initialized on port 8081
 2025-10-20 00:03:48 [INFO] o.s.s..main [Thread-1] [SHUTDOWN] Received SIGINT. Initiating graceful shutdown...
+2025-10-20 00:29:31 [INFO] o.s.s..main [Thread-1] [ConnectionManager] Initialized with in-memory transaction storage (max 10)
+2025-10-20 00:29:31 [INFO] o.s.s..main [Thread-1] [wsServer] Creating WebSocket server...
+2025-10-20 00:29:31 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server instance created
+2025-10-20 00:29:31 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server setup complete
+2025-10-20 00:29:31 [INFO] o.s.s..main [Thread-1] [mongo] MongoDB connected!
+2025-10-20 00:29:31 [INFO] o.s.s..main [Thread-1] [MONGO] MongoDB connected
+2025-10-20 00:29:31 [INFO] o.s.s..main [Thread-1] [POSTGRES] PostgreSQL connected
+2025-10-20 00:29:31 [INFO] o.s.s..main [Thread-1] [HTTP_SERVER] Starting HTTP server...
+2025-10-20 00:29:31 [INFO] o.s.s..main [Thread-1] [MAIN] CSMS Server fully initialized on port 8081
+2025-10-20 00:29:42 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-20 00:29:42 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-20 00:29:42 [INFO] o.s.s..main [Thread-1] [API] /api/transactions/recent returned 0 transactions (limit: 10)
+2025-10-20 00:31:55 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-20 00:31:55 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-20 00:31:55 [INFO] o.s.s..main [Thread-1] [API] /api/transactions/recent returned 0 transactions (limit: 10)
+2025-10-20 00:32:05 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-20 00:32:05 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-20 00:32:05 [INFO] o.s.s..main [Thread-1] [ConnectionManager] Cleared 0 recent transactions from memory
+2025-10-20 00:32:05 [INFO] o.s.s..main [Thread-1] [API] /api/transactions/recent DELETE cleared 0 transactions from memory
+2025-10-20 01:02:39 [INFO] o.s.s..main [Thread-1] [ConnectionManager] Initialized with in-memory transaction storage (max 10)
+2025-10-20 01:02:39 [INFO] o.s.s..main [Thread-1] [wsServer] Creating WebSocket server...
+2025-10-20 01:02:39 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server instance created
+2025-10-20 01:02:39 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server setup complete
+2025-10-20 01:02:39 [INFO] o.s.s..main [Thread-1] [mongo] MongoDB connected!
+2025-10-20 01:02:39 [INFO] o.s.s..main [Thread-1] [MONGO] MongoDB connected
+2025-10-20 01:02:39 [INFO] o.s.s..main [Thread-1] [POSTGRES] PostgreSQL connected
+2025-10-20 01:02:39 [INFO] o.s.s..main [Thread-1] [HTTP_SERVER] Starting HTTP server...
+2025-10-20 01:02:39 [INFO] o.s.s..main [Thread-1] [MAIN] CSMS Server fully initialized on port 8081
+2025-10-20 01:02:53 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
+2025-10-20 01:02:53 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
+2025-10-20 01:02:53 [INFO] o.s.s..main [Thread-1] [API] /api/transactions/recent returned 0 transactions (limit: 10)
+2025-10-20 01:03:51 [INFO] o.s.s..main [Thread-1] [ConnectionManager] Initialized with in-memory transaction storage (max 10)
+2025-10-20 01:03:51 [INFO] o.s.s..main [Thread-1] [wsServer] Creating WebSocket server...
+2025-10-20 01:03:51 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server instance created
+2025-10-20 01:03:51 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server setup complete
+2025-10-20 01:03:51 [INFO] o.s.s..main [Thread-1] [mongo] MongoDB connected!
+2025-10-20 01:03:51 [INFO] o.s.s..main [Thread-1] [MONGO] MongoDB connected
+2025-10-20 01:03:51 [INFO] o.s.s..main [Thread-1] [POSTGRES] PostgreSQL connected
+2025-10-20 01:03:51 [INFO] o.s.s..main [Thread-1] [HTTP_SERVER] Starting HTTP server...
+2025-10-20 01:03:51 [ERROR] o.s.s..main [Thread-1] [wsServer] Error: listen EADDRINUSE: address already in use :::8081
+2025-10-20 01:03:51 [ERROR] o.s.s..main [Thread-1] [HTTP_SERVER] Error: listen EADDRINUSE: address already in use :::8081
+2025-10-20 01:03:55 [INFO] o.s.s..main [Thread-1] [SHUTDOWN] Received SIGINT. Initiating graceful shutdown...
+2025-10-20 01:06:33 [INFO] o.s.s..main [Thread-1] [ConnectionManager] Initialized with in-memory transaction storage (max 10)
+2025-10-20 01:06:33 [INFO] o.s.s..main [Thread-1] [wsServer] Creating WebSocket server...
+2025-10-20 01:06:33 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server instance created
+2025-10-20 01:06:33 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server setup complete
+2025-10-20 01:06:33 [INFO] o.s.s..main [Thread-1] [mongo] MongoDB connected!
+2025-10-20 01:06:33 [INFO] o.s.s..main [Thread-1] [MONGO] MongoDB connected
+2025-10-20 01:06:33 [INFO] o.s.s..main [Thread-1] [POSTGRES] PostgreSQL connected
+2025-10-20 01:06:33 [INFO] o.s.s..main [Thread-1] [HTTP_SERVER] Starting HTTP server...
+2025-10-20 01:06:33 [ERROR] o.s.s..main [Thread-1] [wsServer] Error: listen EADDRINUSE: address already in use :::8081
+2025-10-20 01:06:33 [ERROR] o.s.s..main [Thread-1] [HTTP_SERVER] Error: listen EADDRINUSE: address already in use :::8081
+2025-10-20 01:06:35 [INFO] o.s.s..main [Thread-1] [SHUTDOWN] Received SIGINT. Initiating graceful shutdown...
+2025-10-20 01:07:18 [INFO] o.s.s..main [Thread-1] [ConnectionManager] Initialized with in-memory transaction storage (max 10)
+2025-10-20 01:07:18 [INFO] o.s.s..main [Thread-1] [wsServer] Creating WebSocket server...
+2025-10-20 01:07:18 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server instance created
+2025-10-20 01:07:18 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server setup complete
+2025-10-20 01:07:18 [INFO] o.s.s..main [Thread-1] [mongo] MongoDB connected!
+2025-10-20 01:07:18 [INFO] o.s.s..main [Thread-1] [MONGO] MongoDB connected
+2025-10-20 01:07:19 [INFO] o.s.s..main [Thread-1] [POSTGRES] PostgreSQL connected
+2025-10-20 01:07:19 [INFO] o.s.s..main [Thread-1] [HTTP_SERVER] Starting HTTP server...
+2025-10-20 01:07:19 [INFO] o.s.s..main [Thread-1] [MAIN] CSMS Server fully initialized on port 8081
+2025-10-20 01:07:23 [INFO] o.s.s..main [Thread-1] [SHUTDOWN] Received SIGINT. Initiating graceful shutdown...
