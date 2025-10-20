@@ -2,7 +2,7 @@ import { get, IncomingMessage, ServerResponse } from 'http';
 import { URL, URLSearchParams } from 'url';
 import { logger } from '../logger';
 import { getStations, startStationsApiHandler, stopStationsApiHandler } from './apiHandlers/stationsApi'
-import { transactionsApiHandler, startRemoteTrx, stopRemoteTrx, clearRecentTransactionsHandler, recentTransactionsApiHandler, clearRecentTransactionsMemoryHandler, addRecentTransactionHandler } from "./apiHandlers/transactionsApi";
+import { transactionsApiHandler, startRemoteTrx, stopRemoteTrx, clearRecentTransactionsHandler, recentTransactionsApiHandler, clearRecentTransactionsMemoryHandler, addRecentTransactionHandler, startChargingByStationId, stopChargingByStationId } from "./apiHandlers/transactionsApi";
 import {
     getUserStations,
     getUserConnectorStatus,
@@ -96,7 +96,20 @@ export function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
         return;
     }
 
-    // ======== USER API ========
+    // ======== FRONTEND ALIASES ========
+    // POST /api/stations/:stationId/start - алиас для remote-start-session
+    if (req.method === 'POST' && pathname.match(/^\/api\/stations\/[^/]+\/start$/)) {
+        const stationId = pathname.split('/')[3];
+        startChargingByStationId(req, res, stationId);
+        return;
+    }
+
+    // POST /api/stations/:stationId/stop - алиас для remote-stop-session
+    if (req.method === 'POST' && pathname.match(/^\/api\/stations\/[^/]+\/stop$/)) {
+        const stationId = pathname.split('/')[3];
+        stopChargingByStationId(req, res, stationId);
+        return;
+    }    // ======== USER API ========
     if (req.method === 'GET' && pathname === '/api/user/stations') {
         getUserStations(req, res);
         return;

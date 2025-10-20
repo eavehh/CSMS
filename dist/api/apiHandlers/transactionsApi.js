@@ -7,6 +7,8 @@ exports.transactionsApiHandler = transactionsApiHandler;
 exports.clearRecentTransactionsHandler = clearRecentTransactionsHandler;
 exports.startRemoteTrx = startRemoteTrx;
 exports.stopRemoteTrx = stopRemoteTrx;
+exports.startChargingByStationId = startChargingByStationId;
+exports.stopChargingByStationId = stopChargingByStationId;
 const index_1 = require("../../server/index");
 const logger_1 = require("../../logger");
 const remoteControl_1 = require("../../server/remoteControl");
@@ -325,4 +327,101 @@ async function stopRemoteTrx(req, res) {
         res.writeHead(500, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: false, error: 'Remote stop session error' }));
     }
+}
+/**
+ * POST /api/stations/:stationId/start
+ * Wrapper для startRemoteTrx (алиас для фронтенда)
+ * Body: { connectorId, idTag? }
+ */
+function startChargingByStationId(req, res, stationId) {
+    (async () => {
+        try {
+            const body = await readBody(req);
+            if (!body.connectorId) {
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: false, error: 'Missing connectorId' }));
+                return;
+            }
+            // Трансформируем в формат startRemoteTrx
+            const transformedBody = {
+                chargePointId: stationId,
+                connectorId: body.connectorId,
+                idTag: body.idTag || 'FRONTEND_USER',
+                startValue: body.startValue || 0
+            };
+            logger_1.logger.info(`[API] /api/stations/${stationId}/start → startRemoteTrx`);
+            // Проверяем что станция онлайн
+            const connections = index_1.connectionManager.getAllConnections();
+            if (!connections || !connections.has(stationId)) {
+                res.writeHead(503, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({
+                    success: false,
+                    error: 'Station is offline',
+                    message: 'Please select another station'
+                }));
+                return;
+            }
+            // Вызываем sendRemoteStartTransaction
+            (0, remoteControl_1.sendRemoteStartTransaction)(index_1.connectionManager, stationId, {
+                connectorId: transformedBody.connectorId,
+                idTag: transformedBody.idTag,
+                startValue: transformedBody.startValue
+            });
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({
+                success: true,
+                message: 'Remote start requested'
+            }));
+        }
+        catch (err) {
+            logger_1.logger.error(`[API] /api/stations/:id/start Error: ${err}`);
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ success: false, error: 'Start charging error' }));
+        }
+    })();
+}
+/**
+ * POST /api/stations/:stationId/stop
+ * Wrapper для stopRemoteTrx (алиас для фронтенда)
+ * Body: { transactionId, connectorId? }
+ */
+function stopChargingByStationId(req, res, stationId) {
+    (async () => {
+        try {
+            const body = await readBody(req);
+            if (!body.transactionId) {
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: false, error: 'Missing transactionId' }));
+                return;
+            }
+            logger_1.logger.info(`[API] /api/stations/${stationId}/stop → stopRemoteTrx`);
+            // Проверяем что станция онлайн
+            const connections = index_1.connectionManager.getAllConnections();
+            if (!connections || !connections.has(stationId)) {
+                res.writeHead(503, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({
+                    success: false,
+                    error: 'Station is offline',
+                    message: 'Station is unavailable'
+                }));
+                return;
+            }
+            // Вызываем sendRemoteStopTransaction
+            (0, remoteControl_1.sendRemoteStopTransaction)(index_1.connectionManager, stationId, {
+                transactionId: body.transactionId,
+                connectorId: body.connectorId,
+                reason: body.reason || 'Remote'
+            });
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({
+                success: true,
+                message: 'Remote stop requested'
+            }));
+        }
+        catch (err) {
+            logger_1.logger.error(`[API] /api/stations/:id/stop Error: ${err}`);
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ success: false, error: 'Stop charging error' }));
+        }
+    })();
 }

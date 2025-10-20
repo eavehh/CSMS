@@ -152,3 +152,34 @@
 2025-10-20 01:26:07 [INFO] o.s.s..main [Thread-1] [index API] httpServer is created
 2025-10-20 01:26:07 [INFO] o.s.s..main [Thread-1] [httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization
 2025-10-20 01:26:07 [INFO] o.s.s..main [Thread-1] [API] /api/transactions/recent returned 2 transactions (limit: 10)
+2025-10-20 16:26:37 [INFO] o.s.s..main [Thread-1] [ConnectionManager] Initialized with in-memory transaction storage (max 10)
+2025-10-20 16:26:37 [INFO] o.s.s..main [Thread-1] [wsServer] Creating WebSocket server...
+2025-10-20 16:26:37 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server instance created
+2025-10-20 16:26:37 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server setup complete
+2025-10-20 16:26:37 [INFO] o.s.s..main [Thread-1] [mongo] MongoDB connected!
+2025-10-20 16:26:37 [INFO] o.s.s..main [Thread-1] [MONGO] MongoDB connected
+2025-10-20 16:26:37 [ERROR] o.s.s..main [Thread-1] [MAIN] Failed to initialize server: AggregateError
+2025-10-20 16:31:15 [INFO] o.s.s..main [Thread-1] [ConnectionManager] Initialized with in-memory transaction storage (max 10)
+2025-10-20 16:31:15 [INFO] o.s.s..main [Thread-1] [wsServer] Creating WebSocket server...
+2025-10-20 16:31:15 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server instance created
+2025-10-20 16:31:15 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server setup complete
+2025-10-20 16:31:15 [INFO] o.s.s..main [Thread-1] [mongo] MongoDB connected!
+2025-10-20 16:31:15 [INFO] o.s.s..main [Thread-1] [MONGO] MongoDB connected
+2025-10-20 16:31:15 [ERROR] o.s.s..main [Thread-1] [MAIN] Failed to initialize server: AggregateError
+2025-10-20 16:32:18 [INFO] o.s.s..main [Thread-1] [ConnectionManager] Initialized with in-memory transaction storage (max 10)
+2025-10-20 16:32:18 [INFO] o.s.s..main [Thread-1] [wsServer] Creating WebSocket server...
+2025-10-20 16:32:18 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server instance created
+2025-10-20 16:32:18 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server setup complete
+2025-10-20 16:32:18 [INFO] o.s.s..main [Thread-1] [mongo] MongoDB connected!
+2025-10-20 16:32:18 [INFO] o.s.s..main [Thread-1] [MONGO] MongoDB connected
+2025-10-20 16:32:18 [ERROR] o.s.s..main [Thread-1] [MAIN] Failed to initialize server: AggregateError
+2025-10-20 16:34:01 [INFO] o.s.s..main [Thread-1] [ConnectionManager] Initialized with in-memory transaction storage (max 10)
+2025-10-20 16:34:01 [INFO] o.s.s..main [Thread-1] [wsServer] Creating WebSocket server...
+2025-10-20 16:34:01 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server instance created
+2025-10-20 16:34:01 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server setup complete
+2025-10-20 16:34:01 [INFO] o.s.s..main [Thread-1] [mongo] MongoDB connected!
+2025-10-20 16:34:01 [INFO] o.s.s..main [Thread-1] [MONGO] MongoDB connected
+2025-10-20 16:34:01 [INFO] o.s.s..main [Thread-1] [POSTGRES] PostgreSQL connected
+2025-10-20 16:34:01 [INFO] o.s.s..main [Thread-1] [HTTP_SERVER] Starting HTTP server...
+2025-10-20 16:34:01 [INFO] o.s.s..main [Thread-1] [MAIN] CSMS Server fully initialized on port 8081
+2025-10-20 16:34:02 [INFO] o.s.s..main [Thread-1] [SHUTDOWN] Received SIGINT. Initiating graceful shutdown...

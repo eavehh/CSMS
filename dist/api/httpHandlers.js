@@ -72,7 +72,19 @@ function handleHttpRequest(req, res) {
         (0, transactionsApi_1.stopRemoteTrx)(req, res);
         return;
     }
-    // ======== USER API ========
+    // ======== FRONTEND ALIASES ========
+    // POST /api/stations/:stationId/start - алиас для remote-start-session
+    if (req.method === 'POST' && pathname.match(/^\/api\/stations\/[^/]+\/start$/)) {
+        const stationId = pathname.split('/')[3];
+        (0, transactionsApi_1.startChargingByStationId)(req, res, stationId);
+        return;
+    }
+    // POST /api/stations/:stationId/stop - алиас для remote-stop-session
+    if (req.method === 'POST' && pathname.match(/^\/api\/stations\/[^/]+\/stop$/)) {
+        const stationId = pathname.split('/')[3];
+        (0, transactionsApi_1.stopChargingByStationId)(req, res, stationId);
+        return;
+    } // ======== USER API ========
     if (req.method === 'GET' && pathname === '/api/user/stations') {
         (0, userApi_1.getUserStations)(req, res);
         return;
