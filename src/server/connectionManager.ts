@@ -88,6 +88,31 @@ export class ConnectionManager {
         return count;
     }
 
+    /**
+     * 🗑️ Удаляет конкретную транзакцию по ID из недавних транзакций
+     */
+    deleteRecentTransaction(transactionId: string | number): boolean {
+        const initialLength = this.recentTransactions.length;
+
+        // Приводим transactionId к строке для сравнения
+        const idToDelete = transactionId.toString();
+
+        this.recentTransactions = this.recentTransactions.filter(tx => {
+            // Сравниваем как строки, чтобы избежать проблем с типами (string vs number)
+            return tx.transactionId?.toString() !== idToDelete;
+        });
+
+        const deleted = this.recentTransactions.length < initialLength;
+
+        if (deleted) {
+            logger.info(`[ConnectionManager] Deleted transaction ${transactionId} from recent transactions`);
+        } else {
+            logger.warn(`[ConnectionManager] Transaction ${transactionId} not found in recent transactions`);
+        }
+
+        return deleted;
+    }
+
 
     updateLastActivity(chargePointId: string) {
         this.lastActivity.set(chargePointId, Date.now());

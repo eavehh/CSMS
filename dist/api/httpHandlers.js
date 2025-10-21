@@ -52,6 +52,11 @@ function handleHttpRequest(req, res) {
         (0, transactionsApi_1.clearRecentTransactionsMemoryHandler)(req, res);
         return;
     }
+    // DELETE /api/transactions/recent/:transactionId - удалить конкретную транзакцию по ID
+    if (req.method === 'DELETE' && pathname.match(/^\/api\/transactions\/recent\/[^/]+$/)) {
+        (0, transactionsApi_1.deleteTransactionByIdHandler)(req, res);
+        return;
+    }
     // GET /api/transactions - история транзакций (Postgres) / query: ?chargePointId=...
     if (req.method === 'GET' && pathname === '/api/transactions') {
         (0, transactionsApi_1.transactionsApiHandler)(req, res);

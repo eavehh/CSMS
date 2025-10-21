@@ -2,7 +2,7 @@ import { get, IncomingMessage, ServerResponse } from 'http';
 import { URL, URLSearchParams } from 'url';
 import { logger } from '../logger';
 import { getStations, startStationsApiHandler, stopStationsApiHandler } from './apiHandlers/stationsApi'
-import { transactionsApiHandler, startRemoteTrx, stopRemoteTrx, clearRecentTransactionsHandler, recentTransactionsApiHandler, clearRecentTransactionsMemoryHandler, addRecentTransactionHandler, startChargingByStationId, stopChargingByStationId } from "./apiHandlers/transactionsApi";
+import { transactionsApiHandler, startRemoteTrx, stopRemoteTrx, clearRecentTransactionsHandler, recentTransactionsApiHandler, clearRecentTransactionsMemoryHandler, addRecentTransactionHandler, startChargingByStationId, stopChargingByStationId, deleteTransactionByIdHandler } from "./apiHandlers/transactionsApi";
 import {
     getUserStations,
     getUserConnectorStatus,
@@ -70,6 +70,12 @@ export function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
     // DELETE /api/transactions/recent - очистить недавние транзакции из памяти (админ)
     if (req.method === 'DELETE' && pathname === '/api/transactions/recent/delete') {
         clearRecentTransactionsMemoryHandler(req, res);
+        return;
+    }
+
+    // DELETE /api/transactions/recent/:transactionId - удалить конкретную транзакцию по ID
+    if (req.method === 'DELETE' && pathname.match(/^\/api\/transactions\/recent\/[^/]+$/)) {
+        deleteTransactionByIdHandler(req, res);
         return;
     }
 

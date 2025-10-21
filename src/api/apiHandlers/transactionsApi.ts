@@ -449,3 +449,51 @@ export function stopChargingByStationId(req: IncomingMessage, res: ServerRespons
         }
     })();
 }
+
+// DELETE /api/transactions/recent/:transactionId - удалить конкретную транзакцию по ID
+export function deleteTransactionByIdHandler(req: IncomingMessage, res: ServerResponse) {
+    (async () => {
+        try {
+            // Извлекаем transactionId из URL
+            const pathname = new URL(`http://localhost${req.url}`).pathname;
+            const transactionId = pathname.split('/').pop(); // Последний сегмент URL
+
+            if (!transactionId) {
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({
+                    success: false,
+                    error: 'Transaction ID is required'
+                }));
+                return;
+            }
+
+            logger.info(`[API] Deleting transaction: ${transactionId}`);
+
+            // Удаляем транзакцию из массива
+            const deleted = connectionManager.deleteRecentTransaction(transactionId);
+
+            if (deleted) {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({
+                    success: true,
+                    message: `Transaction ${transactionId} deleted successfully`
+                }));
+                logger.info(`[API] Transaction ${transactionId} deleted from recentTransactions`);
+            } else {
+                res.writeHead(404, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({
+                    success: false,
+                    error: `Transaction ${transactionId} not found`
+                }));
+                logger.warn(`[API] Transaction ${transactionId} not found for deletion`);
+            }
+        } catch (err) {
+            logger.error(`[API] Delete transaction by ID error: ${err}`);
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({
+                success: false,
+                error: 'Internal server error'
+            }));
+        }
+    })();
+}

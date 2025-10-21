@@ -9,6 +9,7 @@ exports.startRemoteTrx = startRemoteTrx;
 exports.stopRemoteTrx = stopRemoteTrx;
 exports.startChargingByStationId = startChargingByStationId;
 exports.stopChargingByStationId = stopChargingByStationId;
+exports.deleteTransactionByIdHandler = deleteTransactionByIdHandler;
 const index_1 = require("../../server/index");
 const logger_1 = require("../../logger");
 const remoteControl_1 = require("../../server/remoteControl");
@@ -422,6 +423,51 @@ function stopChargingByStationId(req, res, stationId) {
             logger_1.logger.error(`[API] /api/stations/:id/stop Error: ${err}`);
             res.writeHead(500, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ success: false, error: 'Stop charging error' }));
+        }
+    })();
+}
+// DELETE /api/transactions/recent/:transactionId - удалить конкретную транзакцию по ID
+function deleteTransactionByIdHandler(req, res) {
+    (async () => {
+        try {
+            // Извлекаем transactionId из URL
+            const pathname = new URL(`http://localhost${req.url}`).pathname;
+            const transactionId = pathname.split('/').pop(); // Последний сегмент URL
+            if (!transactionId) {
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({
+                    success: false,
+                    error: 'Transaction ID is required'
+                }));
+                return;
+            }
+            logger_1.logger.info(`[API] Deleting transaction: ${transactionId}`);
+            // Удаляем транзакцию из массива
+            const deleted = index_1.connectionManager.deleteRecentTransaction(transactionId);
+            if (deleted) {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({
+                    success: true,
+                    message: `Transaction ${transactionId} deleted successfully`
+                }));
+                logger_1.logger.info(`[API] Transaction ${transactionId} deleted from recentTransactions`);
+            }
+            else {
+                res.writeHead(404, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({
+                    success: false,
+                    error: `Transaction ${transactionId} not found`
+                }));
+                logger_1.logger.warn(`[API] Transaction ${transactionId} not found for deletion`);
+            }
+        }
+        catch (err) {
+            logger_1.logger.error(`[API] Delete transaction by ID error: ${err}`);
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({
+                success: false,
+                error: 'Internal server error'
+            }));
         }
     })();
 }
