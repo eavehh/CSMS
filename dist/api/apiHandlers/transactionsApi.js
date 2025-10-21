@@ -220,31 +220,40 @@ async function startRemoteTrx(req, res) {
             res.end(JSON.stringify({ success: true, message: 'RemoteStartTransaction sent via WebSocket' }));
             return;
         }
-        // Станция оффлайн — попробуем вызвать её HTTP /start-station (если локально доступна)
-        try {
-            const resp = await fetch(`${STATION_URL}/start-station`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chargePointId })
-            });
-            const data = await resp.json().catch(() => null);
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({
-                success: false,
-                message: 'Station is offline. Requested station process start via HTTP.',
-                stationResponse: data || null
-            }));
-            return;
-        }
-        catch (err) {
-            logger_1.logger.warn(`[API] startRemoteTrx: station offline and /start-station call failed: ${err}`);
-            res.writeHead(503, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({
-                success: false,
-                error: 'Station offline and cannot reach station HTTP endpoint. Use WebSocket or start station process.'
-            }));
-            return;
-        }
+        // Станция оффлайн — создаем симуляцию транзакции для мобильного приложения
+        logger_1.logger.info(`[API] Station ${chargePointId} is offline, creating simulated transaction`);
+        // Генерируем новый transactionId
+        const transactionId = Math.floor(100000 + Math.random() * 900000);
+        // Создаем транзакцию "Started" в памяти
+        const simulatedTransaction = {
+            transactionId,
+            chargePointId,
+            connectorId: Number(connectorId),
+            idTag,
+            startTime: new Date().toISOString(),
+            meterStart: startValue || 0,
+            status: 'Started',
+            reason: 'Remote',
+            // Поля для stop будут добавлены позже
+            stopTime: null,
+            meterStop: null,
+            totalKWh: null,
+            cost: null,
+            efficiencyPercentage: null
+        };
+        // Добавляем в память
+        index_1.connectionManager.addRecentTransaction(simulatedTransaction);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+            success: true,
+            message: 'Transaction started (simulated mode)',
+            transactionId,
+            status: 'Started',
+            chargePointId,
+            connectorId,
+            mode: 'simulated'
+        }));
+        return;
     }
     catch (err) {
         logger_1.logger.error(`[API] startRemoteTrx Error: ${err}`);
@@ -297,31 +306,39 @@ async function stopRemoteTrx(req, res) {
             }));
             return;
         }
-        // Станция оффлайн — пробуем вызвать локальный HTTP /stop-station (опционально)
-        try {
-            const resp = await fetch(`${STATION_URL}/stop-station`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chargePointId })
-            });
-            const data = await resp.json().catch(() => null);
+        // Станция оффлайн — завершаем симуляцию транзакции для мобильного приложения
+        logger_1.logger.info(`[API] Station ${chargePointId} is offline, completing simulated transaction ${transactionId}`);
+        // Пытаемся найти транзакцию в памяти и обновить её
+        const recentTransactions = index_1.connectionManager.getRecentTransactions();
+        const transaction = recentTransactions.find(t => t.transactionId == transactionId);
+        if (transaction) {
+            // Обновляем транзакцию - симулируем завершение
+            transaction.stopTime = new Date().toISOString();
+            transaction.meterStop = (transaction.meterStart || 0) + Math.floor(Math.random() * 500) + 100; // Случайное потребление
+            transaction.totalKWh = ((transaction.meterStop - transaction.meterStart) / 1000).toFixed(2);
+            transaction.cost = (parseFloat(transaction.totalKWh) * 0.1).toFixed(2); // 0.1 за кВт⋅ч
+            transaction.efficiencyPercentage = Math.floor(50 + Math.random() * 40); // 50-90%
+            transaction.status = 'Completed';
+            transaction.reason = 'Remote';
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({
-                success: false,
-                message: 'Station is offline. Requested station process stop via HTTP.',
-                stationResponse: data || null
+                success: true,
+                message: 'Transaction stopped (simulated mode)',
+                transactionId,
+                status: 'Completed',
+                totalKWh: transaction.totalKWh,
+                cost: transaction.cost,
+                mode: 'simulated'
             }));
-            return;
         }
-        catch (err) {
-            logger_1.logger.warn(`[API] stopRemoteTrx: station offline and /stop-station call failed: ${err}`);
-            res.writeHead(503, { 'Content-Type': 'application/json' });
+        else {
+            res.writeHead(404, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({
                 success: false,
-                error: 'Station offline and cannot reach station HTTP endpoint. Use WebSocket or start station process.'
+                error: `Transaction ${transactionId} not found in recent transactions`
             }));
-            return;
         }
+        return;
     }
     catch (err) {
         logger_1.logger.error(`[API] stopRemoteTrx Error: ${err}`);
