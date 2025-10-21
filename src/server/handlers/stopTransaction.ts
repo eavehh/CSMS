@@ -38,9 +38,10 @@ export async function handleStopTransaction(req: StopTransactionRequest, chargeP
         tx.reason = req.reason;
         tx.transactionData = req.transactionData || [];
         tx.idTag = req.idTag || tx.idTag;
-        tx.totalKWh = totalKWh;
-        tx.cost = cost;
-        tx.efficiencyPercentage = efficiencyPercentage;
+        // ВРЕМЕННОЕ РЕШЕНИЕ: храним как целые числа (Wh * 1000 для totalKWh, центы * 100 для cost)
+        tx.totalKWh = Math.round(totalWh); // Храним в Wh как integer
+        tx.cost = Math.round(cost * 10000); // Храним в 1/10000 EUR как integer
+        tx.efficiencyPercentage = Math.round(efficiencyPercentage);
 
         logger.info(`[StopTransaction] About to save tx with values: totalKWh=${totalKWh}, cost=${cost}, efficiencyPercentage=${efficiencyPercentage}`);
         await repo.save(tx);

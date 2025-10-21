@@ -349,7 +349,7 @@ function startChargingByStationId(req, res, stationId) {
                 idTag: body.idTag || 'FRONTEND_USER',
                 startValue: body.startValue || 0
             };
-            logger_1.logger.info(`[API] /api/stations/${stationId}/start → startRemoteTrx`);
+            logger_1.logger.info(`[API] /api/stations/${stationId}/start → startRemoteTrx with body: ${JSON.stringify(transformedBody)}`);
             // Проверяем что станция онлайн
             const connections = index_1.connectionManager.getAllConnections();
             if (!connections || !connections.has(stationId)) {
@@ -394,7 +394,7 @@ function stopChargingByStationId(req, res, stationId) {
                 res.end(JSON.stringify({ success: false, error: 'Missing transactionId' }));
                 return;
             }
-            logger_1.logger.info(`[API] /api/stations/${stationId}/stop → stopRemoteTrx`);
+            logger_1.logger.info(`[API] /api/stations/${stationId}/stop → stopRemoteTrx with transactionId: ${body.transactionId}`);
             // Проверяем что станция онлайн
             const connections = index_1.connectionManager.getAllConnections();
             if (!connections || !connections.has(stationId)) {

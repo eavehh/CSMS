@@ -7,9 +7,9 @@ export function formatConnector(connectorId: number, state: any) {
         status: state.status || 'Unknown',
         power_kW: state.currentPower || 0,
         soc: state.soc || null,
-        transactionId: state.currentTransactionId || null,
+        transactionId: state.transactionId || null, // FIX: было currentTransactionId
         price: 15.0, // или получай из тарифа в БД
-        updatedAt: state.updatedAt || new Date().toISOString()
+        updatedAt: state.lastUpdate || state.updatedAt || new Date().toISOString()
     };
 }
 

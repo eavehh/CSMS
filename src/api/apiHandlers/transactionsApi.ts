@@ -366,7 +366,7 @@ export function startChargingByStationId(req: IncomingMessage, res: ServerRespon
                 startValue: body.startValue || 0
             };
 
-            logger.info(`[API] /api/stations/${stationId}/start → startRemoteTrx`);
+            logger.info(`[API] /api/stations/${stationId}/start → startRemoteTrx with body: ${JSON.stringify(transformedBody)}`);
 
             // Проверяем что станция онлайн
             const connections = connectionManager.getAllConnections();
@@ -416,7 +416,7 @@ export function stopChargingByStationId(req: IncomingMessage, res: ServerRespons
                 return;
             }
 
-            logger.info(`[API] /api/stations/${stationId}/stop → stopRemoteTrx`);
+            logger.info(`[API] /api/stations/${stationId}/stop → stopRemoteTrx with transactionId: ${body.transactionId}`);
 
             // Проверяем что станция онлайн
             const connections = connectionManager.getAllConnections();

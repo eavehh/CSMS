@@ -10918,3 +10918,99 @@
 2025-10-20 18:33:01 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_1: 14000 kWh
 2025-10-20 18:33:01 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
 2025-10-20 18:33:01 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-20 18:33:04 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-20 18:33:04 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: MeterValues
+2025-10-20 18:33:04 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_2: 14000 kWh
+2025-10-20 18:33:04 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-20 18:33:04 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-20 18:33:06 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-20 18:33:06 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: MeterValues
+2025-10-20 18:33:06 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_1: 14250 kWh
+2025-10-20 18:33:06 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-20 18:33:06 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-20 18:33:09 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-20 18:33:09 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: MeterValues
+2025-10-20 18:33:09 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_2: 14250 kWh
+2025-10-20 18:33:09 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-20 18:33:09 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-20 18:33:11 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-20 18:33:11 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: MeterValues
+2025-10-20 18:33:11 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_1: 14500 kWh
+2025-10-20 18:33:11 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-20 18:33:11 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_MANUAL_2: Available
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 1 - Available
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 2 for CP_MANUAL_2: Available
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 2 - Available
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 3 for CP_MANUAL_2: Available
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 3 - Available
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: StatusNotification
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 4 for CP_MANUAL_2: Available
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_2 connector 4 - Available
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: Heartbeat
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] heartbeat from CP_MANUAL_2
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [Heartbeat Handled] response={"currentTime":"2025-10-20T15:33:13.202Z"}
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {"currentTime":"2025-10-20T15:33:13.202Z"}
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 1 for CP_MANUAL_1: Available
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 1 - Available
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 2 for CP_MANUAL_1: Available
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 2 - Available
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 3 for CP_MANUAL_1: Available
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 3 - Available
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: StatusNotification
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [UpdatedConnector] 4 for CP_MANUAL_1: Available
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [StatusNotification] CP_MANUAL_1 connector 4 - Available
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: Heartbeat
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] heartbeat from CP_MANUAL_1
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [StatusNotification Handled] response={}
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [Heartbeat Handled] response={"currentTime":"2025-10-20T15:33:13.203Z"}
+2025-10-20 18:33:13 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {"currentTime":"2025-10-20T15:33:13.203Z"}
+2025-10-20 18:33:14 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_2
+2025-10-20 18:33:14 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_2 Received request: MeterValues
+2025-10-20 18:33:14 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_2: 14500 kWh
+2025-10-20 18:33:14 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-20 18:33:14 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_2: {}
+2025-10-20 18:33:16 [INFO] o.s.s..main [Thread-1] [MESSAGE] json received from CP_MANUAL_1
+2025-10-20 18:33:16 [INFO] o.s.s..main [Thread-1] [MessageRouter] from CP_MANUAL_1 Received request: MeterValues
+2025-10-20 18:33:16 [INFO] o.s.s..main [Thread-1] Meter from CP_MANUAL_1: 14750 kWh
+2025-10-20 18:33:16 [INFO] o.s.s..main [Thread-1] [MeterValues Handled] response={}
+2025-10-20 18:33:16 [INFO] o.s.s..main [Thread-1] [MeesageRouter] Response Sent type 3 to CP_MANUAL_1: {}
+2025-10-20 18:33:16 [INFO] o.s.s..main [Thread-1] [SHUTDOWN] Received SIGTERM. Initiating graceful shutdown...
+2025-10-20 18:33:16 [INFO] o.s.s..main [Thread-1] [wsServer] Closing new connections
+2025-10-20 18:33:16 [INFO] o.s.s..main [Thread-1] [SHUTDOWN] Waiting for 2 connections to close...
+2025-10-20 18:33:16 [INFO] o.s.s..main [Thread-1] [CLOSE] Disconnected: CP_MANUAL_1, code: 1006, reason: 
+2025-10-20 18:33:16 [INFO] o.s.s..main [Thread-1] [CLOSE] Disconnected: CP_MANUAL_2, code: 1006, reason: 
+2025-10-20 18:33:16 [INFO] o.s.s..main [Thread-1] [Heartbeat] Set lastOffline for CP_MANUAL_2: Mon Oct 20 2025 18:33:16 GMT+0300 (Moscow Standard Time)
+2025-10-20 18:33:16 [INFO] o.s.s..main [Thread-1] [Heartbeat] Set lastOffline for CP_MANUAL_1: Mon Oct 20 2025 18:33:16 GMT+0300 (Moscow Standard Time)
+2025-10-20 18:33:17 [INFO] o.s.s..main [Thread-1] [SHUTDOWN] All connections closed. Shutting down.

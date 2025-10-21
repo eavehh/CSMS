@@ -35,16 +35,18 @@ export function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    logger.info(`[httpHandlers] Access-Control allow methods : GET, POST; allow headers Content-Type, Authorization`)
+
+    const parsedUrl = new URL(req.url || '/', `http://localhost:${PORT}`);
+    const pathname = parsedUrl.pathname;
+
+    // Логирование ВСЕХ входящих запросов
+    logger.info(`[HTTP] ${req.method} ${pathname} from ${req.socket.remoteAddress}`);
 
     if (req.method === 'OPTIONS') {
         res.writeHead(200);
         res.end();
         return;
     }
-
-    const parsedUrl = new URL(req.url || '/', `http://localhost:${PORT}`);
-    const pathname = parsedUrl.pathname;
 
     // ======== PUBLIC REST API ========
     // GET /api/stations - список активных (онлайн) станций (готовый для фронта формат)

@@ -93,12 +93,11 @@ export function sendRemoteStopTransaction(
     chargePointId: string,
     payload: RemoteStopTransactionPayload
 ): void {
+    // OCPP 1.6: RemoteStopTransaction должен содержать ТОЛЬКО transactionId
     const fullPayload = {
-        transactionId: typeof payload.transactionId === 'string' ? parseInt(payload.transactionId, 10) : payload.transactionId,
-        connectorId: payload.connectorId || 1, // default to connector 1 if not provided
-        reason: payload.reason || 'Remote'
+        transactionId: typeof payload.transactionId === 'string' ? parseInt(payload.transactionId, 10) : payload.transactionId
     };
 
     sendRemoteMessage(connectionManager, chargePointId, 'RemoteStopTransaction', fullPayload);
-    logger.info(`[RemoteStopTransaction] Sent to ${chargePointId}: transactionId=${fullPayload.transactionId}, connectorId=${fullPayload.connectorId}, reason=${fullPayload.reason}`);
+    logger.info(`[RemoteStopTransaction] Sent to ${chargePointId}: transactionId=${fullPayload.transactionId}`);
 }
