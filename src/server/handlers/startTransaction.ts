@@ -19,7 +19,8 @@ export async function handleStartTransaction(req: StartTransactionRequest & {  /
     const transId = Date.now().toString();  // Генерация строкового ID
 
     try {
-        // postgres
+        // 🔥 POSTGRES DISABLED - skip database save
+        /* POSTGRES VERSION:
         const idTagStatus = 'Accepted';  // Замените на реальную проверку
         const repo = AppDataSource.getRepository(Transaction);
         const newTx = repo.create({
@@ -31,6 +32,8 @@ export async function handleStartTransaction(req: StartTransactionRequest & {  /
             meterStart: req.meterStart,
         });
         await repo.save(newTx)
+        */
+        logger.info(`[StartTransaction] EXPERIMENT: Skipping PostgreSQL save for transaction ${transId}`);
         // postgres
 
 
@@ -60,7 +63,7 @@ export async function handleStartTransaction(req: StartTransactionRequest & {  /
         const response: StartTransactionResponse = {
             transactionId: transId,  // Теперь соответствует типу number
             idTagInfo: {
-                status: idTagStatus  // 'Accepted' или 'Blocked'
+                status: 'Accepted'  // 'Accepted' или 'Blocked'
             }
         };
 

@@ -1,8 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.handleStopTransaction = handleStopTransaction;
-const postgres_1 = require("../../db/postgres");
-const Transaction_1 = require("../../db/entities/Transaction");
 const logger_1 = require("../../logger");
 const index_1 = require("../../server/index");
 async function handleStopTransaction(req, chargePointId, ws) {
@@ -10,41 +8,53 @@ async function handleStopTransaction(req, chargePointId, ws) {
     try {
         logger_1.logger.info(`[StopTransaction] Processing request: transactionId=${req.transactionId}, type=${typeof req.transactionId}`);
         logger_1.logger.info(`[StopTransaction] Full request object: ${JSON.stringify(req)}`);
-        const idTagStatus = req.idTag ? 'Accepted' : 'Accepted'; // Реальная проверка авторизации по idTag — опционально
-        const repo = postgres_1.AppDataSource.getRepository(Transaction_1.Transaction);
-        // Ищем существующую транзакцию по ID
-        logger_1.logger.info(`[StopTransaction] About to find transaction with id: ${req.transactionId}, type: ${typeof req.transactionId}`);
+        const idTagStatus = req.idTag ? 'Accepted' : 'Accepted';
+        // 🔥 POSTGRES DISABLED - use in-memory storage only
+        logger_1.logger.info(`[StopTransaction] EXPERIMENT: PostgreSQL disabled, using in-memory only`);
+        /* POSTGRES VERSION:
+        const repo = AppDataSource.getRepository(Transaction);
         const tx = await repo.findOneBy({ id: req.transactionId.toString() });
         if (!tx) {
-            logger_1.logger.error(`[StopTransaction] Tx not found: ${req.transactionId}`);
-            logger_1.logger.info(`[StopTransaction] ===== END (tx not found) =====`);
+            logger.error(`[StopTransaction] Tx not found: ${req.transactionId}`);
+            logger.info(`[StopTransaction] ===== END (tx not found) =====`);
             return { idTagInfo: { status: 'Invalid' } };
         }
-        logger_1.logger.info(`[StopTransaction] Found tx: id=${tx.id}, connectorId=${tx.connectorId}, chargePointId=${tx.chargePointId}`);
+        logger.info(`[StopTransaction] Found tx: id=${tx.id}, connectorId=${tx.connectorId}, chargePointId=${tx.chargePointId}`);
+        */
+        // Создаём фейковую транзакцию для расчетов
+        const tx = {
+            id: req.transactionId.toString(),
+            chargePointId: chargePointId,
+            connectorId: 1, // Не знаем точно, но это не критично для эксперимента
+            meterStart: 0, // Не знаем, но для теста сойдет
+            startTime: new Date(Date.now() - 3600000) // 1 час назад
+        };
+        logger_1.logger.info(`[StopTransaction] Using mock tx: id=${tx.id}, connectorId=${tx.connectorId}`);
         // Расчёт метрик
         const totalWh = (req.meterStop ?? 0) - (tx.meterStart ?? 0);
         const totalKWh = totalWh / 1000;
-        const tariff = 0.1; // Тариф, можно взять из tx/tariff или конфига
+        const tariff = 0.1;
         const cost = totalKWh * tariff;
         const sessionDurationMinutes = (new Date(req.timestamp).getTime() - tx.startTime.getTime()) / (1000 * 60);
-        const maxPossibleKWh = Math.max(sessionDurationMinutes * 0.05, 0); // Пример: 3 kW = 0.05 kWh/min
+        const maxPossibleKWh = Math.max(sessionDurationMinutes * 0.05, 0);
         let efficiencyPercentage = maxPossibleKWh > 0 ? (totalKWh / maxPossibleKWh) * 100 : 0;
         if (!Number.isFinite(efficiencyPercentage))
             efficiencyPercentage = 0;
         efficiencyPercentage = Math.max(0, Math.min(100, efficiencyPercentage));
         logger_1.logger.info(`[StopTransaction] Metrics: totalWh=${totalWh}, totalKWh=${totalKWh.toFixed(2)}, cost=${cost.toFixed(2)}, efficiency=${efficiencyPercentage.toFixed(1)}%`);
-        // Обновляем транзакцию
+        // Обновляем транзакцию - SKIP POSTGRES SAVE
+        /* POSTGRES VERSION:
         tx.stopTime = new Date(req.timestamp);
         tx.meterStop = req.meterStop;
         tx.reason = req.reason;
         tx.transactionData = req.transactionData || [];
         tx.idTag = req.idTag || tx.idTag;
-        // ВРЕМЕННОЕ РЕШЕНИЕ: храним как целые числа (Wh * 1000 для totalKWh, центы * 100 для cost)
-        tx.totalKWh = Math.round(totalWh); // Храним в Wh как integer
-        tx.cost = Math.round(cost * 10000); // Храним в 1/10000 EUR как integer
+        tx.totalKWh = Math.round(totalWh);
+        tx.cost = Math.round(cost * 10000);
         tx.efficiencyPercentage = Math.round(efficiencyPercentage);
-        logger_1.logger.info(`[StopTransaction] About to save tx with values: totalKWh=${totalKWh}, cost=${cost}, efficiencyPercentage=${efficiencyPercentage}`);
         await repo.save(tx);
+        */
+        logger_1.logger.info(`[StopTransaction] EXPERIMENT: Skipping PostgreSQL save`);
         logger_1.logger.info(`[StopTransaction] Stop tx from ${chargePointId}: id ${req.transactionId}, totalKWh=${totalKWh.toFixed(2)}, cost=${cost.toFixed(2)} EUR, efficiency=${efficiencyPercentage.toFixed(1)}%, reason: ${req.reason || 'Local'}, connector: ${tx.connectorId}`);
         // Обновление состояния коннектора
         // После сохранения транзакции:
@@ -66,8 +76,8 @@ async function handleStopTransaction(req, chargePointId, ws) {
             transactionId: req.transactionId,
             chargePointId,
             connectorId,
-            idTag: req.idTag || tx.idTag,
-            // START данные из БД:
+            idTag: req.idTag || 'unknown',
+            // START данные из мока:
             startTime: tx.startTime,
             meterStart: tx.meterStart,
             // STOP данные:

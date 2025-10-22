@@ -73,8 +73,10 @@ httpServer.on('error', (error) => {
         await connectDB();
         logger.info('[MONGO] MongoDB connected');
 
-        await AppDataSource.initialize();
-        logger.info('[POSTGRES] PostgreSQL connected');
+        // 🔥 ЭКСПЕРИМЕНТ: PostgreSQL отключен, используем только in-memory хранилище
+        // await AppDataSource.initialize();
+        // logger.info('[POSTGRES] PostgreSQL connected');
+        logger.info('[EXPERIMENT] PostgreSQL DISABLED - using in-memory storage only');
 
         // Запускаем HTTP сервер только после инициализации всех БД
         logger.info('[HTTP_SERVER] Starting HTTP server...');

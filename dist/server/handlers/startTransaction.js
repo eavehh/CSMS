@@ -1,8 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.handleStartTransaction = handleStartTransaction;
-const Transaction_1 = require("../../db/entities/Transaction");
-const postgres_1 = require("../../db/postgres");
 const mongoose_1 = require("../../db/mongoose");
 const mongoose_2 = require("../../db/mongoose");
 const logger_1 = require("../../logger");
@@ -10,9 +8,10 @@ const index_1 = require("../../server/index");
 async function handleStartTransaction(req, chargePointId, ws) {
     const transId = Date.now().toString(); // Генерация строкового ID
     try {
-        // postgres
-        const idTagStatus = 'Accepted'; // Замените на реальную проверку
-        const repo = postgres_1.AppDataSource.getRepository(Transaction_1.Transaction);
+        // 🔥 POSTGRES DISABLED - skip database save
+        /* POSTGRES VERSION:
+        const idTagStatus = 'Accepted';  // Замените на реальную проверку
+        const repo = AppDataSource.getRepository(Transaction);
         const newTx = repo.create({
             id: transId,
             chargePointId,
@@ -21,7 +20,9 @@ async function handleStartTransaction(req, chargePointId, ws) {
             idTag: req.idTag,
             meterStart: req.meterStart,
         });
-        await repo.save(newTx);
+        await repo.save(newTx)
+        */
+        logger_1.logger.info(`[StartTransaction] EXPERIMENT: Skipping PostgreSQL save for transaction ${transId}`);
         // postgres
         await mongoose_1.Log.create({ action: 'StartTransaction', chargePointId, payload: req });
         const limitType = req.limitType || 'full'; // 'percentage', 'amount', 'full'
@@ -45,7 +46,7 @@ async function handleStartTransaction(req, chargePointId, ws) {
         const response = {
             transactionId: transId, // Теперь соответствует типу number
             idTagInfo: {
-                status: idTagStatus // 'Accepted' или 'Blocked'
+                status: 'Accepted' // 'Accepted' или 'Blocked'
             }
         };
         logger_1.logger.info(`[StartTransaction] Started session with limits: type=${limitType}, value=${limitValue}, tariff=${tariffPerKWh}`);

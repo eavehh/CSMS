@@ -5,7 +5,6 @@ const http_1 = require("http");
 const wsServer_1 = require("./wsServer");
 const connectionManager_1 = require("./connectionManager");
 const logger_1 = require("../logger");
-const postgres_1 = require("../db/postgres");
 const mongoose_1 = require("../db/mongoose");
 const httpHandlers_1 = require("../api/httpHandlers");
 const PORT = 8081;
@@ -62,8 +61,10 @@ httpServer.on('error', (error) => {
         // Инициализируем MongoDB
         await (0, mongoose_1.connectDB)();
         logger_1.logger.info('[MONGO] MongoDB connected');
-        await postgres_1.AppDataSource.initialize();
-        logger_1.logger.info('[POSTGRES] PostgreSQL connected');
+        // 🔥 ЭКСПЕРИМЕНТ: PostgreSQL отключен, используем только in-memory хранилище
+        // await AppDataSource.initialize();
+        // logger.info('[POSTGRES] PostgreSQL connected');
+        logger_1.logger.info('[EXPERIMENT] PostgreSQL DISABLED - using in-memory storage only');
         // Запускаем HTTP сервер только после инициализации всех БД
         logger_1.logger.info('[HTTP_SERVER] Starting HTTP server...');
         httpServer.listen(PORT, '0.0.0.0', () => {
