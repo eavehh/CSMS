@@ -92,7 +92,7 @@ export function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
     }
 
     // ======== ADMIN API (remote control) ========
-    // POST /api/admin/remote-start-session - remote start (from admin panel / dart)
+    // POST / - remote start (from admin panel / dart)
     if (req.method === 'POST' && pathname === '/api/admin/remote-start-session') {
         startRemoteTrx(req, res);
         return;
@@ -104,20 +104,23 @@ export function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
         return;
     }
 
-    // ======== FRONTEND ALIASES ========
-    // POST /api/stations/:stationId/start - алиас для remote-start-session
-    if (req.method === 'POST' && pathname.match(/^\/api\/stations\/[^/]+\/start$/)) {
-        const stationId = pathname.split('/')[3];
-        startChargingByStationId(req, res, stationId);
-        return;
-    }
 
-    // POST /api/stations/:stationId/stop - алиас для remote-stop-session
-    if (req.method === 'POST' && pathname.match(/^\/api\/stations\/[^/]+\/stop$/)) {
-        const stationId = pathname.split('/')[3];
-        stopChargingByStationId(req, res, stationId);
-        return;
-    }    // ======== USER API ========
+    // ======== FRONTEND ALIASES ========
+    // POST  - алиас для remote-start-session
+    // if (req.method === 'POST' && pathname.match(/^\/api\/stations\/[^/]+\/start$/)) {
+    //     const stationId = pathname.split('/')[3];
+    //     startChargingByStationId(req, res, stationId);
+    //     return;
+    // }
+
+    // // POST /api/stations/:stationId/stop - алиас для remote-stop-session
+    // if (req.method === 'POST' && pathname.match(/^\/api\/stations\/[^/]+\/stop$/)) {
+    //     const stationId = pathname.split('/')[3];
+    //     stopChargingByStationId(req, res, stationId);
+    //     return;
+    // }
+
+    // ======== USER API ========
     if (req.method === 'GET' && pathname === '/api/user/stations') {
         getUserStations(req, res);
         return;

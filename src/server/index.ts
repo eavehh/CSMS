@@ -78,8 +78,11 @@ httpServer.on('error', (error) => {
 
         // Запускаем HTTP сервер только после инициализации всех БД
         logger.info('[HTTP_SERVER] Starting HTTP server...');
-        httpServer.listen(PORT, () => {
-            logger.info(`[MAIN] CSMS Server fully initialized on port ${PORT}`);
+        httpServer.listen(PORT, '0.0.0.0', () => {
+            logger.info(`[MAIN] CSMS Server fully initialized on port ${PORT} and listening on all interfaces (0.0.0.0)`);
+            logger.info(`[MAIN] External IP: 193.29.139.202`);
+            logger.info(`[MAIN] Local IP: 192.168.88.54`);
+            logger.info(`[MAIN] Ready for charge point connections`);
         });
     } catch (error) {
         logger.error(`[MAIN] Failed to initialize server: ${error}`);

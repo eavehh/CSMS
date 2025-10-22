@@ -14,10 +14,13 @@ PG_PASSWORD ?= db_password
 PG_VOLUME ?= csms_pgdata
 MONGO_VOLUME ?= csms_mongo
 
-.PHONY: help up-db wait-postgres init-db db-start build start start-bg logs test e2e stop down clean status
+.PHONY: help up-db wait-postgres init-db db-start build start start-bg logs test e2e stop down clean status deps deps-quick setup
 
 help:
 	@echo "Commands:"
+	@echo "  make setup        - full setup: install deps + start db + build"
+	@echo "  make deps         - install all Node.js dependencies"
+	@echo "  make deps-quick   - install only frequently needed packages for Ubuntu"
 	@echo "  make db-start     - start Postgres+Mongo in Docker and init csms DB/user"
 	@echo "  make build        - compile TS and copy schemas to dist"
 	@echo "  make start        - run server in foreground"
@@ -110,5 +113,43 @@ test:
 e2e: build
 	@echo "[E2E] Running end-to-end tests..."
 	node dist/server/test_db.js
+
+# --- Dependencies & Setup ---
+deps:
+	@echo "[DEPS] Installing Node.js dependencies..."
+	@echo "[DEPS] Installing main dependencies..."
+	npm install
+	@echo "[DEPS] Installing specific versions for Ubuntu compatibility..."
+	npm install node-fetch@2
+	npm install chalk@4
+	npm install uuid@8.3.2
+	npm install @types/uuid@8
+	npm install winston@3.8.2
+	npm install winston-daily-rotate-file@4.7.1
+	npm install ws@8.13.0
+	npm install @types/ws@8.5.4
+	npm install express@4.18.2
+	npm install @types/express@4.17.17
+	npm install typescript@5.0.4
+	npm install ts-node@10.9.1
+	npm install mongoose@7.4.0
+	npm install typeorm@0.3.17
+	npm install pg@8.11.0
+	npm install reflect-metadata@0.1.13
+	npm install ajv@8.12.0
+	npm install ajv-formats@2.1.1
+	@echo "[DEPS] All dependencies installed successfully!"
+
+deps-quick:
+	@echo "[DEPS-QUICK] Installing only frequently needed packages for Ubuntu..."
+	npm install node-fetch@2
+	npm install chalk@4
+	npm install uuid@8.3.2
+	npm install winston@3.8.2
+	npm install winston-daily-rotate-file@4.7.1
+	@echo "[DEPS-QUICK] Quick dependencies installed!"
+
+setup: deps db-start build
+	@echo "[SETUP] Full setup complete! Ready to run 'make start'."
 
 
