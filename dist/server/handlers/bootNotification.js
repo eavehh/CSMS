@@ -41,7 +41,8 @@ async function handleBootNotification(req, chargePointId, ws) {
             meterSerialNumber: req.meterSerialNumber
         }, { upsert: true, new: true } // upsert: true = создай, если нет; new: true = верни обновлённый
         );
-        index_1.connectionManager.initializeConnectors(chargePointId);
+        // 🔥 НЕ инициализируем коннекторы здесь - они будут созданы динамически при StatusNotification
+        // connectionManager.initializeConnectors(chargePointId)
         logger_1.logger.info(`Boot from ${chargePointId}:
       Vendor: ${req.chargePointVendor}
       Model: ${req.chargePointModel} 

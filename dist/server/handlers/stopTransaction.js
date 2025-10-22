@@ -6,6 +6,7 @@ const Transaction_1 = require("../../db/entities/Transaction");
 const logger_1 = require("../../logger");
 const index_1 = require("../../server/index");
 async function handleStopTransaction(req, chargePointId, ws) {
+    logger_1.logger.info(`[StopTransaction] ===== START ===== chargePointId=${chargePointId}`);
     try {
         logger_1.logger.info(`[StopTransaction] Processing request: transactionId=${req.transactionId}, type=${typeof req.transactionId}`);
         logger_1.logger.info(`[StopTransaction] Full request object: ${JSON.stringify(req)}`);
@@ -16,8 +17,10 @@ async function handleStopTransaction(req, chargePointId, ws) {
         const tx = await repo.findOneBy({ id: req.transactionId.toString() });
         if (!tx) {
             logger_1.logger.error(`[StopTransaction] Tx not found: ${req.transactionId}`);
+            logger_1.logger.info(`[StopTransaction] ===== END (tx not found) =====`);
             return { idTagInfo: { status: 'Invalid' } };
         }
+        logger_1.logger.info(`[StopTransaction] Found tx: id=${tx.id}, connectorId=${tx.connectorId}, chargePointId=${tx.chargePointId}`);
         // Расчёт метрик
         const totalWh = (req.meterStop ?? 0) - (tx.meterStart ?? 0);
         const totalKWh = totalWh / 1000;
@@ -29,6 +32,7 @@ async function handleStopTransaction(req, chargePointId, ws) {
         if (!Number.isFinite(efficiencyPercentage))
             efficiencyPercentage = 0;
         efficiencyPercentage = Math.max(0, Math.min(100, efficiencyPercentage));
+        logger_1.logger.info(`[StopTransaction] Metrics: totalWh=${totalWh}, totalKWh=${totalKWh.toFixed(2)}, cost=${cost.toFixed(2)}, efficiency=${efficiencyPercentage.toFixed(1)}%`);
         // Обновляем транзакцию
         tx.stopTime = new Date(req.timestamp);
         tx.meterStop = req.meterStop;
@@ -47,13 +51,16 @@ async function handleStopTransaction(req, chargePointId, ws) {
         const connectorId = tx.connectorId;
         if (!connectorId) {
             logger_1.logger.error(`[StopTransaction] No connectorId found for tx ${req.transactionId}`);
+            logger_1.logger.info(`[StopTransaction] ===== END (no connectorId) =====`);
             return { idTagInfo: { status: 'Invalid' } };
         }
         const currentState = index_1.connectionManager.getConnectorState(chargePointId, connectorId);
+        logger_1.logger.info(`[StopTransaction] Current connector ${connectorId} state: ${currentState?.status || 'unknown'}`);
         if (currentState && currentState.status !== 'Charging') {
-            logger_1.logger.warn(`[StopTransaction] for non-charging connector ${connectorId} on ${chargePointId}`);
+            logger_1.logger.warn(`[StopTransaction] for non-charging connector ${connectorId} on ${chargePointId} (current status: ${currentState.status})`);
         }
         index_1.connectionManager.updateConnectorState(chargePointId, connectorId, 'Finishing');
+        logger_1.logger.info(`[StopTransaction] Set connector ${connectorId} to Finishing state`);
         // 🔥 Добавляем ПОЛНУЮ транзакцию в recentTransactions (start + stop данные)
         index_1.connectionManager.addRecentTransaction({
             transactionId: req.transactionId,
@@ -77,10 +84,12 @@ async function handleStopTransaction(req, chargePointId, ws) {
             index_1.connectionManager.updateConnectorState(chargePointId, connectorId, 'Available');
             logger_1.logger.info(`[StopTransaction] Connector ${connectorId} on ${chargePointId} reset to Available`);
         }, 2000);
+        logger_1.logger.info(`[StopTransaction] ===== END (success) ===== transactionId=${req.transactionId}, connector=${connectorId}`);
         return { idTagInfo: { status: idTagStatus } };
     }
     catch (err) {
         logger_1.logger.error(`[StopTransaction] Error in StopTransaction: ${err}`);
+        logger_1.logger.info(`[StopTransaction] ===== END (error) =====`);
         return { idTagInfo: { status: 'Blocked' } };
     }
 }

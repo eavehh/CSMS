@@ -127,13 +127,9 @@ export class ConnectionManager {
         this.connections.set(chargePointId, ws);
         this.reverseConnections.set(ws, chargePointId);
         this.updateLastActivity(chargePointId);
-        // Новое: Инициализируем состояния коннекторов (дефолт: 1 коннектор, 'Available')
-        if (!this.connectorStates.has(chargePointId)) {
-            const defaultConnectors = new Map<number, ConnectorState>();
-            defaultConnectors.set(1, { status: 'Available', lastUpdate: new Date() });
-            this.connectorStates.set(chargePointId, defaultConnectors);
-            logger.info(`[AddConnection] Initialized default connector states for ${chargePointId}`);
-        }
+        // 🔥 НЕ инициализируем дефолтные коннекторы - они будут созданы при StatusNotification
+        // Это позволяет станциям самостоятельно сообщать о количестве коннекторов
+        logger.info(`[AddConnection] Added connection for ${chargePointId} (connectors will be auto-initialized from StatusNotification)`);
     }
 
     remove(chargePointId: string) {

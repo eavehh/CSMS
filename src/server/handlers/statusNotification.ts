@@ -10,8 +10,11 @@ export async function handleStatusNotification(
     ws: WebSocket
 ) {
     const { connectorId, status, errorCode, timestamp } = payload;
+
+    // 🔥 Динамически создаём состояние коннектора, если его нет
     connectionManager.updateConnectorState(chargePointId, payload.connectorId, payload.status, undefined, payload.errorCode);
-    logger.info(`[StatusNotification] ${chargePointId} connector ${connectorId} - ${status}`);
+
+    logger.info(`[StatusNotification] ${chargePointId} connector ${connectorId} - ${status}${errorCode ? ` (error: ${errorCode})` : ''}`);
 
     // без внешнего триггера
 
