@@ -3,6 +3,7 @@ import * as msgpack from '@msgpack/msgpack'
 import { logger } from '../logger';
 import { connectionManager } from './index'
 import { validateMessage } from '../utils/ajvValidator'
+import { handleWebSocketAPI, isWebSocketAPIRequest, WebSocketAPIRequest } from './wsApiHandler';
 
 // Sec 4: Charge Point initiated
 import { handleAuthorize } from './handlers/authorize';
@@ -51,7 +52,17 @@ export async function handleMessage(data: Buffer, isBinary: boolean, ws: WebSock
     }
   } else {
     try {
-      message = JSON.parse(data.toString());
+      const messageText = data.toString();
+
+      // 🔥 Проверяем, это WebSocket API запрос или OCPP сообщение
+      if (isWebSocketAPIRequest(messageText)) {
+        logger.info(`[MessageRouter] WebSocket API request from ${chargePointId}`);
+        const apiRequest: WebSocketAPIRequest = JSON.parse(messageText);
+        handleWebSocketAPI(ws, apiRequest);
+        return;
+      }
+
+      message = JSON.parse(messageText);
     } catch (err) {
       logger.error(`[MessageRouter] Failed to parse JSON message from ${chargePointId}: ${(err as any).message}`);
       ws.send(JSON.stringify([4, null, { errorCode: 'FormationViolation', description: 'Invalid JSON' }]));

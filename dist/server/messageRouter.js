@@ -38,6 +38,7 @@ const msgpack = __importStar(require("@msgpack/msgpack"));
 const logger_1 = require("../logger");
 const index_1 = require("./index");
 const ajvValidator_1 = require("../utils/ajvValidator");
+const wsApiHandler_1 = require("./wsApiHandler");
 // Sec 4: Charge Point initiated
 const authorize_1 = require("./handlers/authorize");
 const bootNotification_1 = require("./handlers/bootNotification");
@@ -82,7 +83,15 @@ async function handleMessage(data, isBinary, ws, chargePointId) {
     }
     else {
         try {
-            message = JSON.parse(data.toString());
+            const messageText = data.toString();
+            // 🔥 Проверяем, это WebSocket API запрос или OCPP сообщение
+            if ((0, wsApiHandler_1.isWebSocketAPIRequest)(messageText)) {
+                logger_1.logger.info(`[MessageRouter] WebSocket API request from ${chargePointId}`);
+                const apiRequest = JSON.parse(messageText);
+                (0, wsApiHandler_1.handleWebSocketAPI)(ws, apiRequest);
+                return;
+            }
+            message = JSON.parse(messageText);
         }
         catch (err) {
             logger_1.logger.error(`[MessageRouter] Failed to parse JSON message from ${chargePointId}: ${err.message}`);
