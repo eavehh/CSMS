@@ -58,6 +58,15 @@ export async function handleBootNotification(req: BootNotificationRequest, charg
       Meter serial number: ${req.meterSerialNumber} 
       saved to MongoDB`);
 
+    // 🔥 Запрашиваем StatusNotification для всех коннекторов после буты
+    // Это заставит станцию отправить статус каждого коннектора
+    setTimeout(() => {
+      logger.info(`[BootNotification] Triggering StatusNotification for ${chargePointId}`);
+      sendRemoteMessage(connectionManager, chargePointId, 'TriggerMessage', {
+        requestedMessage: 'StatusNotification'
+      });
+    }, 1000); // Задержка 1 сек, чтобы станция успела обработать BootNotificationResponse
+
   } catch (err) {
     logger.error(`DB save error: ${err} `);
   }

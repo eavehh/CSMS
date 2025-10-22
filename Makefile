@@ -14,7 +14,7 @@ PG_PASSWORD ?= db_password
 PG_VOLUME ?= csms_pgdata
 MONGO_VOLUME ?= csms_mongo
 
-.PHONY: help up-db wait-postgres init-db db-start build start start-bg logs test e2e stop down clean status deps deps-quick setup
+.PHONY: help up-db wait-postgres init-db db-start build start start-bg logs test e2e stop down clean status deps deps-quick setup deploy
 
 help:
 	@echo "Commands:"
@@ -27,6 +27,7 @@ help:
 	@echo "  make start-bg     - run server in background (nohup)"
 	@echo "  make logs         - tail today's app log if present"
 	@echo "  make test         - run HTTP test script against running server"
+	@echo "  make deploy       - build and deploy to production server"
 	@echo "  make stop         - stop DB containers"
 	@echo "  make down         - remove DB containers (keeps volumes)"
 	@echo "  make clean        - remove containers and volumes"
@@ -152,4 +153,7 @@ deps-quick:
 setup: deps db-start build
 	@echo "[SETUP] Full setup complete! Ready to run 'make start'."
 
-
+# --- Deploy to Production ---
+deploy:
+	@echo "[DEPLOY] Running deploy script..."
+	./deploy.sh

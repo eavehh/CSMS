@@ -60,25 +60,60 @@ export function handleWebSocketAPI(ws: WebSocket, request: WebSocketAPIRequest):
 
 function handleStationsAPI(request: WebSocketAPIRequest): WebSocketAPIResponse {
     const connections = connectionManager.getAllConnections();
+    const allConnectors = connectionManager.getAllChargePointsWithConnectors();
     const stations: any[] = [];
 
     if (connections) {
         connections.forEach((wsConnection, chargePointId) => {
+            // Пропускаем мобильные клиенты (не станции)
+            if (chargePointId === 'mobile-client' || chargePointId === 'unknown') {
+                return;
+            }
+
             const lastActivity = connectionManager.lastActivity.get(chargePointId);
             const isOnline = wsConnection.readyState === WebSocket.OPEN;
+            const connectorsMap = allConnectors.get(chargePointId);
+
+            // Формируем список коннекторов из реальных данных
+            const connectors: any[] = [];
+            if (connectorsMap && connectorsMap.size > 0) {
+                connectorsMap.forEach((state, connectorId) => {
+                    connectors.push({
+                        id: connectorId,
+                        type: 'Unknown',
+                        status: state.status || 'Unknown',
+                        power_kW: 0,
+                        soc: null,
+                        transactionId: state.transactionId || null,
+                        errorCode: state.errorCode || null,
+                        price: 15,
+                        updatedAt: state.lastUpdate ? state.lastUpdate.toISOString() : new Date().toISOString()
+                    });
+                });
+            } else {
+                // Если нет коннекторов, вернём пустой массив (не хардкодный!)
+                // Станция либо ещё не отправила StatusNotification, либо отключена
+            }
+
+            // Определяем общий статус станции
+            let stationStatus = 'Offline';
+            if (isOnline) {
+                if (connectors.some(c => c.status === 'Charging')) {
+                    stationStatus = 'Charging';
+                } else if (connectors.every(c => c.status === 'Available')) {
+                    stationStatus = 'Available';
+                } else {
+                    stationStatus = 'PartiallyAvailable';
+                }
+            }
 
             stations.push({
                 id: chargePointId,
                 name: chargePointId,
-                status: isOnline ? 'Available' : 'Offline',
+                status: stationStatus,
                 isOnline,
                 lastActivity: lastActivity ? new Date(lastActivity).toISOString() : null,
-                connectors: [
-                    {
-                        id: 1,
-                        status: isOnline ? 'Available' : 'Offline'
-                    }
-                ]
+                connectors
             });
         });
     }
