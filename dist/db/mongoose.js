@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ChargingSession = exports.ConfigurationKey = exports.Firmware = exports.Diagnostics = exports.ChargingProfile = exports.Reservation = exports.Log = exports.LocalList = exports.Config = exports.ChargePoint = void 0;
+exports.Event = exports.ApiKey = exports.ChargingSession = exports.ConfigurationKey = exports.Firmware = exports.Diagnostics = exports.ChargingProfile = exports.Reservation = exports.Log = exports.LocalList = exports.Config = exports.ChargePoint = void 0;
 exports.connectDB = connectDB;
 const mongoose_1 = __importDefault(require("mongoose"));
 const logger_1 = require("../logger");
@@ -110,6 +110,28 @@ const configurationKeySchema = new mongoose_1.default.Schema({
     value: { type: String },
     readonly: { type: Boolean, default: false }
 });
+// API Key (for mobile client auth)
+const apiKeySchema = new mongoose_1.default.Schema({
+    key: { type: String, required: true, unique: true },
+    owner: { type: String },
+    active: { type: Boolean, default: true },
+    scopes: [{ type: String }],
+    createdAt: { type: Date, default: Date.now },
+    expiresAt: { type: Date }
+});
+// Event store (persistent replay)
+// We keep a capped number in memory for fast access, but persist all (or first N days) here for replay on reconnect.
+// eventId: generated unique identifier combining epoch millis and random component.
+// payload: arbitrary object merged (excluding eventId/event/ts which are top-level).
+const eventSchema = new mongoose_1.default.Schema({
+    eventId: { type: String, required: true, unique: true },
+    event: { type: String, required: true },
+    ts: { type: Number, required: true },
+    stationId: { type: String },
+    connectorId: { type: Number },
+    data: { type: Object },
+    createdAt: { type: Date, default: Date.now },
+});
 // Экспорт моделей (используем типизированные модели)
 exports.ChargePoint = mongoose_1.default.model('ChargePoint', chargePointSchema);
 exports.Config = mongoose_1.default.model('Config', configSchema);
@@ -121,3 +143,5 @@ exports.Diagnostics = mongoose_1.default.model('Diagnostics', diagnosticsSchema)
 exports.Firmware = mongoose_1.default.model('Firmware', firmwareSchema);
 exports.ConfigurationKey = mongoose_1.default.model('ConfigurationKey', configurationKeySchema);
 exports.ChargingSession = mongoose_1.default.model('ChargingSession', chargingSessionSchema);
+exports.ApiKey = mongoose_1.default.model('ApiKey', apiKeySchema);
+exports.Event = mongoose_1.default.model('Event', eventSchema);

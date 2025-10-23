@@ -2,7 +2,7 @@ import { createServer, IncomingMessage, ServerResponse } from 'http';
 import { WsServer } from './wsServer';
 import { ConnectionManager } from './connectionManager';
 import { logger } from '../logger';
-import { AppDataSource } from '../db/postgres';
+// import { AppDataSource } from '../db/postgres';  // DISABLED for experiment/no-postgres
 import { connectDB } from '../db/mongoose';
 import { handleHttpRequest } from '../api/httpHandlers'
 

@@ -16,6 +16,11 @@ class ConnectionManager {
         // 🔥 Простой массив транзакций в памяти (максимум 10)
         this.recentTransactions = [];
         this.MAX_RECENT_TRANSACTIONS = 10;
+        this.meterValuesHistory = new Map();
+        this.MAX_METER_VALUE_SAMPLES = 100;
+        this.subscriptions = new Map();
+        this.recentEvents = [];
+        this.MAX_RECENT_EVENTS = 200;
         logger_1.logger.info(`[ConnectionManager] Initialized with in-memory transaction storage (max ${this.MAX_RECENT_TRANSACTIONS})`);
     }
     /**
@@ -87,6 +92,95 @@ class ConnectionManager {
             logger_1.logger.warn(`[ConnectionManager] Transaction ${transactionId} not found in recent transactions`);
         }
         return deleted;
+    }
+    recordMeterValues(chargePointId, samples) {
+        const history = this.meterValuesHistory.get(chargePointId) || [];
+        for (const sample of samples) {
+            history.unshift(sample);
+        }
+        if (history.length > this.MAX_METER_VALUE_SAMPLES) {
+            history.splice(this.MAX_METER_VALUE_SAMPLES);
+        }
+        this.meterValuesHistory.set(chargePointId, history);
+    }
+    getRecentMeterValues(chargePointId, limit = 25) {
+        const history = this.meterValuesHistory.get(chargePointId);
+        if (!history) {
+            return [];
+        }
+        return history.slice(0, limit);
+    }
+    broadcastEvent(event, payload) {
+        // Generate eventId with monotonic component for ordering
+        const eventId = `evt-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+        const ts = Date.now();
+        const tsPayload = { eventId, event, ts, ...payload };
+        // In-memory store (bounded)
+        this.recentEvents.unshift(tsPayload);
+        if (this.recentEvents.length > this.MAX_RECENT_EVENTS) {
+            this.recentEvents.splice(this.MAX_RECENT_EVENTS);
+        }
+        // Persist asynchronously (do not await to avoid blocking broadcast path)
+        try {
+            mongoose_1.Event.create({
+                eventId,
+                event,
+                ts,
+                stationId: payload.stationId,
+                connectorId: payload.connectorId,
+                data: Object.fromEntries(Object.entries(payload).filter(([k]) => !['stationId', 'connectorId'].includes(k)))
+            }).catch(err => logger_1.logger.warn(`[EventStore] Failed to persist event ${eventId}: ${err}`));
+        }
+        catch (err) {
+            logger_1.logger.warn(`[EventStore] Error scheduling persist for ${eventId}: ${err}`);
+        }
+        // Broadcast to subscribed authenticated clients
+        this.connections.forEach((ws) => {
+            if (ws.auth) {
+                if (!this.shouldDeliver(ws, event, payload.stationId))
+                    return;
+                try {
+                    ws.send(JSON.stringify(tsPayload));
+                }
+                catch (err) {
+                    logger_1.logger.warn(`[Broadcast] Failed to send event ${event}: ${err}`);
+                }
+            }
+        });
+    }
+    shouldDeliver(ws, event, stationId) {
+        const subs = this.subscriptions.get(ws);
+        if (!subs || subs.length === 0)
+            return true; // If no subscriptions - deliver all (open model)
+        return subs.some(sub => {
+            if (sub.stationId && stationId && sub.stationId !== stationId)
+                return false;
+            if (!sub.events || sub.events.length === 0)
+                return true;
+            return sub.events.some(e => e === event || (e.endsWith('*') && event.startsWith(e.slice(0, -1))));
+        });
+    }
+    addSubscription(ws, stationId, events) {
+        const list = this.subscriptions.get(ws) || [];
+        const id = `sub-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+        list.push({ id, stationId, events });
+        this.subscriptions.set(ws, list);
+        return id;
+    }
+    removeSubscription(ws, subscriptionId) {
+        const list = this.subscriptions.get(ws);
+        if (!list)
+            return false;
+        const newList = list.filter(s => s.id !== subscriptionId);
+        const removed = newList.length !== list.length;
+        this.subscriptions.set(ws, newList);
+        return removed;
+    }
+    listSubscriptions(ws) {
+        return this.subscriptions.get(ws) || [];
+    }
+    getRecentEvents(limit = 50) {
+        return this.recentEvents.slice(0, limit);
     }
     updateLastActivity(chargePointId) {
         this.lastActivity.set(chargePointId, Date.now());

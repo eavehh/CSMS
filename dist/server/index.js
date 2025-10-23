@@ -5,6 +5,7 @@ const http_1 = require("http");
 const wsServer_1 = require("./wsServer");
 const connectionManager_1 = require("./connectionManager");
 const logger_1 = require("../logger");
+// import { AppDataSource } from '../db/postgres';  // DISABLED for experiment/no-postgres
 const mongoose_1 = require("../db/mongoose");
 const httpHandlers_1 = require("../api/httpHandlers");
 const PORT = 8081;

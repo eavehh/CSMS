@@ -1,0 +1,13 @@
+2025-10-23 16:40:30 [INFO] o.s.s..main [Thread-1] [ConnectionManager] Initialized with in-memory transaction storage (max 10)
+2025-10-23 16:40:30 [INFO] o.s.s..main [Thread-1] [wsServer] Creating WebSocket server...
+2025-10-23 16:40:30 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server instance created
+2025-10-23 16:40:30 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server setup complete
+2025-10-23 16:40:30 [INFO] o.s.s..main [Thread-1] [mongo] MongoDB connected!
+2025-10-23 16:40:30 [INFO] o.s.s..main [Thread-1] [MONGO] MongoDB connected
+2025-10-23 16:40:30 [INFO] o.s.s..main [Thread-1] [EXPERIMENT] PostgreSQL DISABLED - using in-memory storage only
+2025-10-23 16:40:30 [INFO] o.s.s..main [Thread-1] [HTTP_SERVER] Starting HTTP server...
+2025-10-23 16:40:30 [INFO] o.s.s..main [Thread-1] [MAIN] CSMS Server fully initialized on port 8081 and listening on all interfaces (0.0.0.0)
+2025-10-23 16:40:30 [INFO] o.s.s..main [Thread-1] [MAIN] External IP: 193.29.139.202
+2025-10-23 16:40:30 [INFO] o.s.s..main [Thread-1] [MAIN] Local IP: 192.168.88.54
+2025-10-23 16:40:30 [INFO] o.s.s..main [Thread-1] [MAIN] Ready for charge point connections
+2025-10-23 16:40:35 [INFO] o.s.s..main [Thread-1] [SHUTDOWN] Received SIGINT. Initiating graceful shutdown...

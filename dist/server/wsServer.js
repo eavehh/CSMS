@@ -22,6 +22,19 @@ class WsServer {
             logger_1.logger.error(`[wsServer] Error: ${error.message}`);
         });
         this.wss.on('connection', (ws, req) => {
+            // Origin enforcement (basic)
+            const allowedOrigin = process.env.ALLOWED_ORIGIN;
+            if (allowedOrigin) {
+                const origin = req.headers['origin'];
+                if (origin && origin !== allowedOrigin) {
+                    logger_1.logger.warn(`[CONNECTION] Rejecting origin ${origin} (allowed: ${allowedOrigin})`);
+                    try {
+                        ws.terminate();
+                    }
+                    catch { }
+                    return;
+                }
+            }
             // Блокировка новых подключений во время shutdown
             if (this.isShuttingDown()) {
                 logger_1.logger.info('[wsServer] CS try to connect to the server; Rejecting new connection during shutdown');
@@ -77,11 +90,48 @@ class WsServer {
                 catch { }
             }, this.WATCHDOG_CHECK_MS);
             ws.on('message', (data, isBinary) => {
+                // Enforce raw message size limit (binary or text before parsing)
+                const maxBytes = Number(process.env.WS_MAX_MESSAGE_BYTES || 32768); // 32KB default
+                if (data.length > maxBytes) {
+                    logger_1.logger.warn(`[SIZE] Message ${data.length}B exceeds limit ${maxBytes}B from ${chargePointId}; terminating`);
+                    try {
+                        ws.send(JSON.stringify({ event: 'message.too.large', ts: Date.now(), size: data.length, max: maxBytes }));
+                    }
+                    catch { }
+                    try {
+                        ws.terminate();
+                    }
+                    catch { }
+                    return;
+                }
                 if (isBinary) {
                     logger_1.logger.info(`[MESSAGE] binary received from ${chargePointId}`);
                 }
                 else {
                     logger_1.logger.info(`[MESSAGE] json received from ${chargePointId}`);
+                }
+                // Rate limiting
+                const limitWindowMs = 10000; // 10s
+                const maxMessages = Number(process.env.WS_RATE_MAX || 50);
+                const now = Date.now();
+                const state = ws.rate || { windowStart: now, count: 0 };
+                if (now - state.windowStart > limitWindowMs) {
+                    state.windowStart = now;
+                    state.count = 0;
+                }
+                state.count++;
+                ws.rate = state;
+                if (state.count > maxMessages) {
+                    logger_1.logger.warn(`[RATE] Exceeded limit ${state.count}/${maxMessages} for ${chargePointId}; terminating`);
+                    try {
+                        ws.send(JSON.stringify({ event: 'rate.limit', ts: Date.now(), max: maxMessages }));
+                    }
+                    catch { }
+                    try {
+                        ws.terminate();
+                    }
+                    catch { }
+                    return;
                 }
                 heartbeat();
                 (0, messageRouter_1.handleMessage)(data, isBinary, ws, chargePointId);

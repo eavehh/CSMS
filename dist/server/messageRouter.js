@@ -106,22 +106,29 @@ async function handleMessage(data, isBinary, ws, chargePointId) {
         // Валидация (только для type 2 — запросов от клиента)
         if (messageType === 2) {
             logger_1.logger.info(`[MessageRouter] from ${chargePointId} Received request: ${actionOrPayload}`);
-            const validation = (0, ajvValidator_1.validateMessage)(actionOrPayload, `${actionOrPayload}`);
-            if (!validation) {
-                logger_1.logger.error(`[MessageRouter] Validation failed for ${actionOrPayload} from ${chargePointId}`);
-                const errorResponse = {
-                    errorCode: 'FormationViolation',
-                    description: 'Invalid payload',
-                    errorDetails: 'Payload does not match OCPP schema'
-                };
-                const fullError = [4, uniqueId, errorResponse];
-                if (format === 'binary') {
-                    ws.send(msgpack.encode(fullError));
+            // Skip validation for MeterValues to be tolerant to non-standard formats
+            const skipValidation = actionOrPayload === 'MeterValues';
+            if (!skipValidation) {
+                const validation = (0, ajvValidator_1.validateMessage)(actionOrPayload, `${actionOrPayload}`);
+                if (!validation) {
+                    logger_1.logger.error(`[MessageRouter] Validation failed for ${actionOrPayload} from ${chargePointId}`);
+                    const errorResponse = {
+                        errorCode: 'FormationViolation',
+                        description: 'Invalid payload',
+                        errorDetails: 'Payload does not match OCPP schema'
+                    };
+                    const fullError = [4, uniqueId, errorResponse];
+                    if (format === 'binary') {
+                        ws.send(msgpack.encode(fullError));
+                    }
+                    else {
+                        ws.send(JSON.stringify(fullError));
+                    }
+                    return;
                 }
-                else {
-                    ws.send(JSON.stringify(fullError));
-                }
-                return;
+            }
+            else {
+                logger_1.logger.debug(`[MessageRouter] Skipping validation for ${actionOrPayload} (tolerant mode)`);
             }
             // Если в payload флаг смены формата (опционально)
             if (actionOrPayload.format) {

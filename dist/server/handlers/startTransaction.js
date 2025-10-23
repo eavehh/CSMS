@@ -5,6 +5,7 @@ const mongoose_1 = require("../../db/mongoose");
 const mongoose_2 = require("../../db/mongoose");
 const logger_1 = require("../../logger");
 const index_1 = require("../../server/index");
+const wsApiHandler_1 = require("../../server/wsApiHandler");
 async function handleStartTransaction(req, chargePointId, ws) {
     const transId = Date.now().toString(); // Генерация строкового ID
     try {
@@ -53,6 +54,15 @@ async function handleStartTransaction(req, chargePointId, ws) {
         logger_1.logger.info(`[StartTransaction] Start tx from ${chargePointId}: id ${transId}, connector ${req.connectorId}`);
         // Обновляем состояние коннектора
         index_1.connectionManager.updateConnectorState(chargePointId, req.connectorId, 'Charging', transId.toString());
+        const correlationId = (0, wsApiHandler_1.resolveRemoteStartCorrelation)(chargePointId, req.connectorId, transId.toString());
+        index_1.connectionManager.broadcastEvent('transaction.started', {
+            stationId: chargePointId,
+            connectorId: req.connectorId,
+            transactionId: transId.toString(),
+            idTag: req.idTag,
+            startTime: new Date(req.timestamp).toISOString(),
+            ...(correlationId ? { correlationId } : {})
+        });
         // 🔥 НЕ добавляем в recentTransactions при START
         // Транзакция будет добавлена только при STOP с полными данными
         return response;
