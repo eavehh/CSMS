@@ -1,6 +1,6 @@
 import WebSocket from 'ws';
 import { logger } from '../logger';
-import { ChargePoint } from '../db/mongoose';
+import { ChargePoint, Event } from '../db/mongoose';
 import { Transaction } from "../db/entities/Transaction"
 
 interface MeterValueSnapshot {
@@ -34,6 +34,9 @@ export class ConnectionManager {
     private readonly MAX_RECENT_TRANSACTIONS = 10;
     private meterValuesHistory: Map<string, MeterValueSnapshot[]> = new Map();
     private readonly MAX_METER_VALUE_SAMPLES = 100;
+    private subscriptions: Map<WebSocket, Array<{ id: string; stationId?: string; events?: string[] }>> = new Map();
+    private recentEvents: Array<any> = [];
+    private readonly MAX_RECENT_EVENTS = 200;
 
     constructor() {
         logger.info(`[ConnectionManager] Initialized with in-memory transaction storage (max ${this.MAX_RECENT_TRANSACTIONS})`);
@@ -139,6 +142,78 @@ export class ConnectionManager {
             return [];
         }
         return history.slice(0, limit);
+    }
+
+    broadcastEvent(event: string, payload: any): void {
+        // Generate eventId with monotonic component for ordering
+        const eventId = `evt-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+        const ts = Date.now();
+        const tsPayload = { eventId, event, ts, ...payload };
+
+        // In-memory store (bounded)
+        this.recentEvents.unshift(tsPayload);
+        if (this.recentEvents.length > this.MAX_RECENT_EVENTS) {
+            this.recentEvents.splice(this.MAX_RECENT_EVENTS);
+        }
+
+        // Persist asynchronously (do not await to avoid blocking broadcast path)
+        try {
+            Event.create({
+                eventId,
+                event,
+                ts,
+                stationId: payload.stationId,
+                connectorId: payload.connectorId,
+                data: Object.fromEntries(Object.entries(payload).filter(([k]) => !['stationId', 'connectorId'].includes(k)))
+            }).catch(err => logger.warn(`[EventStore] Failed to persist event ${eventId}: ${err}`));
+        } catch (err) {
+            logger.warn(`[EventStore] Error scheduling persist for ${eventId}: ${err}`);
+        }
+
+        // Broadcast to subscribed authenticated clients
+        this.connections.forEach((ws) => {
+            if ((ws as any).auth) {
+                if (!this.shouldDeliver(ws, event, payload.stationId)) return;
+                try { ws.send(JSON.stringify(tsPayload)); } catch (err) {
+                    logger.warn(`[Broadcast] Failed to send event ${event}: ${err}`);
+                }
+            }
+        });
+    }
+
+    private shouldDeliver(ws: WebSocket, event: string, stationId?: string): boolean {
+        const subs = this.subscriptions.get(ws);
+        if (!subs || subs.length === 0) return true; // If no subscriptions - deliver all (open model)
+        return subs.some(sub => {
+            if (sub.stationId && stationId && sub.stationId !== stationId) return false;
+            if (!sub.events || sub.events.length === 0) return true;
+            return sub.events.some(e => e === event || (e.endsWith('*') && event.startsWith(e.slice(0, -1))));
+        });
+    }
+
+    addSubscription(ws: WebSocket, stationId: string | undefined, events: string[] | undefined): string {
+        const list = this.subscriptions.get(ws) || [];
+        const id = `sub-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+        list.push({ id, stationId, events });
+        this.subscriptions.set(ws, list);
+        return id;
+    }
+
+    removeSubscription(ws: WebSocket, subscriptionId: string): boolean {
+        const list = this.subscriptions.get(ws);
+        if (!list) return false;
+        const newList = list.filter(s => s.id !== subscriptionId);
+        const removed = newList.length !== list.length;
+        this.subscriptions.set(ws, newList);
+        return removed;
+    }
+
+    listSubscriptions(ws: WebSocket): Array<{ id: string; stationId?: string; events?: string[] }> {
+        return this.subscriptions.get(ws) || [];
+    }
+
+    getRecentEvents(limit: number = 50): Array<any> {
+        return this.recentEvents.slice(0, limit);
     }
 
 

@@ -79,24 +79,32 @@ export async function handleMessage(data: Buffer, isBinary: boolean, ws: WebSock
     // Валидация (только для type 2 — запросов от клиента)
     if (messageType === 2) {
       logger.info(`[MessageRouter] from ${chargePointId} Received request: ${actionOrPayload}`);
-      const validation = validateMessage(actionOrPayload, `${actionOrPayload}`);
-      if (!validation) {
-        logger.error(`[MessageRouter] Validation failed for ${actionOrPayload} from ${chargePointId}`);
 
-        const errorResponse = {
-          errorCode: 'FormationViolation',
-          description: 'Invalid payload',
-          errorDetails: 'Payload does not match OCPP schema'
-        };
+      // Skip validation for MeterValues to be tolerant to non-standard formats
+      const skipValidation = actionOrPayload === 'MeterValues';
 
-        const fullError = [4, uniqueId, errorResponse];
+      if (!skipValidation) {
+        const validation = validateMessage(actionOrPayload, `${actionOrPayload}`);
+        if (!validation) {
+          logger.error(`[MessageRouter] Validation failed for ${actionOrPayload} from ${chargePointId}`);
 
-        if (format === 'binary') {
-          ws.send(msgpack.encode(fullError));
-        } else {
-          ws.send(JSON.stringify(fullError));
+          const errorResponse = {
+            errorCode: 'FormationViolation',
+            description: 'Invalid payload',
+            errorDetails: 'Payload does not match OCPP schema'
+          };
+
+          const fullError = [4, uniqueId, errorResponse];
+
+          if (format === 'binary') {
+            ws.send(msgpack.encode(fullError));
+          } else {
+            ws.send(JSON.stringify(fullError));
+          }
+          return;
         }
-        return;
+      } else {
+        logger.debug(`[MessageRouter] Skipping validation for ${actionOrPayload} (tolerant mode)`);
       }
 
       // Если в payload флаг смены формата (опционально)

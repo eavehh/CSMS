@@ -108,7 +108,18 @@ export async function handleStopTransaction(req: StopTransactionRequest, chargeP
         setTimeout(() => {
             connectionManager.updateConnectorState(chargePointId, connectorId, 'Available');
             logger.info(`[StopTransaction] Connector ${connectorId} on ${chargePointId} reset to Available`);
+            connectionManager.broadcastEvent('connector.status.changed', { stationId: chargePointId, connectorId, status: 'Available' });
         }, 2000);
+
+        connectionManager.broadcastEvent('transaction.stopped', {
+            stationId: chargePointId,
+            connectorId,
+            transactionId: req.transactionId,
+            stopTime: new Date(req.timestamp).toISOString(),
+            totalKWh,
+            cost,
+            efficiencyPercentage
+        });
 
         logger.info(`[StopTransaction] ===== END (success) ===== transactionId=${req.transactionId}, connector=${connectorId}`);
         return { idTagInfo: { status: idTagStatus } };

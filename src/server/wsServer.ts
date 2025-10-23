@@ -29,6 +29,16 @@ export class WsServer {
         });
 
         this.wss.on('connection', (ws: WebSocket, req: any) => {
+            // Origin enforcement (basic)
+            const allowedOrigin = process.env.ALLOWED_ORIGIN;
+            if (allowedOrigin) {
+                const origin = req.headers['origin'];
+                if (origin && origin !== allowedOrigin) {
+                    logger.warn(`[CONNECTION] Rejecting origin ${origin} (allowed: ${allowedOrigin})`);
+                    try { ws.terminate(); } catch { }
+                    return;
+                }
+            }
             // Блокировка новых подключений во время shutdown
             if (this.isShuttingDown()) {
                 logger.info('[wsServer] CS try to connect to the server; Rejecting new connection during shutdown');
@@ -78,21 +88,46 @@ export class WsServer {
                 if ((ws as any).isAlive === false) {
                     logger.warn(`[WATCHDOG] Terminating unresponsive WS ${chargePointId}`);
                     clearInterval(watchdog);
-                    try { ws.terminate(); } catch {}
+                    try { ws.terminate(); } catch { }
                     return;
                 }
                 if (idleMs > this.IDLE_MS) {
                     logger.warn(`[WATCHDOG] ${chargePointId} idle ${idleMs}ms (>${this.IDLE_MS}ms), sending ping`);
                 }
                 (ws as any).isAlive = false;
-                try { ws.ping(); } catch {}
+                try { ws.ping(); } catch { }
             }, this.WATCHDOG_CHECK_MS);
 
             ws.on('message', (data: Buffer, isBinary: boolean) => {
+                // Enforce raw message size limit (binary or text before parsing)
+                const maxBytes = Number(process.env.WS_MAX_MESSAGE_BYTES || 32768); // 32KB default
+                if (data.length > maxBytes) {
+                    logger.warn(`[SIZE] Message ${data.length}B exceeds limit ${maxBytes}B from ${chargePointId}; terminating`);
+                    try { ws.send(JSON.stringify({ event: 'message.too.large', ts: Date.now(), size: data.length, max: maxBytes })); } catch { }
+                    try { ws.terminate(); } catch { }
+                    return;
+                }
                 if (isBinary) {
                     logger.info(`[MESSAGE] binary received from ${chargePointId}`);
                 } else {
                     logger.info(`[MESSAGE] json received from ${chargePointId}`);
+                }
+                // Rate limiting
+                const limitWindowMs = 10000; // 10s
+                const maxMessages = Number(process.env.WS_RATE_MAX || 50);
+                const now = Date.now();
+                const state = (ws as any).rate || { windowStart: now, count: 0 };
+                if (now - state.windowStart > limitWindowMs) {
+                    state.windowStart = now;
+                    state.count = 0;
+                }
+                state.count++;
+                (ws as any).rate = state;
+                if (state.count > maxMessages) {
+                    logger.warn(`[RATE] Exceeded limit ${state.count}/${maxMessages} for ${chargePointId}; terminating`);
+                    try { ws.send(JSON.stringify({ event: 'rate.limit', ts: Date.now(), max: maxMessages })); } catch { }
+                    try { ws.terminate(); } catch { }
+                    return;
                 }
                 heartbeat();
                 handleMessage(data, isBinary, ws, chargePointId);
@@ -103,7 +138,7 @@ export class WsServer {
                 connectionManager.setLastOffline(chargePointId, new Date());
                 // ВАЖНО: не удаляем состояния коннекторов, чтобы сессии не терялись
                 connectionManager.detachSocketOnly(chargePointId);
-                try { clearInterval(watchdog); } catch {}
+                try { clearInterval(watchdog); } catch { }
                 this.notifyConnectionClosed();  // Уведомляем о закрытии
                 if (connectionManager.reservationCleanupInterval) {
                     clearInterval(connectionManager.reservationCleanupInterval);

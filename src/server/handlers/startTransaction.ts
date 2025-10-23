@@ -7,6 +7,7 @@ import { ChargingSession } from '../../db/mongoose';
 import { logger } from '../../logger';
 import WebSocket from 'ws';
 import { connectionManager } from '../../server/index';
+import { resolveRemoteStartCorrelation } from '../../server/wsApiHandler';
 import { resolve } from 'path';
 
 export async function handleStartTransaction(req: StartTransactionRequest & {  // Расширение типа
@@ -72,6 +73,15 @@ export async function handleStartTransaction(req: StartTransactionRequest & {  /
 
         // Обновляем состояние коннектора
         connectionManager.updateConnectorState(chargePointId, req.connectorId, 'Charging', transId.toString());
+        const correlationId = resolveRemoteStartCorrelation(chargePointId, req.connectorId, transId.toString());
+        connectionManager.broadcastEvent('transaction.started', {
+            stationId: chargePointId,
+            connectorId: req.connectorId,
+            transactionId: transId.toString(),
+            idTag: req.idTag,
+            startTime: new Date(req.timestamp).toISOString(),
+            ...(correlationId ? { correlationId } : {})
+        });
 
         // 🔥 НЕ добавляем в recentTransactions при START
         // Транзакция будет добавлена только при STOP с полными данными

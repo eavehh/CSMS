@@ -13,6 +13,7 @@ export async function handleStatusNotification(
 
     // 🔥 Динамически создаём состояние коннектора, если его нет
     connectionManager.updateConnectorState(chargePointId, payload.connectorId, payload.status, undefined, payload.errorCode);
+    connectionManager.broadcastEvent('connector.status.changed', { stationId: chargePointId, connectorId, status, errorCode });
 
     logger.info(`[StatusNotification] ${chargePointId} connector ${connectorId} - ${status}${errorCode ? ` (error: ${errorCode})` : ''}`);
 

@@ -135,9 +135,33 @@ const configurationKeySchema = new mongoose.Schema({
     readonly: { type: Boolean, default: false }
 });
 
+// API Key (for mobile client auth)
+const apiKeySchema = new mongoose.Schema({
+    key: { type: String, required: true, unique: true },
+    owner: { type: String },
+    active: { type: Boolean, default: true },
+    scopes: [{ type: String }],
+    createdAt: { type: Date, default: Date.now },
+    expiresAt: { type: Date }
+});
+
+// Event store (persistent replay)
+// We keep a capped number in memory for fast access, but persist all (or first N days) here for replay on reconnect.
+// eventId: generated unique identifier combining epoch millis and random component.
+// payload: arbitrary object merged (excluding eventId/event/ts which are top-level).
+const eventSchema = new mongoose.Schema({
+    eventId: { type: String, required: true, unique: true },
+    event: { type: String, required: true },
+    ts: { type: Number, required: true },
+    stationId: { type: String },
+    connectorId: { type: Number },
+    data: { type: Object },
+    createdAt: { type: Date, default: Date.now },
+});
+
 
 // Экспорт моделей (используем типизированные модели)
-export const ChargePoint = mongoose.model('ChargePoint', chargePointSchema);export const Config = mongoose.model('Config', configSchema);
+export const ChargePoint = mongoose.model('ChargePoint', chargePointSchema); export const Config = mongoose.model('Config', configSchema);
 export const LocalList = mongoose.model('LocalList', localListSchema);
 export const Log = mongoose.model('Log', logSchema);
 export const Reservation = mongoose.model('Reservation', reservationSchema);
@@ -146,3 +170,5 @@ export const Diagnostics = mongoose.model('Diagnostics', diagnosticsSchema);
 export const Firmware = mongoose.model('Firmware', firmwareSchema);
 export const ConfigurationKey = mongoose.model('ConfigurationKey', configurationKeySchema);
 export const ChargingSession = mongoose.model('ChargingSession', chargingSessionSchema);
+export const ApiKey = mongoose.model('ApiKey', apiKeySchema);
+export const Event = mongoose.model('Event', eventSchema);
