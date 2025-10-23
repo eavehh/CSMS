@@ -4,32 +4,52 @@ import { AppDataSource } from '../../db/postgres'
 import { MeterValue } from '../../db/entities/MeterValue';
 import { Transaction } from '../../db/entities/Transaction';
 import { logger } from '../../logger';
+import { connectionManager } from '../../server/index';
 import WebSocket from 'ws';
 
 export async function handleMeterValues(req: MeterValuesRequest, chargePointId: string, ws: WebSocket): Promise<MeterValuesResponse> {
     try {
-        // Сохраняем MeterValue (отдельная таблица)
-        const repo = AppDataSource.getRepository(MeterValue);
-        for (const mv of req.meterValue) {
-            await repo.save(repo.create({
-                transactionId: (req.transactionId as any).toString(),
-                connectorId: req.connectorId,
-                timestamp: new Date(mv.timestamp),
-                sampledValue: mv.sampledValue
-            }));
+        const transactionId = req.transactionId ? req.transactionId.toString() : undefined;
+        const samples = (req.meterValue || []).map(mv => ({
+            transactionId,
+            connectorId: req.connectorId,
+            timestamp: new Date(mv.timestamp),
+            sampledValue: mv.sampledValue as Array<Record<string, any>>
+        }));
+
+        if (samples.length) {
+            connectionManager.recordMeterValues(chargePointId, samples);
         }
 
-        // Можно обновить энергию в транзакции, если требуется
-        if (req.transactionId) {
-            const txRepo = AppDataSource.getRepository(Transaction);
-            const tx = await txRepo.findOneBy({ id: req.transactionId?.toString() });
-            if (tx && req.meterValue[0]?.sampledValue[0]?.value) {
-                tx.energy = Number(req.meterValue[0].sampledValue[0].value);
-                await txRepo.save(tx);
+        if (AppDataSource.isInitialized) {
+            const repo = AppDataSource.getRepository(MeterValue);
+            for (const sample of samples) {
+                await repo.save(repo.create({
+                    transactionId: sample.transactionId,
+                    connectorId: sample.connectorId,
+                    timestamp: sample.timestamp,
+                    sampledValue: sample.sampledValue
+                }));
             }
+
+            if (transactionId) {
+                const txRepo = AppDataSource.getRepository(Transaction);
+                const tx = await txRepo.findOneBy({ id: transactionId });
+                const firstValue = samples[0]?.sampledValue?.[0]?.value;
+                if (tx && firstValue !== undefined) {
+                    tx.energy = Number(firstValue);
+                    await txRepo.save(tx);
+                }
+            }
+        } else {
+            logger.debug(`[MeterValues] PostgreSQL disabled, stored ${samples.length} samples in memory for ${chargePointId}`);
         }
 
-        logger.info(`Meter from ${chargePointId}: ${req.meterValue[0]?.sampledValue[0]?.value} kWh`);
+        const firstSample = samples[0]?.sampledValue?.[0];
+        const valueText = firstSample?.value !== undefined ? `${firstSample.value}` : 'n/a';
+        const unitText = firstSample?.unit ? ` ${firstSample.unit}` : '';
+        const measurandText = firstSample?.measurand ? ` (${firstSample.measurand})` : '';
+        logger.info(`Meter from ${chargePointId}: ${valueText}${unitText}${measurandText}`);
         return {};
     } catch (err) {
         logger.error(`Error in MeterValues: ${err}`);

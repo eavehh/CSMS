@@ -3,6 +3,13 @@ import { logger } from '../logger';
 import { ChargePoint } from '../db/mongoose';
 import { Transaction } from "../db/entities/Transaction"
 
+interface MeterValueSnapshot {
+    timestamp: Date;
+    connectorId: number;
+    transactionId?: string;
+    sampledValue: Array<Record<string, any>>;
+}
+
 
 export interface ConnectorState {
     status: string;
@@ -25,6 +32,8 @@ export class ConnectionManager {
     // 🔥 Простой массив транзакций в памяти (максимум 10)
     private recentTransactions: Array<any> = [];
     private readonly MAX_RECENT_TRANSACTIONS = 10;
+    private meterValuesHistory: Map<string, MeterValueSnapshot[]> = new Map();
+    private readonly MAX_METER_VALUE_SAMPLES = 100;
 
     constructor() {
         logger.info(`[ConnectionManager] Initialized with in-memory transaction storage (max ${this.MAX_RECENT_TRANSACTIONS})`);
@@ -111,6 +120,25 @@ export class ConnectionManager {
         }
 
         return deleted;
+    }
+
+    recordMeterValues(chargePointId: string, samples: MeterValueSnapshot[]): void {
+        const history = this.meterValuesHistory.get(chargePointId) || [];
+        for (const sample of samples) {
+            history.unshift(sample);
+        }
+        if (history.length > this.MAX_METER_VALUE_SAMPLES) {
+            history.splice(this.MAX_METER_VALUE_SAMPLES);
+        }
+        this.meterValuesHistory.set(chargePointId, history);
+    }
+
+    getRecentMeterValues(chargePointId: string, limit: number = 25): MeterValueSnapshot[] {
+        const history = this.meterValuesHistory.get(chargePointId);
+        if (!history) {
+            return [];
+        }
+        return history.slice(0, limit);
     }
 
 
