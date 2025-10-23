@@ -14,7 +14,7 @@ const PORT = 8081;
 const httpServer = createServer((req: IncomingMessage, res: ServerResponse) => {
     logger.info(`[index API] httpServer is created`)
     try {
-        handleHttpRequest(req, res)
+        handleHttpRequest(req, res, connectionManager)
     } catch (err) {
         logger.info(`[index API] httpServer Faild: ${err}`)
     }

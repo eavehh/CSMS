@@ -8,6 +8,7 @@ const logger_1 = require("../logger");
 const stationsApi_1 = require("./apiHandlers/stationsApi");
 const transactionsApi_1 = require("./apiHandlers/transactionsApi");
 const userApi_1 = require("./apiHandlers/userApi");
+const remoteControlApi_1 = require("./apiHandlers/remoteControlApi");
 exports.STATION_URL = 'http://localhost:3000'; // адрес вашей станции
 const PORT = 8081; // Импорт из index, если нужно
 /*
@@ -17,7 +18,7 @@ function sendJson(res, status, payload) {
     res.writeHead(status, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify(payload));
 }
-function handleHttpRequest(req, res) {
+function handleHttpRequest(req, res, connectionManager) {
     // CORS для фронтенда
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
@@ -68,6 +69,14 @@ function handleHttpRequest(req, res) {
         return;
     }
     // ======== ADMIN API (remote control) ========
+    // POST /api/remote-control - отправка команд на станцию (ChangeConfiguration, Reset и т.д.)
+    if (req.method === 'POST' && pathname === '/api/remote-control') {
+        if (!connectionManager) {
+            return sendJson(res, 500, { success: false, error: 'ConnectionManager not available' });
+        }
+        (0, remoteControlApi_1.remoteControlApiHandler)(req, res, connectionManager);
+        return;
+    }
     // POST / - remote start (from admin panel / dart)
     if (req.method === 'POST' && pathname === '/api/admin/remote-start-session') {
         (0, transactionsApi_1.startRemoteTrx)(req, res);

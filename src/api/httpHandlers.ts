@@ -11,6 +11,7 @@ import {
     getUserSessions,
     getStatusNotification
 } from './apiHandlers/userApi';
+import { remoteControlApiHandler } from './apiHandlers/remoteControlApi';
 
 
 export const STATION_URL = 'http://localhost:3000'; // адрес вашей станции
@@ -30,7 +31,7 @@ export function sendJson(
     res.end(JSON.stringify(payload));
 }
 
-export function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
+export function handleHttpRequest(req: IncomingMessage, res: ServerResponse, connectionManager?: any) {
     // CORS для фронтенда
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
@@ -92,6 +93,15 @@ export function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
     }
 
     // ======== ADMIN API (remote control) ========
+    // POST /api/remote-control - отправка команд на станцию (ChangeConfiguration, Reset и т.д.)
+    if (req.method === 'POST' && pathname === '/api/remote-control') {
+        if (!connectionManager) {
+            return sendJson(res, 500, { success: false, error: 'ConnectionManager not available' });
+        }
+        remoteControlApiHandler(req, res, connectionManager);
+        return;
+    }
+
     // POST / - remote start (from admin panel / dart)
     if (req.method === 'POST' && pathname === '/api/admin/remote-start-session') {
         startRemoteTrx(req, res);
