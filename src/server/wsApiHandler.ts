@@ -270,6 +270,11 @@ function mapStations() {
             const connectors: any[] = [];
             if (connectorsMap && connectorsMap.size > 0) {
                 connectorsMap.forEach((state, connectorId) => {
+                    // 🔥 Исключаем коннектор 0
+                    if (connectorId === 0) {
+                        return;
+                    }
+
                     connectors.push({
                         id: connectorId,
                         status: state.status || 'Unknown',

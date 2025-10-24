@@ -1,0 +1,7 @@
+2025-10-25 00:16:34 [INFO] o.s.s..main [Thread-1] [ConnectionManager] Initialized with in-memory transaction storage (max 10)
+2025-10-25 00:16:34 [INFO] o.s.s..main [Thread-1] [wsServer] Creating WebSocket server...
+2025-10-25 00:16:34 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server instance created
+2025-10-25 00:16:34 [INFO] o.s.s..main [Thread-1] [wsServer] WebSocket server setup complete
+2025-10-25 00:16:34 [INFO] o.s.s..main [Thread-1] [mongo] MongoDB connected!
+2025-10-25 00:16:34 [INFO] o.s.s..main [Thread-1] [MONGO] MongoDB connected
+2025-10-25 00:16:34 [ERROR] o.s.s..main [Thread-1] [MAIN] Failed to initialize server: AggregateError
