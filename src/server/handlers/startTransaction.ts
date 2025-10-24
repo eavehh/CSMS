@@ -15,14 +15,11 @@ export async function handleStartTransaction(req: StartTransactionRequest & {  /
     limitValue?: number;
     tariffPerKWh?: number;
 }, chargePointId: string, ws: WebSocket): Promise<StartTransactionResponse> {
-
-
-    const transId = Date.now().toString();  // Генерация строкового ID
+    // Generate transaction ID from timestamp (as number for OCPP compatibility)
+    // Use seconds instead of milliseconds to avoid int32 overflow (max 2147483647)
+    const transId = Math.floor(Date.now() / 1000);
 
     try {
-        // Generate transaction ID from timestamp (as number for OCPP compatibility)
-        // Use seconds instead of milliseconds to avoid int32 overflow (max 2147483647)
-        const transId = Math.floor(Date.now() / 1000);
 
         // 🔥 POSTGRES DISABLED - skip database save
         /* POSTGRES VERSION:
