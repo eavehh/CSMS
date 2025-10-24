@@ -4,6 +4,7 @@ import { connectionManager } from './index';
 import { ApiKey } from '../db/mongoose';
 import { sendRemoteStartTransaction, sendRemoteStopTransaction } from './remoteControl';
 import { v4 as uuidv4 } from 'uuid';
+import { formatTransaction } from '../api/formatters';
 
 // New action-based request envelope (coexists with legacy method/url style)
 export interface ActionRequest {
@@ -298,7 +299,8 @@ function mapStations() {
 }
 
 function mapRecentTransactions() {
-    return connectionManager.getRecentTransactions();
+    const transactions = connectionManager.getRecentTransactions();
+    return transactions.map(tx => formatTransaction(tx));
 }
 
 function mockStart(params: any) {

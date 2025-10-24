@@ -1,33 +1,31 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.handleStartTransaction = handleStartTransaction;
+const Transaction_1 = require("../../db/entities/Transaction");
+const postgres_1 = require("../../db/postgres");
 const mongoose_1 = require("../../db/mongoose");
 const mongoose_2 = require("../../db/mongoose");
 const logger_1 = require("../../logger");
 const index_1 = require("../../server/index");
 const wsApiHandler_1 = require("../../server/wsApiHandler");
 async function handleStartTransaction(req, chargePointId, ws) {
-    const transId = Date.now().toString(); // Генерация строкового ID
+    // Generate transaction ID from timestamp (as number for OCPP compatibility)
+    // Use seconds instead of milliseconds to avoid int32 overflow (max 2147483647)
+    const transId = Math.floor(Date.now() / 1000);
     try {
-        // Generate transaction ID from timestamp (as number for OCPP compatibility)
-        // Use seconds instead of milliseconds to avoid int32 overflow (max 2147483647)
-        const transId = Math.floor(Date.now() / 1000);
-        // 🔥 POSTGRES DISABLED - skip database save
-        /* POSTGRES VERSION:
-        const idTagStatus = 'Accepted';  // Замените на реальную проверку
-        const repo = AppDataSource.getRepository(Transaction);
+        // Save to PostgreSQL
+        const idTagStatus = 'Accepted'; // Замените на реальную проверку
+        const repo = postgres_1.AppDataSource.getRepository(Transaction_1.Transaction);
         const newTx = repo.create({
-            id: transId,
+            id: transId.toString(), // PostgreSQL expects string ID
             chargePointId,
             connectorId: req.connectorId,
             startTime: new Date(req.timestamp),
             idTag: req.idTag,
             meterStart: req.meterStart,
         });
-        await repo.save(newTx)
-        */
-        logger_1.logger.info(`[StartTransaction] EXPERIMENT: Skipping PostgreSQL save for transaction ${transId}`);
-        // postgres
+        await repo.save(newTx);
+        logger_1.logger.info(`[StartTransaction] Saved transaction ${transId} to PostgreSQL`);
         await mongoose_1.Log.create({ action: 'StartTransaction', chargePointId, payload: req });
         const limitType = req.limitType || 'full'; // 'percentage', 'amount', 'full'
         const limitValue = req.limitValue || 100; // Из запроса
@@ -35,9 +33,9 @@ async function handleStartTransaction(req, chargePointId, ws) {
         const batteryCapacityKWh = 60; // Из конфигурации ChargePoint
         const session = new mongoose_2.ChargingSession({
             id: `session-${transId}`,
-            stationId: chargePointId,
+            chargePointId: chargePointId, // Fixed: use chargePointId instead of stationId
             connectorId: req.connectorId,
-            transactionId: transId, // Now numeric
+            transactionId: transId.toString(), // MongoDB schema requires String
             limitType,
             limitValue,
             tariffPerKWh,
@@ -59,7 +57,7 @@ async function handleStartTransaction(req, chargePointId, ws) {
         index_1.connectionManager.updateConnectorState(chargePointId, req.connectorId, 'Charging', transId.toString());
         const correlationId = (0, wsApiHandler_1.resolveRemoteStartCorrelation)(chargePointId, req.connectorId, transId.toString());
         index_1.connectionManager.broadcastEvent('transaction.started', {
-            stationId: chargePointId,
+            stationId: chargePointId, // Keep stationId for API compatibility
             connectorId: req.connectorId,
             transactionId: transId, // Send as number for consistency
             idTag: req.idTag,

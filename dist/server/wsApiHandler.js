@@ -12,6 +12,7 @@ const logger_1 = require("../logger");
 const index_1 = require("./index");
 const mongoose_1 = require("../db/mongoose");
 const remoteControl_1 = require("./remoteControl");
+const formatters_1 = require("../api/formatters");
 function handleWebSocketAPI(ws, raw) {
     // Detect action-based vs legacy
     if (isActionRequest(raw)) {
@@ -280,7 +281,8 @@ function mapStations() {
     return stations;
 }
 function mapRecentTransactions() {
-    return index_1.connectionManager.getRecentTransactions();
+    const transactions = index_1.connectionManager.getRecentTransactions();
+    return transactions.map(tx => (0, formatters_1.formatTransaction)(tx));
 }
 function mockStart(params) {
     return { message: `Start command accepted for ${params?.stationId}`, transactionId: Math.floor(Math.random() * 1e6) };

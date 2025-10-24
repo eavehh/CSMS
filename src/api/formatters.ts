@@ -1,5 +1,38 @@
 // Форматирование ответа станции для фронта
 
+/**
+ * Форматирует дату в ISO строку с учётом локальной временной зоны
+ * Если дата уже строка ISO - возвращает как есть
+ * Если дата объект Date - конвертирует в ISO с правильной зоной
+ */
+export function formatDateTime(date: Date | string | undefined | null): string | null {
+    if (!date) return null;
+
+    // Если уже строка, возвращаем как есть
+    if (typeof date === 'string') {
+        return date;
+    }
+
+    // Если объект Date, конвертируем в ISO
+    if (date instanceof Date) {
+        return date.toISOString();
+    }
+
+    return null;
+}
+
+/**
+ * Форматирует транзакцию для API ответа
+ * Гарантирует правильное форматирование времени
+ */
+export function formatTransaction(tx: any) {
+    return {
+        ...tx,
+        startTime: formatDateTime(tx.startTime),
+        stopTime: formatDateTime(tx.stopTime),
+    };
+}
+
 export function formatConnector(connectorId: number, state: any) {
     return {
         id: connectorId,
@@ -14,9 +47,9 @@ export function formatConnector(connectorId: number, state: any) {
 }
 
 export function formatStation(stationId: string, connectorsMap: Map<number, any>) {
-    const connectors = Array.from(connectorsMap.entries()).map(([id, state]) =>
-        formatConnector(id, state)
-    );
+    const connectors = Array.from(connectorsMap.entries())
+        .filter(([id]) => id > 0) // 🔥 Исключаем коннектор 0
+        .map(([id, state]) => formatConnector(id, state));
 
     const status = connectors.some(c => c.status === 'Charging')
         ? 'Charging'

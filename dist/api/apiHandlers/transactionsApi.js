@@ -13,6 +13,7 @@ exports.deleteTransactionByIdHandler = deleteTransactionByIdHandler;
 const index_1 = require("../../server/index");
 const logger_1 = require("../../logger");
 const remoteControl_1 = require("../../server/remoteControl");
+const formatters_1 = require("../formatters");
 const STATION_URL = 'http://localhost:3000'; // при необходимости вынести в config
 function readBody(req) {
     return new Promise((resolve, reject) => {
@@ -41,11 +42,13 @@ function recentTransactionsApiHandler(req, res) {
         const limit = limitParam ? parseInt(limitParam, 10) : 10;
         // Получаем последние транзакции из connectionManager
         const recentTransactions = index_1.connectionManager.getRecentTransactions(limit);
+        // Форматируем транзакции с правильным временем
+        const formattedTransactions = recentTransactions.map(tx => (0, formatters_1.formatTransaction)(tx));
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({
             success: true,
-            data: recentTransactions,
-            count: recentTransactions.length
+            data: formattedTransactions,
+            count: formattedTransactions.length
         }));
         logger_1.logger.info(`[API] /api/transactions/recent returned ${recentTransactions.length} transactions (limit: ${limit})`);
     }

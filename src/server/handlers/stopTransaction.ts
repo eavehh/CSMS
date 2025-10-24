@@ -13,10 +13,7 @@ export async function handleStopTransaction(req: StopTransactionRequest, chargeP
         logger.info(`[StopTransaction] Full request object: ${JSON.stringify(req)}`);
         const idTagStatus = req.idTag ? 'Accepted' : 'Accepted';
 
-        // 🔥 POSTGRES DISABLED - use in-memory storage only
-        logger.info(`[StopTransaction] EXPERIMENT: PostgreSQL disabled, using in-memory only`);
-
-        /* POSTGRES VERSION:
+        // Find transaction in PostgreSQL
         const repo = AppDataSource.getRepository(Transaction);
         const tx = await repo.findOneBy({ id: req.transactionId.toString() });
         if (!tx) {
@@ -25,17 +22,6 @@ export async function handleStopTransaction(req: StopTransactionRequest, chargeP
             return { idTagInfo: { status: 'Invalid' } };
         }
         logger.info(`[StopTransaction] Found tx: id=${tx.id}, connectorId=${tx.connectorId}, chargePointId=${tx.chargePointId}`);
-        */
-
-        // Создаём фейковую транзакцию для расчетов
-        const tx = {
-            id: req.transactionId.toString(),
-            chargePointId: chargePointId,
-            connectorId: 1, // Не знаем точно, но это не критично для эксперимента
-            meterStart: 0, // Не знаем, но для теста сойдет
-            startTime: new Date(Date.now() - 3600000) // 1 час назад
-        };
-        logger.info(`[StopTransaction] Using mock tx: id=${tx.id}, connectorId=${tx.connectorId}`);
 
         // Расчёт метрик
         const totalWh = (req.meterStop ?? 0) - (tx.meterStart ?? 0);
@@ -50,8 +36,7 @@ export async function handleStopTransaction(req: StopTransactionRequest, chargeP
 
         logger.info(`[StopTransaction] Metrics: totalWh=${totalWh}, totalKWh=${totalKWh.toFixed(2)}, cost=${cost.toFixed(2)}, efficiency=${efficiencyPercentage.toFixed(1)}%`);
 
-        // Обновляем транзакцию - SKIP POSTGRES SAVE
-        /* POSTGRES VERSION:
+        // Update transaction in PostgreSQL
         tx.stopTime = new Date(req.timestamp);
         tx.meterStop = req.meterStop;
         tx.reason = req.reason;
@@ -61,8 +46,7 @@ export async function handleStopTransaction(req: StopTransactionRequest, chargeP
         tx.cost = Math.round(cost * 10000);
         tx.efficiencyPercentage = Math.round(efficiencyPercentage);
         await repo.save(tx);
-        */
-        logger.info(`[StopTransaction] EXPERIMENT: Skipping PostgreSQL save`);
+        logger.info(`[StopTransaction] Transaction ${req.transactionId} saved to PostgreSQL`);
 
         logger.info(`[StopTransaction] Stop tx from ${chargePointId}: id ${req.transactionId}, totalKWh=${totalKWh.toFixed(2)}, cost=${cost.toFixed(2)} EUR, efficiency=${efficiencyPercentage.toFixed(1)}%, reason: ${req.reason || 'Local'}, connector: ${tx.connectorId}`);
 

@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.handleStopTransaction = handleStopTransaction;
+const postgres_1 = require("../../db/postgres");
+const Transaction_1 = require("../../db/entities/Transaction");
 const logger_1 = require("../../logger");
 const index_1 = require("../../server/index");
 async function handleStopTransaction(req, chargePointId, ws) {
@@ -9,27 +11,15 @@ async function handleStopTransaction(req, chargePointId, ws) {
         logger_1.logger.info(`[StopTransaction] Processing request: transactionId=${req.transactionId}, type=${typeof req.transactionId}`);
         logger_1.logger.info(`[StopTransaction] Full request object: ${JSON.stringify(req)}`);
         const idTagStatus = req.idTag ? 'Accepted' : 'Accepted';
-        // 🔥 POSTGRES DISABLED - use in-memory storage only
-        logger_1.logger.info(`[StopTransaction] EXPERIMENT: PostgreSQL disabled, using in-memory only`);
-        /* POSTGRES VERSION:
-        const repo = AppDataSource.getRepository(Transaction);
+        // Find transaction in PostgreSQL
+        const repo = postgres_1.AppDataSource.getRepository(Transaction_1.Transaction);
         const tx = await repo.findOneBy({ id: req.transactionId.toString() });
         if (!tx) {
-            logger.error(`[StopTransaction] Tx not found: ${req.transactionId}`);
-            logger.info(`[StopTransaction] ===== END (tx not found) =====`);
+            logger_1.logger.error(`[StopTransaction] Tx not found: ${req.transactionId}`);
+            logger_1.logger.info(`[StopTransaction] ===== END (tx not found) =====`);
             return { idTagInfo: { status: 'Invalid' } };
         }
-        logger.info(`[StopTransaction] Found tx: id=${tx.id}, connectorId=${tx.connectorId}, chargePointId=${tx.chargePointId}`);
-        */
-        // Создаём фейковую транзакцию для расчетов
-        const tx = {
-            id: req.transactionId.toString(),
-            chargePointId: chargePointId,
-            connectorId: 1, // Не знаем точно, но это не критично для эксперимента
-            meterStart: 0, // Не знаем, но для теста сойдет
-            startTime: new Date(Date.now() - 3600000) // 1 час назад
-        };
-        logger_1.logger.info(`[StopTransaction] Using mock tx: id=${tx.id}, connectorId=${tx.connectorId}`);
+        logger_1.logger.info(`[StopTransaction] Found tx: id=${tx.id}, connectorId=${tx.connectorId}, chargePointId=${tx.chargePointId}`);
         // Расчёт метрик
         const totalWh = (req.meterStop ?? 0) - (tx.meterStart ?? 0);
         const totalKWh = totalWh / 1000;
@@ -42,8 +32,7 @@ async function handleStopTransaction(req, chargePointId, ws) {
             efficiencyPercentage = 0;
         efficiencyPercentage = Math.max(0, Math.min(100, efficiencyPercentage));
         logger_1.logger.info(`[StopTransaction] Metrics: totalWh=${totalWh}, totalKWh=${totalKWh.toFixed(2)}, cost=${cost.toFixed(2)}, efficiency=${efficiencyPercentage.toFixed(1)}%`);
-        // Обновляем транзакцию - SKIP POSTGRES SAVE
-        /* POSTGRES VERSION:
+        // Update transaction in PostgreSQL
         tx.stopTime = new Date(req.timestamp);
         tx.meterStop = req.meterStop;
         tx.reason = req.reason;
@@ -53,8 +42,7 @@ async function handleStopTransaction(req, chargePointId, ws) {
         tx.cost = Math.round(cost * 10000);
         tx.efficiencyPercentage = Math.round(efficiencyPercentage);
         await repo.save(tx);
-        */
-        logger_1.logger.info(`[StopTransaction] EXPERIMENT: Skipping PostgreSQL save`);
+        logger_1.logger.info(`[StopTransaction] Transaction ${req.transactionId} saved to PostgreSQL`);
         logger_1.logger.info(`[StopTransaction] Stop tx from ${chargePointId}: id ${req.transactionId}, totalKWh=${totalKWh.toFixed(2)}, cost=${cost.toFixed(2)} EUR, efficiency=${efficiencyPercentage.toFixed(1)}%, reason: ${req.reason || 'Local'}, connector: ${tx.connectorId}`);
         // Обновление состояния коннектора
         // После сохранения транзакции:

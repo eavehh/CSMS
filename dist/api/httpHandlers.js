@@ -48,8 +48,8 @@ function handleHttpRequest(req, res, connectionManager) {
         (0, transactionsApi_1.addRecentTransactionHandler)(req, res);
         return;
     }
-    // DELETE /api/transactions/recent - очистить недавние транзакции из памяти (админ)
-    if (req.method === 'DELETE' && pathname === '/api/transactions/recent/delete') {
+    // DELETE /api/transactions/recent - очистить ВСЕ недавние транзакции из памяти (админ)
+    if (req.method === 'DELETE' && pathname === '/api/transactions/recent') {
         (0, transactionsApi_1.clearRecentTransactionsMemoryHandler)(req, res);
         return;
     }

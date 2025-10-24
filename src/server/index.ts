@@ -2,7 +2,7 @@ import { createServer, IncomingMessage, ServerResponse } from 'http';
 import { WsServer } from './wsServer';
 import { ConnectionManager } from './connectionManager';
 import { logger } from '../logger';
-// import { AppDataSource } from '../db/postgres';  // DISABLED for experiment/no-postgres
+import { AppDataSource } from '../db/postgres';
 import { connectDB } from '../db/mongoose';
 import { handleHttpRequest } from '../api/httpHandlers'
 
@@ -73,10 +73,9 @@ httpServer.on('error', (error) => {
         await connectDB();
         logger.info('[MONGO] MongoDB connected');
 
-        // 🔥 ЭКСПЕРИМЕНТ: PostgreSQL отключен, используем только in-memory хранилище
-        // await AppDataSource.initialize();
-        // logger.info('[POSTGRES] PostgreSQL connected');
-        logger.info('[EXPERIMENT] PostgreSQL DISABLED - using in-memory storage only');
+        // Инициализируем PostgreSQL
+        await AppDataSource.initialize();
+        logger.info('[POSTGRES] PostgreSQL connected');
 
         // Запускаем HTTP сервер только после инициализации всех БД
         logger.info('[HTTP_SERVER] Starting HTTP server...');

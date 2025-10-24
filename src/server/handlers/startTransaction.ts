@@ -20,24 +20,19 @@ export async function handleStartTransaction(req: StartTransactionRequest & {  /
     const transId = Math.floor(Date.now() / 1000);
 
     try {
-
-        // 🔥 POSTGRES DISABLED - skip database save
-        /* POSTGRES VERSION:
+        // Save to PostgreSQL
         const idTagStatus = 'Accepted';  // Замените на реальную проверку
         const repo = AppDataSource.getRepository(Transaction);
         const newTx = repo.create({
-            id: transId,
+            id: transId.toString(),  // PostgreSQL expects string ID
             chargePointId,
             connectorId: req.connectorId,
             startTime: new Date(req.timestamp),
             idTag: req.idTag,
             meterStart: req.meterStart,
         });
-        await repo.save(newTx)
-        */
-        logger.info(`[StartTransaction] EXPERIMENT: Skipping PostgreSQL save for transaction ${transId}`);
-        // postgres
-
+        await repo.save(newTx);
+        logger.info(`[StartTransaction] Saved transaction ${transId} to PostgreSQL`);
 
         await Log.create({ action: 'StartTransaction', chargePointId, payload: req });
 

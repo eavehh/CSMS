@@ -2,6 +2,7 @@ import { IncomingMessage, ServerResponse } from 'http';
 import { connectionManager } from '../../server/index';
 import { logger } from '../../logger';
 import { sendRemoteStartTransaction, sendRemoteStopTransaction } from '../../server/remoteControl';
+import { formatTransaction } from '../formatters';
 
 const STATION_URL = 'http://localhost:3000'; // при необходимости вынести в config
 
@@ -34,11 +35,14 @@ export function recentTransactionsApiHandler(req: IncomingMessage, res: ServerRe
         // Получаем последние транзакции из connectionManager
         const recentTransactions = connectionManager.getRecentTransactions(limit);
 
+        // Форматируем транзакции с правильным временем
+        const formattedTransactions = recentTransactions.map(tx => formatTransaction(tx));
+
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({
             success: true,
-            data: recentTransactions,
-            count: recentTransactions.length
+            data: formattedTransactions,
+            count: formattedTransactions.length
         }));
         logger.info(`[API] /api/transactions/recent returned ${recentTransactions.length} transactions (limit: ${limit})`);
     } catch (err) {
