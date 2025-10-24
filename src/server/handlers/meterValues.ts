@@ -14,13 +14,14 @@ const MIN_DELTA_BROADCAST_INTERVAL_MS = Number(process.env.METER_VALUES_DELTA_IN
 
 export async function handleMeterValues(req: any, chargePointId: string, ws: WebSocket): Promise<MeterValuesResponse> {
     try {
+        // 🔥 FULL DEBUG: Dump complete structure
+        logger.info(`[MeterValues:FULL_DUMP] from ${chargePointId}:`);
+        logger.info(`[MeterValues:FULL_DUMP] ${JSON.stringify(req, null, 2)}`);
+        logger.info(`[MeterValues:KEYS] Available keys: ${Object.keys(req).join(', ')}`);
+
         // Tolerant parsing - accept any structure
-        logger.debug(`[MeterValues] Raw from ${chargePointId}: ${JSON.stringify(req).substring(0, 500)}`);
-
         const transactionId = req.transactionId ? req.transactionId.toString() : undefined;
-        const connectorId = req.connectorId || 0;
-
-        // Support both standard meterValue array and any variations
+        const connectorId = req.connectorId || 0;        // Support both standard meterValue array and any variations
         const meterValueArray = req.meterValue || req.meterValues || req.values || [];
 
         const samples = meterValueArray.map((mv: any) => {

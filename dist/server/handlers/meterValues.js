@@ -12,11 +12,13 @@ let lastBroadcastTs = 0; // global throttling per station; can refine later
 const MIN_DELTA_BROADCAST_INTERVAL_MS = Number(process.env.METER_VALUES_DELTA_INTERVAL_MS || 2000);
 async function handleMeterValues(req, chargePointId, ws) {
     try {
+        // 🔥 FULL DEBUG: Dump complete structure
+        logger_1.logger.info(`[MeterValues:FULL_DUMP] from ${chargePointId}:`);
+        logger_1.logger.info(`[MeterValues:FULL_DUMP] ${JSON.stringify(req, null, 2)}`);
+        logger_1.logger.info(`[MeterValues:KEYS] Available keys: ${Object.keys(req).join(', ')}`);
         // Tolerant parsing - accept any structure
-        logger_1.logger.debug(`[MeterValues] Raw from ${chargePointId}: ${JSON.stringify(req).substring(0, 500)}`);
         const transactionId = req.transactionId ? req.transactionId.toString() : undefined;
-        const connectorId = req.connectorId || 0;
-        // Support both standard meterValue array and any variations
+        const connectorId = req.connectorId || 0; // Support both standard meterValue array and any variations
         const meterValueArray = req.meterValue || req.meterValues || req.values || [];
         const samples = meterValueArray.map((mv) => {
             // Flexible timestamp parsing

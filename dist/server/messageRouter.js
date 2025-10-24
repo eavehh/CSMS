@@ -74,6 +74,7 @@ async function handleMessage(data, isBinary, ws, chargePointId) {
     if (isBinary) {
         try {
             message = msgpack.decode(data);
+            logger_1.logger.info(`[RAW_BINARY] from ${chargePointId}: ${JSON.stringify(message)}`);
         }
         catch (err) {
             logger_1.logger.error(`[MessageRouter] Failed to decode MessagePack message from ${chargePointId}: ${err.message}`);
@@ -84,6 +85,7 @@ async function handleMessage(data, isBinary, ws, chargePointId) {
     else {
         try {
             const messageText = data.toString();
+            logger_1.logger.info(`[RAW_TEXT] from ${chargePointId}: ${messageText}`);
             // 🔥 Проверяем, это WebSocket API запрос или OCPP сообщение
             if ((0, wsApiHandler_1.isWebSocketAPIRequest)(messageText)) {
                 logger_1.logger.info(`[MessageRouter] WebSocket API request from ${chargePointId}`);
@@ -178,6 +180,8 @@ async function handleMessage(data, isBinary, ws, chargePointId) {
                     logger_1.logger.info(`[StopTransaction Handled] response=${JSON.stringify(response)}`);
                     break;
                 default:
+                    logger_1.logger.warn(`[UNHANDLED_ACTION] from ${chargePointId}: ${actionOrPayload}`);
+                    logger_1.logger.warn(`[UNHANDLED_PAYLOAD] ${JSON.stringify(payloadOrNothing, null, 2)}`);
                     response = { errorCode: 'NotImplemented', description: `Action ${actionOrPayload} not supported` };
                     logger_1.logger.warn(`Unhandled action from ${chargePointId}: ${actionOrPayload}`);
             }

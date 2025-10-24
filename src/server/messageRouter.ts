@@ -45,6 +45,7 @@ export async function handleMessage(data: Buffer, isBinary: boolean, ws: WebSock
   if (isBinary) {
     try {
       message = msgpack.decode(data);
+      logger.info(`[RAW_BINARY] from ${chargePointId}: ${JSON.stringify(message)}`);
     } catch (err) {
       logger.error(`[MessageRouter] Failed to decode MessagePack message from ${chargePointId}: ${(err as any).message}`);
       ws.send(JSON.stringify([4, null, { errorCode: 'FormationViolation', description: 'Invalid MessagePack' }]));
@@ -53,6 +54,7 @@ export async function handleMessage(data: Buffer, isBinary: boolean, ws: WebSock
   } else {
     try {
       const messageText = data.toString();
+      logger.info(`[RAW_TEXT] from ${chargePointId}: ${messageText}`);
 
       // 🔥 Проверяем, это WebSocket API запрос или OCPP сообщение
       if (isWebSocketAPIRequest(messageText)) {
@@ -157,6 +159,8 @@ export async function handleMessage(data: Buffer, isBinary: boolean, ws: WebSock
           logger.info(`[StopTransaction Handled] response=${JSON.stringify(response)}`)
           break;
         default:
+          logger.warn(`[UNHANDLED_ACTION] from ${chargePointId}: ${actionOrPayload}`);
+          logger.warn(`[UNHANDLED_PAYLOAD] ${JSON.stringify(payloadOrNothing, null, 2)}`);
           response = { errorCode: 'NotImplemented', description: `Action ${actionOrPayload} not supported` };
           logger.warn(`Unhandled action from ${chargePointId}: ${actionOrPayload}`);
       }
