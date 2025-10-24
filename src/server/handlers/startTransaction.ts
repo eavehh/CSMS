@@ -48,9 +48,9 @@ export async function handleStartTransaction(req: StartTransactionRequest & {  /
 
         const session = new ChargingSession({
             id: `session-${transId}`,
-            stationId: chargePointId,
+            chargePointId: chargePointId,  // Fixed: use chargePointId instead of stationId
             connectorId: req.connectorId,
-            transactionId: transId,  // Now numeric
+            transactionId: transId.toString(),  // MongoDB schema requires String
             limitType,
             limitValue,
             tariffPerKWh,
@@ -76,7 +76,7 @@ export async function handleStartTransaction(req: StartTransactionRequest & {  /
         connectionManager.updateConnectorState(chargePointId, req.connectorId, 'Charging', transId.toString());
         const correlationId = resolveRemoteStartCorrelation(chargePointId, req.connectorId, transId.toString());
         connectionManager.broadcastEvent('transaction.started', {
-            stationId: chargePointId,
+            stationId: chargePointId,  // Keep stationId for API compatibility
             connectorId: req.connectorId,
             transactionId: transId,  // Send as number for consistency
             idTag: req.idTag,
