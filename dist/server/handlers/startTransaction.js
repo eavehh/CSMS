@@ -9,6 +9,9 @@ const wsApiHandler_1 = require("../../server/wsApiHandler");
 async function handleStartTransaction(req, chargePointId, ws) {
     const transId = Date.now().toString(); // Генерация строкового ID
     try {
+        // Generate transaction ID from timestamp (as number for OCPP compatibility)
+        // Use seconds instead of milliseconds to avoid int32 overflow (max 2147483647)
+        const transId = Math.floor(Date.now() / 1000);
         // 🔥 POSTGRES DISABLED - skip database save
         /* POSTGRES VERSION:
         const idTagStatus = 'Accepted';  // Замените на реальную проверку
@@ -32,9 +35,9 @@ async function handleStartTransaction(req, chargePointId, ws) {
         const batteryCapacityKWh = 60; // Из конфигурации ChargePoint
         const session = new mongoose_2.ChargingSession({
             id: `session-${transId}`,
-            chargePointId,
+            stationId: chargePointId,
             connectorId: req.connectorId,
-            transactionId: transId.toString(),
+            transactionId: transId, // Now numeric
             limitType,
             limitValue,
             tariffPerKWh,
@@ -58,7 +61,7 @@ async function handleStartTransaction(req, chargePointId, ws) {
         index_1.connectionManager.broadcastEvent('transaction.started', {
             stationId: chargePointId,
             connectorId: req.connectorId,
-            transactionId: transId.toString(),
+            transactionId: transId, // Send as number for consistency
             idTag: req.idTag,
             startTime: new Date(req.timestamp).toISOString(),
             ...(correlationId ? { correlationId } : {})

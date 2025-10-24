@@ -20,6 +20,10 @@ export async function handleStartTransaction(req: StartTransactionRequest & {  /
     const transId = Date.now().toString();  // Генерация строкового ID
 
     try {
+        // Generate transaction ID from timestamp (as number for OCPP compatibility)
+        // Use seconds instead of milliseconds to avoid int32 overflow (max 2147483647)
+        const transId = Math.floor(Date.now() / 1000);
+
         // 🔥 POSTGRES DISABLED - skip database save
         /* POSTGRES VERSION:
         const idTagStatus = 'Accepted';  // Замените на реальную проверку
@@ -47,9 +51,9 @@ export async function handleStartTransaction(req: StartTransactionRequest & {  /
 
         const session = new ChargingSession({
             id: `session-${transId}`,
-            chargePointId,
+            stationId: chargePointId,
             connectorId: req.connectorId,
-            transactionId: transId.toString(),
+            transactionId: transId,  // Now numeric
             limitType,
             limitValue,
             tariffPerKWh,
@@ -77,7 +81,7 @@ export async function handleStartTransaction(req: StartTransactionRequest & {  /
         connectionManager.broadcastEvent('transaction.started', {
             stationId: chargePointId,
             connectorId: req.connectorId,
-            transactionId: transId.toString(),
+            transactionId: transId,  // Send as number for consistency
             idTag: req.idTag,
             startTime: new Date(req.timestamp).toISOString(),
             ...(correlationId ? { correlationId } : {})
